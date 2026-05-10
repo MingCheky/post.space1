@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center — ThePost.Space</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-primary: #06060b;
+  --bg-secondary: #0c0c14;
+  --bg-card: #10101a;
+  --bg-card-hover: #161625;
+  --border: #1e1e30;
+  --border-light: #2a2a40;
+  --text-primary: #f0f0f5;
+  --text-secondary: #8888a0;
+  --text-muted: #55556a;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --accent-dark: #4f46e5;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --pink: #ec4899;
+  --red: #ef4444;
+  --gradient-1: linear-gradient(135deg, #6366f1, #06b6d4);
+  --gradient-2: linear-gradient(135deg, #ec4899, #6366f1);
+  --gradient-3: linear-gradient(135deg, #06b6d4, #10b981);
+  --gradient-4: linear-gradient(135deg, #f59e0b, #ef4444);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow: 0 4px 30px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 40px rgba(99,102,241,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); overflow-x: hidden; line-height: 1.6; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== LOADING ===== */
+.loading-screen { position: fixed; inset: 0; background: var(--bg-primary); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.6s ease, visibility 0.6s ease; }
+.loading-screen.hidden { opacity: 0; visibility: hidden; }
+.loader { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.loader-icon { width: 70px; height: 70px; border-radius: 20px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; font-size: 32px; animation: loaderFloat 2s ease-in-out infinite; }
+@keyframes loaderFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-10px) rotate(2deg); } 75% { transform: translateY(-12px) rotate(-2deg); } }
+.loader-text { font-size: 13px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.loader-bar { width: 240px; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.loader-bar-fill { height: 100%; background: var(--gradient-1); border-radius: 4px; animation: loaderFill 1.8s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes loaderFill { from { width:0; } 30% { width:40%; } 60% { width:70%; } to { width:100%; } }
+
+/* ===== CURSOR GLOW ===== */
+.cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%); pointer-events: none; z-index: 1; transform: translate(-50%, -50%); transition: left 0.3s ease, top 0.3s ease; }
+
+/* ===== NAVBAR ===== */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 40px; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(6,6,11,0.7); backdrop-filter: blur(20px); border-bottom: 1px solid transparent; transition: all 0.4s ease; }
+.navbar.scrolled { border-bottom-color: var(--border); background: rgba(6,6,11,0.92); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+.navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.navbar-logo svg { width: 32px; height: 32px; }
+.navbar-logo span { font-size: 20px; font-weight: 700; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.navbar-links { display: flex; align-items: center; gap: 4px; }
+.navbar-links a { color: var(--text-secondary); text-decoration: none; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.25s ease; cursor: pointer; position: relative; }
+.navbar-links a:hover, .navbar-links a.active { color: var(--text-primary); background: rgba(99,102,241,0.1); }
+.navbar-links a.active::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 20px; height: 2px; background: var(--accent); border-radius: 1px; }
+.navbar-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switch { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+.lang-btn { padding: 5px 12px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; font-family: 'Inter', sans-serif; }
+.lang-btn.active { background: var(--accent); color: white; }
+.nav-btn { padding: 8px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease; font-family: 'Inter', sans-serif; text-decoration: none; }
+.nav-btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+.nav-btn-ghost:hover { color: var(--text-primary); border-color: var(--border-light); background: var(--bg-card); }
+.nav-btn-primary { background: var(--gradient-1); color: white; border: none; }
+.nav-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.45); }
+.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 0.3s ease; }
+.mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 999; padding: 20px; animation: fadeIn 0.3s ease; }
+.mobile-menu.active { display: block; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.mobile-menu a { display: block; padding: 16px; color: var(--text-secondary); text-decoration: none; font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); transition: all 0.2s ease; cursor: pointer; }
+.mobile-menu a:hover { color: var(--text-primary); background: var(--bg-card); }
+
+/* ===== PAGE HERO ===== */
+.page-hero { position: relative; min-height: 45vh; display: flex; align-items: center; padding: 140px 40px 80px; overflow: hidden; text-align: center; }
+.page-hero-bg { position: absolute; inset: 0; overflow: hidden; }
+.page-hero-bg .blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.12; }
+.ph-blob-1 { width: 500px; height: 500px; background: var(--accent); top: -150px; right: 10%; animation: phBlob1 20s ease-in-out infinite; }
+.ph-blob-2 { width: 350px; height: 350px; background: var(--green); bottom: -100px; left: 10%; animation: phBlob2 18s ease-in-out infinite; }
+@keyframes phBlob1 { 0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; transform: translate(0,0); } 50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; transform: translate(30px,20px); } }
+@keyframes phBlob2 { 0%,100% { border-radius: 40% 60% 70% 30%/40% 50% 50% 60%; } 50% { border-radius: 70% 30% 40% 60%/60% 40% 60% 30%; } }
+.ph-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%); }
+.page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+.page-hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px 6px 8px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light); margin-bottom: 24px; animation: badgeIn 0.6s 0.3s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes badgeIn { from { opacity:0; transform: translateY(10px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
+.page-hero-badge .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: dotPulse 2s infinite; }
+@keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); } }
+.page-hero h1 { font-size: clamp(40px, 5vw, 64px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.03em; animation: titleReveal 0.8s 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes titleReveal { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+.page-hero h1 .gradient-text { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientMove 4s ease infinite; }
+@keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+.page-hero p { font-size: 18px; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin: 0 auto; animation: fadeUp 0.8s 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+/* ===== SEARCH ===== */
+.help-search-container { max-width: 700px; margin: -30px auto 60px; position: relative; z-index: 2; animation: fadeUp 0.8s 0.9s cubic-bezier(0.16,1,0.3,1) both; }
+.help-search { position: relative; }
+.help-search input {
+  width: 100%; padding: 18px 24px 18px 56px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  color: var(--text-primary); font-size: 16px; font-family: 'Inter', sans-serif;
+  outline: none; transition: all 0.3s ease;
+}
+.help-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.15), 0 10px 40px rgba(0,0,0,0.3); }
+.help-search input::placeholder { color: var(--text-muted); }
+.help-search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 20px; pointer-events: none; }
+.help-search-hint { text-align: center; margin-top: 12px; font-size: 13px; color: var(--text-muted); }
+
+/* ===== ANIMATIONS ===== */
+.aos { opacity:0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos.visible { opacity:1; transform: translateY(0); }
+.aos-left { opacity:0; transform: translateX(-50px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos-left.visible { opacity:1; transform: translateX(0); }
+.aos-right { opacity:0; transform: translateX(50px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos-right.visible { opacity:1; transform: translateX(0); }
+.aos-scale { opacity:0; transform: scale(0.88); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos-scale.visible { opacity:1; transform: scale(1); }
+.d1 { transition-delay: 0.1s !important; }
+.d2 { transition-delay: 0.2s !important; }
+.d3 { transition-delay: 0.3s !important; }
+.d4 { transition-delay: 0.4s !important; }
+.d5 { transition-delay: 0.5s !important; }
+.d6 { transition-delay: 0.6s !important; }
+
+/* ===== SECTION ===== */
+.section { padding: 100px 40px; max-width: 1400px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.15); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light); margin-bottom: 20px; }
+.section-title { font-size: clamp(32px, 4vw, 50px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.02em; }
+.section-subtitle { font-size: 18px; color: var(--text-secondary); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+/* ===== CATEGORIES ===== */
+.categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 80px; }
+.category-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+  padding: 36px; text-align: center; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.category-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s ease; }
+.category-card:nth-child(1)::before { background: var(--gradient-1); }
+.category-card:nth-child(2)::before { background: var(--gradient-2); }
+.category-card:nth-child(3)::before { background: var(--gradient-3); }
+.category-card:nth-child(4)::before { background: var(--gradient-4); }
+.category-card:nth-child(5)::before { background: linear-gradient(135deg, #10b981, #06b6d4); }
+.category-card:nth-child(6)::before { background: linear-gradient(135deg, #ec4899, #f59e0b); }
+.category-card:hover { border-color: var(--border-light); transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.3), var(--shadow-glow); }
+.category-card:hover::before { opacity: 1; }
+.category-icon { font-size: 44px; margin-bottom: 16px; display: block; transition: transform 0.3s ease; }
+.category-card:hover .category-icon { transform: scale(1.2); }
+.category-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.category-card p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+.category-count { display: inline-block; margin-top: 12px; padding: 4px 10px; background: rgba(99,102,241,0.1); color: var(--accent-light); font-size: 12px; font-weight: 600; border-radius: 6px; }
+
+/* ===== POPULAR ARTICLES ===== */
+.popular-section { padding: 80px 40px; background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.popular-section .section { padding: 0; max-width: 1400px; margin: 0 auto; }
+.popular-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 1000px; margin: 0 auto; }
+.popular-article {
+  display: flex; align-items: center; gap: 16px; padding: 20px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.popular-article:hover { border-color: var(--accent); transform: translateX(6px); box-shadow: var(--shadow-glow); }
+.popular-article-icon { font-size: 24px; flex-shrink: 0; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.1); border-radius: 10px; }
+.popular-article h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.popular-article p { font-size: 13px; color: var(--text-muted); }
+
+/* ===== FAQ ===== */
+.faq-section { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
+.faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; transition: all 0.3s ease; }
+.faq-item:hover { border-color: var(--border-light); }
+.faq-question { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; font-size: 15px; font-weight: 600; background: var(--bg-card); transition: all 0.2s ease; }
+.faq-question:hover { background: var(--bg-card-hover); }
+.faq-toggle { font-size: 20px; color: var(--accent-light); transition: transform 0.3s ease; font-weight: 300; }
+.faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--green); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
+.faq-answer-content { padding: 0 24px 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+.faq-item.open .faq-answer { max-height: 400px; }
+
+/* ===== ARTICLE DETAIL ===== */
+.article-detail { padding: 100px 40px; max-width: 900px; margin: 0 auto; display: none; }
+.article-detail.active { display: block; animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.article-back { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-light); font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 24px; transition: gap 0.3s ease; }
+.article-back:hover { gap: 10px; }
+.article-detail h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; }
+.article-meta { display: flex; gap: 16px; margin-bottom: 32px; font-size: 14px; color: var(--text-muted); }
+.article-content { font-size: 16px; line-height: 1.8; color: var(--text-secondary); }
+.article-content h2 { font-size: 24px; font-weight: 700; color: var(--text-primary); margin: 32px 0 16px; }
+.article-content p { margin-bottom: 16px; }
+.article-content ul, .article-content ol { margin: 16px 0; padding-left: 24px; }
+.article-content li { margin-bottom: 8px; }
+.article-content .note { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 16px 20px; margin: 20px 0; font-size: 14px; }
+.article-content code { background: var(--bg-card); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--cyan); }
+
+/* ===== CTA ===== */
+.cta-section { padding: 100px 40px; text-align: center; }
+.cta-box { max-width: 850px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 72px 48px; position: relative; overflow: hidden; }
+.cta-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-1); }
+.cta-box::after { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 400px; height: 200px; background: radial-gradient(ellipse, rgba(99,102,241,0.08) 0%, transparent 70%); pointer-events: none; }
+.cta-box h2 { font-size: clamp(32px, 3.5vw, 42px); font-weight: 800; margin-bottom: 16px; position: relative; z-index: 1; }
+.cta-box p { font-size: 16px; color: var(--text-secondary); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; z-index: 1; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none; font-family: 'Inter', sans-serif; position: relative; overflow: hidden; }
+.btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(99,102,241,0.3); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 36px rgba(99,102,241,0.5); }
+.btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent); transform: translateX(-100%); transition: transform 0.6s ease; }
+.btn-primary:hover::before { transform: translateX(100%); }
+.btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-3px); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 40px 32px; max-width: 1400px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-top: 12px; max-width: 300px; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px; }
+.footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 14px; padding: 6px 0; transition: all 0.2s ease; cursor: pointer; }
+.footer-col a:hover { color: var(--accent-light); transform: translateX(4px); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+.footer-social { display: flex; gap: 16px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; }
+.footer-social a:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
+
+/* ===== TOAST ===== */
+.toast { position: fixed; bottom: 30px; right: 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 24px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 9999; animation: toastIn 0.5s cubic-bezier(0.16,1,0.3,1); font-size: 14px; font-weight: 500; }
+@keyframes toastIn { from { opacity:0; transform: translateY(30px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
+.toast.success { border-left: 3px solid var(--green); }
+.toast.error { border-left: 3px solid var(--red); }
+
+/* ===== RIPPLE ===== */
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.2); animation: rippleAnim 0.6s ease-out; pointer-events: none; }
+@keyframes rippleAnim { from { transform: scale(0); opacity:1; } to { transform: scale(4); opacity:0; } }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .popular-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; }
+  .navbar-links { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .page-hero { padding: 120px 20px 60px; }
+  .section { padding: 60px 20px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader">
+    <div class="loader-icon">✉️</div>
+    <div class="loader-text">Loading ThePost</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="navbar-logo" href="index.html">
+    <svg viewBox="0 0 32 32" fill="none" width="32" height="32">
+      <rect width="32" height="32" rx="8" fill="url(#lg)"/>
+      <path d="M8 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="6" y="10" width="20" height="14" rx="2" stroke="white" stroke-width="2"/>
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+    </svg>
+    <span>thepost.space</span>
+  </a>
+  <div class="navbar-links">
+    <a href="solutions.html">Solutions</a>
+    <a href="security.html">Security</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="navbar-actions">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+    </div>
+    <a class="nav-btn nav-btn-ghost" href="help.html" class="active">Help Center</a>
+    <a class="nav-btn nav-btn-ghost" href="login.html">Sign In</a>
+    <a class="nav-btn nav-btn-primary" href="login.html">Get Started</a>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="solutions.html">Solutions</a>
+  <a href="security.html">Security</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="integrations.html">Integrations</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+  <a href="help.html">Help Center</a>
+  <a href="login.html">Sign In</a>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <div class="blob ph-blob-1"></div>
+    <div class="blob ph-blob-2"></div>
+    <div class="ph-grid"></div>
+  </div>
+  <div class="page-hero-content">
+    <div class="page-hero-badge"><span class="dot"></span><span data-i18n="ph_badge">We're here to help</span></div>
+    <h1 data-i18n="ph_title">How can we <span class="gradient-text">help?</span></h1>
+    <p data-i18n="ph_desc">Search our knowledge base, browse categories, or find answers to frequently asked questions.</p>
+  </div>
+</section>
+
+<!-- ===== SEARCH ===== -->
+<div class="help-search-container">
+  <div class="help-search">
+    <span class="help-search-icon">🔍</span>
+    <input type="text" id="helpSearch" oninput="filterArticles()" data-i18n-placeholder="search_placeholder" placeholder="Search for articles, guides, and FAQs...">
+  </div>
+  <p class="help-search-hint" data-i18n="search_hint">Try: "How to set up custom domain" or "Reset password"</p>
+</div>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="section" id="categoriesSection">
+  <div class="section-header">
+    <div class="section-label aos" data-i18n="cat_label">📚 Categories</div>
+    <h2 class="section-title aos d1" data-i18n="cat_title">Browse by topic</h2>
+  </div>
+
+  <div class="categories-grid">
+    <div class="category-card aos d1" onclick="showToast('Opening Getting Started guide...', 'success')">
+      <span class="category-icon">🚀</span>
+      <h3 data-i18n="cat1_title">Getting Started</h3>
+      <p data-i18n="cat1_desc">Learn the basics and set up your account in minutes</p>
+      <span class="category-count" data-i18n="cat1_count">8 articles</span>
+    </div>
+    <div class="category-card aos d2" onclick="showToast('Opening Account & Settings...', 'success')">
+      <span class="category-icon">⚙️</span>
+      <h3 data-i18n="cat2_title">Account & Settings</h3>
+      <p data-i18n="cat2_desc">Manage your profile, preferences, and security settings</p>
+      <span class="category-count" data-i18n="cat2_count">12 articles</span>
+    </div>
+    <div class="category-card aos d3" onclick="showToast('Opening Security & Privacy...', 'success')">
+      <span class="category-icon">🔒</span>
+      <h3 data-i18n="cat3_title">Security & Privacy</h3>
+      <p data-i18n="cat3_desc">Protect your account and understand our privacy features</p>
+      <span class="category-count" data-i18n="cat3_count">10 articles</span>
+    </div>
+    <div class="category-card aos d4" onclick="showToast('Opening Billing & Plans...', 'success')">
+      <span class="category-icon">💳</span>
+      <h3 data-i18n="cat4_title">Billing & Plans</h3>
+      <p data-i18n="cat4_desc">Manage subscriptions, payments, and upgrade your plan</p>
+      <span class="category-count" data-i18n="cat4_count">9 articles</span>
+    </div>
+    <div class="category-card aos d5" onclick="showToast('Opening Integrations...', 'success')">
+      <span class="category-icon">🔗</span>
+      <h3 data-i18n="cat5_title">Integrations</h3>
+      <p data-i18n="cat5_desc">Connect ThePost with your favorite tools and services</p>
+      <span class="category-count" data-i18n="cat5_count">15 articles</span>
+    </div>
+    <div class="category-card aos d6" onclick="showToast('Opening Troubleshooting...', 'success')">
+      <span class="category-icon">🐛</span>
+      <h3 data-i18n="cat6_title">Troubleshooting</h3>
+      <p data-i18n="cat6_desc">Fix common issues, errors, and get technical help</p>
+      <span class="category-count" data-i18n="cat6_count">14 articles</span>
+    </div>
+  </div>
+
+  <!-- POPULAR ARTICLES -->
+  <div class="section-header">
+    <div class="section-label aos" data-i18n="popular_label">🔥 Popular</div>
+    <h2 class="section-title aos d1" data-i18n="popular_title">Popular articles</h2>
+  </div>
+
+  <div class="popular-grid">
+    <div class="popular-article aos d1" onclick="showArticle('setup-domain')">
+      <div class="popular-article-icon">📧</div>
+      <div>
+        <h4 data-i18n="pop1_title">How to set up a custom domain</h4>
+        <p data-i18n="pop1_desc">Step-by-step guide to connect your domain</p>
+      </div>
+    </div>
+    <div class="popular-article aos d2" onclick="showArticle('reset-password')">
+      <div class="popular-article-icon">🔑</div>
+      <div>
+        <h4 data-i18n="pop2_title">How to reset your password</h4>
+        <p data-i18n="pop2_desc">Quick guide to account recovery</p>
+      </div>
+    </div>
+    <div class="popular-article aos d3" onclick="showArticle('migrate-emails')">
+      <div class="popular-article-icon">📦</div>
+      <div>
+        <h4 data-i18n="pop3_title">Migrate from Gmail or Outlook</h4>
+        <p data-i18n="pop3_desc">One-click migration guide</p>
+      </div>
+    </div>
+    <div class="popular-article aos d4" onclick="showArticle('enable-2fa')">
+      <div class="popular-article-icon">🛡️</div>
+      <div>
+        <h4 data-i18n="pop4_title">Enable two-factor authentication</h4>
+        <p data-i18n="pop4_desc">Secure your account with 2FA</p>
+      </div>
+    </div>
+    <div class="popular-article aos d5" onclick="showArticle('setup-signature')">
+      <div class="popular-article-icon">✍️</div>
+      <div>
+        <h4 data-i18n="pop5_title">Create an email signature</h4>
+        <p data-i18n="pop5_desc">Customize your professional signature</p>
+      </div>
+    </div>
+    <div class="popular-article aos d6" onclick="showArticle('shared-mailbox')">
+      <div class="popular-article-icon">👥</div>
+      <div>
+        <h4 data-i18n="pop6_title">Set up a shared mailbox</h4>
+        <p data-i18n="pop6_desc">Team collaboration with shared inboxes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section">
+  <div class="section-header">
+    <div class="section-label aos" data-i18n="faq_label">❓ FAQ</div>
+    <h2 class="section-title aos d1" data-i18n="faq_title">Frequently asked questions</h2>
+  </div>
+
+  <div class="faq-item aos d1">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq1_q">How do I set up a custom domain?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq1_a">Go to Settings → Domains → Add Domain. Enter your domain name and follow the DNS configuration instructions. You'll need to add MX, SPF, and DKIM records. Setup typically takes 5-10 minutes.</div></div>
+  </div>
+  <div class="faq-item aos d2">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq2_q">Can I migrate from Gmail or Outlook?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq2_a">Yes! We offer one-click migration from Gmail, Outlook, Yahoo, and any IMAP-compatible provider. Go to Settings → Import → Select Provider and follow the wizard. Your folder structure, labels, and attachments are preserved.</div></div>
+  </div>
+  <div class="faq-item aos d3">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq3_q">Is my email really encrypted?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq3_a">Absolutely. We use end-to-end encryption (E2EE) based on the OpenPGP standard. Your emails are encrypted on your device and can only be decrypted by the intended recipient. We never have access to your encryption keys.</div></div>
+  </div>
+  <div class="faq-item aos d4">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq4_q">Can I cancel my subscription anytime?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq4_a">Yes, you can cancel at any time with no penalties. Your account remains active until the end of your current billing period. You can also downgrade to our free plan at any time.</div></div>
+  </div>
+  <div class="faq-item aos d1">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq5_q">Do you offer discounts for nonprofits?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq5_a">Yes! We offer 50% off all paid plans for verified nonprofit organizations and educational institutions. Contact our sales team with your organization details to apply.</div></div>
+  </div>
+  <div class="faq-item aos d2">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq6_q">What happens to my data if I delete my account?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq6_a">When you delete your account, all your data is permanently removed from our servers within 30 days. We provide a 30-day grace period during which you can recover your account. After 30 days, data cannot be recovered.</div></div>
+  </div>
+  <div class="faq-item aos d3">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq7_q">How do I enable two-factor authentication?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq7_a">Go to Settings → Security → Two-Factor Authentication. You can choose between TOTP (authenticator app), SMS, or hardware security keys (YubiKey). We recommend using an authenticator app or hardware key for the best security.</div></div>
+  </div>
+  <div class="faq-item aos d4">
+    <div class="faq-question" onclick="toggleFaq(this)"><span data-i18n="faq8_q">Can I use ThePost with my existing email client?</span><span class="faq-toggle">+</span></div>
+    <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq8_a">Yes! ThePost supports IMAP and SMTP protocols, so you can use it with Thunderbird, Apple Mail, Outlook, and other email clients. Go to Settings → Email Client Setup to get your IMAP/SMTP credentials.</div></div>
+  </div>
+</section>
+
+<!-- ===== ARTICLE DETAIL (hidden by default) ===== -->
+<section class="article-detail" id="articleDetail">
+  <div class="article-back" onclick="hideArticle()">← <span data-i18n="article_back">Back to Help Center</span></div>
+  <h1 id="articleTitle">How to set up a custom domain</h1>
+  <div class="article-meta">
+    <span data-i18n="article_updated">Updated: May 1, 2026</span>
+    <span>•</span>
+    <span data-i18n="article_read">5 min read</span>
+  </div>
+  <div class="article-content" id="articleContent">
+    <p data-i18n="article_p1">Setting up a custom domain with ThePost is straightforward and takes just a few minutes. Follow these steps to connect your domain and start sending emails from your own address.</p>
+    <h2 data-i18n="article_h1">Step 1: Add your domain</h2>
+    <p data-i18n="article_p2">Log in to your ThePost account and navigate to <code>Settings → Domains → Add Domain</code>. Enter your domain name (e.g., <code>company.com</code>) and click "Add Domain".</p>
+    <h2 data-i18n="article_h2">Step 2: Configure DNS records</h2>
+    <p data-i18n="article_p3">You'll need to add three DNS records to your domain registrar:</p>
+    <ul>
+      <li data-i18n="article_li1"><strong>MX Record:</strong> Points to <code>mx.thepost.space</code> with priority 10</li>
+      <li data-i18n="article_li2"><strong>SPF Record:</strong> <code>v=spf1 include:thepost.space ~all</code></li>
+      <li data-i18n="article_li3"><strong>DKIM Record:</strong> Provided in your domain settings page</li>
+    </ul>
+    <div class="note" data-i18n="article_note">DNS propagation can take up to 24 hours, but typically completes within 5-10 minutes. You can check the status in your domain settings.</div>
+    <h2 data-i18n="article_h3">Step 3: Verify and activate</h2>
+    <p data-i18n="article_p4">Once your DNS records are configured, click "Verify" in the domain settings. ThePost will automatically check your records and activate your domain. You'll receive a confirmation email once the domain is ready.</p>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="cta-box aos-scale">
+    <h2 data-i18n="cta_title">Still need help?</h2>
+    <p data-i18n="cta_desc">Can't find what you're looking for? Our support team is here for you.</p>
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="contact.html" data-i18n="cta_contact">Contact Support</a>
+      <a class="btn btn-secondary" href="login.html" data-i18n="cta_login">Go to Dashboard</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="navbar-logo" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" width="32" height="32">
+          <rect width="32" height="32" rx="8" fill="url(#lg2)"/>
+          <path d="M8 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="6" y="10" width="20" height="14" rx="2" stroke="white" stroke-width="2"/>
+          <defs><linearGradient id="lg2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        </svg>
+        <span>thepost.space</span>
+      </a>
+      <p data-i18n="footer_desc">Modern email for modern teams. Secure, fast, and beautifully designed.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_product">Product</h4>
+      <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+      <a href="security.html" data-i18n="nav_security">Security</a>
+      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+      <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_company">Company</h4>
+      <a href="about.html" data-i18n="nav_about">About</a>
+      <a href="blog.html" data-i18n="nav_blog">Blog</a>
+      <a href="contact.html" data-i18n="nav_contact">Contact</a>
+      <a href="about.html" data-i18n="footer_careers">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_support">Support</h4>
+      <a href="help.html" data-i18n="nav_help">Help Center</a>
+      <a href="contact.html" data-i18n="footer_status">System Status</a>
+      <a href="help.html" data-i18n="footer_api">API Docs</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_legal">Legal</h4>
+      <a href="contact.html" data-i18n="footer_privacy">Privacy Policy</a>
+      <a href="contact.html" data-i18n="footer_terms">Terms of Service</a>
+      <a href="contact.html" data-i18n="footer_cookies">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ThePost.Space. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="#">𝕏</a><a href="#">in</a><a href="#">GH</a><a href="#">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  en: {
+    ph_badge: "We're here to help",
+    ph_title: 'How can we <span class="gradient-text">help?</span>',
+    ph_desc: "Search our knowledge base, browse categories, or find answers to frequently asked questions.",
+    search_placeholder: "Search for articles, guides, and FAQs...",
+    search_hint: 'Try: "How to set up custom domain" or "Reset password"',
+    cat_label: "📚 Categories", cat_title: "Browse by topic",
+    cat1_title: "Getting Started", cat1_desc: "Learn the basics and set up your account in minutes", cat1_count: "8 articles",
+    cat2_title: "Account & Settings", cat2_desc: "Manage your profile, preferences, and security settings", cat2_count: "12 articles",
+    cat3_title: "Security & Privacy", cat3_desc: "Protect your account and understand our privacy features", cat3_count: "10 articles",
+    cat4_title: "Billing & Plans", cat4_desc: "Manage subscriptions, payments, and upgrade your plan", cat4_count: "9 articles",
+    cat5_title: "Integrations", cat5_desc: "Connect ThePost with your favorite tools and services", cat5_count: "15 articles",
+    cat6_title: "Troubleshooting", cat6_desc: "Fix common issues, errors, and get technical help", cat6_count: "14 articles",
+    popular_label: "🔥 Popular", popular_title: "Popular articles",
+    pop1_title: "How to set up a custom domain", pop1_desc: "Step-by-step guide to connect your domain",
+    pop2_title: "How to reset your password", pop2_desc: "Quick guide to account recovery",
+    pop3_title: "Migrate from Gmail or Outlook", pop3_desc: "One-click migration guide",
+    pop4_title: "Enable two-factor authentication", pop4_desc: "Secure your account with 2FA",
+    pop5_title: "Create an email signature", pop5_desc: "Customize your professional signature",
+    pop6_title: "Set up a shared mailbox", pop6_desc: "Team collaboration with shared inboxes",
+    faq_label: "❓ FAQ", faq_title: "Frequently asked questions",
+    faq1_q: "How do I set up a custom domain?", faq1_a: "Go to Settings → Domains → Add Domain. Enter your domain name and follow the DNS configuration instructions. You'll need to add MX, SPF, and DKIM records. Setup typically takes 5-10 minutes.",
+    faq2_q: "Can I migrate from Gmail or Outlook?", faq2_a: "Yes! We offer one-click migration from Gmail, Outlook, Yahoo, and any IMAP-compatible provider. Go to Settings → Import → Select Provider and follow the wizard. Your folder structure, labels, and attachments are preserved.",
+    faq3_q: "Is my email really encrypted?", faq3_a: "Absolutely. We use end-to-end encryption (E2EE) based on the OpenPGP standard. Your emails are encrypted on your device and can only be decrypted by the intended recipient. We never have access to your encryption keys.",
+    faq4_q: "Can I cancel my subscription anytime?", faq4_a: "Yes, you can cancel at any time with no penalties. Your account remains active until the end of your current billing period. You can also downgrade to our free plan at any time.",
+    faq5_q: "Do you offer discounts for nonprofits?", faq5_a: "Yes! We offer 50% off all paid plans for verified nonprofit organizations and educational institutions. Contact our sales team with your organization details to apply.",
+    faq6_q: "What happens to my data if I delete my account?", faq6_a: "When you delete your account, all your data is permanently removed from our servers within 30 days. We provide a 30-day grace period during which you can recover your account. After 30 days, data cannot be recovered.",
+    faq7_q: "How do I enable two-factor authentication?", faq7_a: "Go to Settings → Security → Two-Factor Authentication. You can choose between TOTP (authenticator app), SMS, or hardware security keys (YubiKey). We recommend using an authenticator app or hardware key for the best security.",
+    faq8_q: "Can I use ThePost with my existing email client?", faq8_a: "Yes! ThePost supports IMAP and SMTP protocols, so you can use it with Thunderbird, Apple Mail, Outlook, and other email clients. Go to Settings → Email Client Setup to get your IMAP/SMTP credentials.",
+    article_back: "Back to Help Center", article_updated: "Updated: May 1, 2026", article_read: "5 min read",
+    article_p1: "Setting up a custom domain with ThePost is straightforward and takes just a few minutes. Follow these steps to connect your domain and start sending emails from your own address.",
+    article_h1: "Step 1: Add your domain",
+    article_p2: 'Log in to your ThePost account and navigate to Settings → Domains → Add Domain. Enter your domain name (e.g., company.com) and click "Add Domain".',
+    article_h2: "Step 2: Configure DNS records",
+    article_p3: "You'll need to add three DNS records to your domain registrar:",
+    article_li1: "MX Record: Points to mx.thepost.space with priority 10",
+    article_li2: "SPF Record: v=spf1 include:thepost.space ~all",
+    article_li3: "DKIM Record: Provided in your domain settings page",
+    article_note: "DNS propagation can take up to 24 hours, but typically completes within 5-10 minutes. You can check the status in your domain settings.",
+    article_h3: "Step 3: Verify and activate",
+    article_p4: "Once your DNS records are configured, click \"Verify\" in the domain settings. ThePost will automatically check your records and activate your domain. You'll receive a confirmation email once the domain is ready.",
+    cta_title: "Still need help?", cta_desc: "Can't find what you're looking for? Our support team is here for you.",
+    cta_contact: "Contact Support", cta_login: "Go to Dashboard",
+    footer_desc: "Modern email for modern teams. Secure, fast, and beautifully designed.",
+    footer_product: "Product", footer_company: "Company", footer_support: "Support", footer_legal: "Legal",
+    footer_careers: "Careers", footer_status: "System Status", footer_api: "API Docs",
+    footer_privacy: "Privacy Policy", footer_terms: "Terms of Service", footer_cookies: "Cookie Policy",
+    nav_solutions: "Solutions", nav_security: "Security", nav_pricing: "Pricing", nav_integrations: "Integrations",
+    nav_about: "About", nav_blog: "Blog", nav_contact: "Contact", nav_help: "Help Center"
+  },
+  ru: {
+    ph_badge: "Мы здесь, чтобы помочь",
+    ph_title: 'Чем мы можем <span class="gradient-text">помочь?</span>',
+    ph_desc: "Ищите в нашей базе знаний, просматривайте категории или найдите ответы на часто задаваемые вопросы.",
+    search_placeholder: "Поиск статей, руководств и FAQ...",
+    search_hint: 'Попробуйте: "Как настроить домен" или "Сбросить пароль"',
+    cat_label: "📚 Категории", cat_title: "Просмотр по темам",
+    cat1_title: "Начало работы", cat1_desc: "Изучите основы и настройте аккаунт за минуты", cat1_count: "8 статей",
+    cat2_title: "Аккаунт и настройки", cat2_desc: "Управление профилем, предпочтениями и настройками безопасности", cat2_count: "12 статей",
+    cat3_title: "Безопасность и приватность", cat3_desc: "Защитите аккаунт и узнайте о функциях приватности", cat3_count: "10 статей",
+    cat4_title: "Оплата и тарифы", cat4_desc: "Управление подписками, платежами и обновление плана", cat4_count: "9 статей",
+    cat5_title: "Интеграции", cat5_desc: "Подключайте ThePost к любимым инструментам и сервисам", cat5_count: "15 статей",
+    cat6_title: "Устранение проблем", cat6_desc: "Решение常见 проблем, ошибок и техническая помощь", cat6_count: "14 статей",
+    popular_label: "🔥 Популярное", popular_title: "Популярные статьи",
+    pop1_title: "Как настроить собственный домен", pop1_desc: "Пошаговое руководство по подключению домена",
+    pop2_title: "Как сбросить пароль", pop2_desc: "Быстрое руководство по восстановлению аккаунта",
+    pop3_title: "Миграция из Gmail или Outlook", pop3_desc: "Руководство по миграции в один клик",
+    pop4_title: "Включить двухфакторную аутентификацию", pop4_desc: "Защитите аккаунт с помощью 2FA",
+    pop5_title: "Создать подпись для email", pop5_desc: "Настройте профессиональную подпись",
+    pop6_title: "Настроить общий ящик", pop6_desc: "Командная коллаборация с общими ящиками",
+    faq_label: "❓ FAQ", faq_title: "Часто задаваемые вопросы",
+    faq1_q: "Как настроить собственный домен?", faq1_a: "Перейдите в Настройки → Домены → Добавить домен. Введите имя домена и следуйте инструкциям DNS-настройки. Нужно добавить MX, SPF и DKIM записи. Настройка обычно занимает 5-10 минут.",
+    faq2_q: "Можно ли перенести почту из Gmail или Outlook?", faq2_a: "Да! Мы предлагаем перенос в один клик из Gmail, Outlook, Yahoo и любого IMAP-провайдера. Перейдите в Настройки → Импорт → Выберите провайдера. Структура папок, метки и вложения сохраняются.",
+    faq3_q: "Действительно ли моя почта зашифрована?", faq3_a: "Абсолютно. Мы используем сквозное шифрование (E2EE) на базе стандарта OpenPGP. Ваши письма шифруются на устройстве и могут быть расшифрованы только получателем. У нас нет доступа к вашим ключам.",
+    faq4_q: "Можно ли отменить подписку в любое время?", faq4_a: "Да, вы можете отменить подписку в любое время без штрафов. Ваш аккаунт останется активным до конца текущего billing-периода. Вы также можете перейти на бесплатный план.",
+    faq5_q: "Есть ли скидки для НКО?", faq5_a: "Да! Скидка 50% на все платные планы для verified НКО и образовательных учреждений. Свяжитесь с отделом продаж.",
+    faq6_q: "Что произойдёт с данными при удалении аккаунта?", faq6_a: "При удалении аккаунта все данные永久 удаляются с наших серверов в течение 30 дней. Мы предоставляем 30-дневный grace period для восстановления. После 30 дней данные невозможно восстановить.",
+    faq7_q: "Как включить двухфакторную аутентификацию?", faq7_a: "Перейдите в Настройки → Безопасность → Двухфакторная аутентификация. Вы можете выбрать TOTP (приложение-аутентификатор), SMS или аппаратные ключи (YubiKey). Мы рекомендуем аутентификатор или аппаратный ключ.",
+    faq8_q: "Можно ли использовать ThePost с другим почтовым клиентом?", faq8_a: "Да! ThePost поддерживает протоколы IMAP и SMTP, поэтому вы можете использовать его с Thunderbird, Apple Mail, Outlook и другими клиентами. Перейдите в Настройки → Настройка почтового клиента для получения учётных данных.",
+    article_back: "Назад в Центр помощи", article_updated: "Обновлено: 1 мая 2026", article_read: "5 мин чтения",
+    article_p1: "Настройка собственного домена в ThePost проста и занимает всего несколько минут. Следуйте этим шагам для подключения домена и отправки писем с вашего адреса.",
+    article_h1: "Шаг 1: Добавьте домен",
+    article_p2: 'Войдите в аккаунт ThePost и перейдите в Настройки → Домены → Добавить домен. Введите имя домена (например, company.com) и нажмите "Добавить домен".',
+    article_h2: "Шаг 2: Настройте DNS-записи",
+    article_p3: "Вам нужно добавить три DNS-записи у вашего регистратора доменов:",
+    article_li1: "MX-запись: Указывает на mx.thepost.space с приоритетом 10",
+    article_li2: "SPF-запись: v=spf1 include:thepost.space ~all",
+    article_li3: "DKIM-запись: Предоставлена на странице настроек домена",
+    article_note: "DNS-пропагация может занять до 24 часов, но обычно завершается за 5-10 минут. Вы можете проверить статус в настройках домена.",
+    article_h3: "Шаг 3: Проверка и активация",
+    article_p4: "После настройки DNS-записей нажмите «Проверить» в настройках домена. ThePost автоматически проверит записи и активирует домен. Вы получите подтверждение по email.",
+    cta_title: "Всё ещё нужна помощь?", cta_desc: "Не нашли нужное? Наша команда поддержки здесь для вас.",
+    cta_contact: "Связаться с поддержкой", cta_login: "Перейти в дашборд",
+    footer_desc: "Современная почта для современных команд. Безопасная, быстрая и красиво оформленная.",
+    footer_product: "Продукт", footer_company: "Компания", footer_support: "Поддержка", footer_legal: "Правовая информация",
+    footer_careers: "Карьера", footer_status: "Статус системы", footer_api: "API документация",
+    footer_privacy: "Политика конфиденциальности", footer_terms: "Условия использования", footer_cookies: "Политика cookies",
+    nav_solutions: "Решения", nav_security: "Безопасность", nav_pricing: "Тарифы", nav_integrations: "Интеграции",
+    nav_about: "О нас", nav_blog: "Блог", nav_contact: "Контакты", nav_help: "Центр помощи"
+  }
+};
+
+let currentLang = 'en';
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn')[0].classList.toggle('active', lang === 'en');
+  document.querySelectorAll('.lang-btn')[1].classList.toggle('active', lang === 'ru');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) el.innerHTML = translations[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[lang][key]) el.placeholder = translations[lang][key];
+  });
+}
+
+// === CURSOR GLOW ===
+const cursorGlow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => { cursorGlow.style.left = e.clientX + 'px'; cursorGlow.style.top = e.clientY + 'px'; });
+
+// === NAVBAR ===
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20); });
+function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+
+// === SCROLL ANIMATIONS ===
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.aos, .aos-left, .aos-right, .aos-scale').forEach(el => observer.observe(el));
+}
+
+// === SEARCH FILTER ===
+function filterArticles() {
+  const query = document.getElementById('helpSearch').value.toLowerCase();
+  document.querySelectorAll('.popular-article').forEach(article => {
+    const text = article.textContent.toLowerCase();
+    article.style.display = text.includes(query) ? '' : 'none';
+  });
+  document.querySelectorAll('.category-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(query) ? '' : 'none';
+  });
+}
+
+// === FAQ ===
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// === ARTICLE DETAIL ===
+function showArticle(id) {
+  document.getElementById('categoriesSection').style.display = 'none';
+  const detail = document.getElementById('articleDetail');
+  detail.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function hideArticle() {
+  document.getElementById('articleDetail').classList.remove('active');
+  document.getElementById('categoriesSection').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// === RIPPLE ===
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn, .category-card, .popular-article, .faq-question');
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.left = (e.clientX - rect.left) + 'px';
+  ripple.style.top = (e.clientY - rect.top) + 'px';
+  btn.style.position = 'relative'; btn.style.overflow = 'hidden';
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+});
+
+// === TOAST ===
+function showToast(msg, type='success') {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${type==='success'?'✅':'❌'}</span> ${msg}`;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transform='translateY(20px)'; toast.style.transition='all 0.3s ease'; setTimeout(()=>toast.remove(),300); }, 3000);
+}
+
+// === INIT ===
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 2000);
+  initScrollAnimations();
+});
+</script>
+</body>
+</html>

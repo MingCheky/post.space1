@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solutions — ThePost.Space</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg-primary: #06060b;
+  --bg-secondary: #0c0c14;
+  --bg-card: #10101a;
+  --bg-card-hover: #161625;
+  --border: #1e1e30;
+  --border-light: #2a2a40;
+  --text-primary: #f0f0f5;
+  --text-secondary: #8888a0;
+  --text-muted: #55556a;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --accent-dark: #4f46e5;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --pink: #ec4899;
+  --red: #ef4444;
+  --gradient-1: linear-gradient(135deg, #6366f1, #06b6d4);
+  --gradient-2: linear-gradient(135deg, #ec4899, #6366f1);
+  --gradient-3: linear-gradient(135deg, #06b6d4, #10b981);
+  --gradient-4: linear-gradient(135deg, #f59e0b, #ef4444);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow: 0 4px 30px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 40px rgba(99,102,241,0.15);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===== LOADING ===== */
+.loading-screen {
+  position: fixed; inset: 0;
+  background: var(--bg-primary);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.loading-screen.hidden { opacity: 0; visibility: hidden; }
+.loader { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.loader-icon {
+  width: 70px; height: 70px; border-radius: 20px;
+  background: var(--gradient-1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  animation: loaderFloat 2s ease-in-out infinite;
+}
+@keyframes loaderFloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(2deg); }
+  75% { transform: translateY(-12px) rotate(-2deg); }
+}
+.loader-text { font-size: 13px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.loader-bar { width: 240px; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.loader-bar-fill { height: 100%; background: var(--gradient-1); border-radius: 4px; animation: loaderFill 1.8s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes loaderFill { from { width:0; } 30% { width:40%; } 60% { width:70%; } to { width:100%; } }
+
+/* ===== CURSOR GLOW ===== */
+.cursor-glow {
+  position: fixed; width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+  pointer-events: none; z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: left 0.3s ease, top 0.3s ease;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000; padding: 0 40px; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(6,6,11,0.7); backdrop-filter: blur(20px);
+  border-bottom: 1px solid transparent; transition: all 0.4s ease;
+}
+.navbar.scrolled { border-bottom-color: var(--border); background: rgba(6,6,11,0.92); box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+.navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.navbar-logo svg { width: 32px; height: 32px; }
+.navbar-logo span {
+  font-size: 20px; font-weight: 700;
+  background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.navbar-links { display: flex; align-items: center; gap: 4px; }
+.navbar-links a {
+  color: var(--text-secondary); text-decoration: none; padding: 8px 14px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; transition: all 0.25s ease; cursor: pointer; position: relative;
+}
+.navbar-links a:hover, .navbar-links a.active { color: var(--text-primary); background: rgba(99,102,241,0.1); }
+.navbar-links a.active::after {
+  content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 2px; background: var(--accent); border-radius: 1px;
+}
+.navbar-actions { display: flex; align-items: center; gap: 12px; }
+.lang-switch { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 3px; }
+.lang-btn { padding: 5px 12px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; font-family: 'Inter', sans-serif; }
+.lang-btn.active { background: var(--accent); color: white; }
+.nav-btn { padding: 8px 18px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.25s ease; font-family: 'Inter', sans-serif; text-decoration: none; }
+.nav-btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+.nav-btn-ghost:hover { color: var(--text-primary); border-color: var(--border-light); background: var(--bg-card); }
+.nav-btn-primary { background: var(--gradient-1); color: white; border: none; }
+.nav-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.45); }
+.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 0.3s ease; }
+
+.mobile-menu {
+  display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+  background: var(--bg-primary); z-index: 999; padding: 20px; animation: fadeIn 0.3s ease;
+}
+.mobile-menu.active { display: block; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.mobile-menu a {
+  display: block; padding: 16px; color: var(--text-secondary); text-decoration: none;
+  font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); transition: all 0.2s ease; cursor: pointer;
+}
+.mobile-menu a:hover { color: var(--text-primary); background: var(--bg-card); }
+
+/* ===== PAGE HEADER / HERO ===== */
+.page-hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  padding: 140px 40px 80px;
+  overflow: hidden;
+  text-align: center;
+}
+.page-hero-bg { position: absolute; inset: 0; overflow: hidden; }
+.page-hero-bg .blob {
+  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.12;
+}
+.ph-blob-1 { width: 500px; height: 500px; background: var(--accent); top: -150px; left: 20%; animation: phBlob1 20s ease-in-out infinite; }
+.ph-blob-2 { width: 350px; height: 350px; background: var(--cyan); bottom: -100px; right: 10%; animation: phBlob2 18s ease-in-out infinite; }
+@keyframes phBlob1 {
+  0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; transform: translate(0,0); }
+  50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; transform: translate(30px,20px); }
+}
+@keyframes phBlob2 {
+  0%,100% { border-radius: 40% 60% 70% 30%/40% 50% 50% 60%; }
+  50% { border-radius: 70% 30% 40% 60%/60% 40% 60% 30%; }
+}
+.ph-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+}
+.page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+.page-hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px 6px 8px;
+  background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light);
+  margin-bottom: 24px;
+  animation: badgeIn 0.6s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes badgeIn { from { opacity:0; transform: translateY(10px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
+.page-hero-badge .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: dotPulse 2s infinite; }
+@keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); } }
+
+.page-hero h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -0.03em;
+  animation: titleReveal 0.8s 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes titleReveal { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+.page-hero h1 .gradient-text {
+  background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  background-size: 200% 200%; animation: gradientMove 4s ease infinite;
+}
+@keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+.page-hero p {
+  font-size: 18px; color: var(--text-secondary); line-height: 1.7;
+  max-width: 600px; margin: 0 auto;
+  animation: fadeUp 0.8s 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+/* ===== ANIMATIONS ===== */
+.aos { opacity:0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos.visible { opacity:1; transform: translateY(0); }
+.aos-left { opacity:0; transform: translateX(-50px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos-left.visible { opacity:1; transform: translateX(0); }
+.aos-right { opacity:0; transform: translateX(50px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos-right.visible { opacity:1; transform: translateX(0); }
+.aos-scale { opacity:0; transform: scale(0.88); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+.aos-scale.visible { opacity:1; transform: scale(1); }
+.d1 { transition-delay: 0.1s !important; }
+.d2 { transition-delay: 0.2s !important; }
+.d3 { transition-delay: 0.3s !important; }
+.d4 { transition-delay: 0.4s !important; }
+.d5 { transition-delay: 0.5s !important; }
+.d6 { transition-delay: 0.6s !important; }
+
+/* ===== SECTION ===== */
+.section { padding: 100px 40px; max-width: 1400px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light); margin-bottom: 20px;
+}
+.section-title { font-size: clamp(32px, 4vw, 50px); font-weight: 800; line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.02em; }
+.section-subtitle { font-size: 18px; color: var(--text-secondary); max-width: 640px; margin: 0 auto; line-height: 1.7; }
+
+/* ===== SOLUTION TABS ===== */
+.solution-tabs {
+  display: flex; justify-content: center; gap: 8px; margin-bottom: 64px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 6px; max-width: 600px; margin-left: auto; margin-right: auto;
+}
+.solution-tab {
+  flex: 1; padding: 12px 24px; border: none; border-radius: 10px;
+  background: transparent; color: var(--text-muted); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s ease; font-family: 'Inter', sans-serif;
+  position: relative;
+}
+.solution-tab.active { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(99,102,241,0.3); }
+.solution-tab:hover:not(.active) { color: var(--text-primary); background: rgba(99,102,241,0.05); }
+
+/* ===== SOLUTION PANELS ===== */
+.solution-panel { display: none; animation: panelIn 0.5s ease; }
+.solution-panel.active { display: block; }
+@keyframes panelIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+
+/* ===== SOLUTION HERO CARD ===== */
+.solution-hero-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+.solution-hero-text h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.solution-hero-text h2 .gradient-text {
+  background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.solution-hero-text > p {
+  font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px;
+}
+.solution-features-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+.solution-feature-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; transition: all 0.3s ease;
+}
+.solution-feature-item:hover { border-color: var(--accent); transform: translateX(6px); box-shadow: var(--shadow-glow); }
+.solution-feature-check {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(16,185,129,0.15); color: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; flex-shrink: 0;
+}
+.solution-feature-item span { font-size: 14px; font-weight: 500; }
+
+/* ===== SOLUTION VISUAL (Mockup) ===== */
+.solution-visual {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  min-height: 400px;
+  box-shadow: var(--shadow), 0 0 60px rgba(99,102,241,0.06);
+}
+.mockup-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 20px; background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mockup-dot:nth-child(1) { background: var(--red); }
+.mockup-dot:nth-child(2) { background: var(--orange); }
+.mockup-dot:nth-child(3) { background: var(--green); }
+.mockup-url {
+  flex: 1; margin-left: 12px; padding: 6px 12px;
+  background: var(--bg-primary); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text-muted); font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.mockup-body { padding: 24px; }
+
+/* Admin Dashboard Mockup */
+.admin-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+}
+.admin-stat {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; transition: all 0.3s ease;
+}
+.admin-stat:hover { border-color: var(--accent); transform: translateY(-2px); }
+.admin-stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+.admin-stat-value { font-size: 28px; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.admin-stat-change { font-size: 12px; color: var(--green); margin-top: 4px; font-weight: 600; }
+.admin-stat-change.down { color: var(--red); }
+
+.admin-bar-chart {
+  display: flex; align-items: flex-end; gap: 8px; height: 100px; padding: 20px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 12px; margin-top: 16px;
+}
+.admin-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  background: var(--gradient-1);
+  transition: height 1s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+}
+.admin-bar:hover { opacity: 0.8; }
+
+.admin-users {
+  display: flex; align-items: center; gap: 12px; margin-top: 16px;
+  padding: 16px; background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.admin-user-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: white;
+}
+.admin-user-info { flex: 1; }
+.admin-user-name { font-size: 13px; font-weight: 600; }
+.admin-user-role { font-size: 11px; color: var(--text-muted); }
+.admin-user-status {
+  padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+}
+.status-active { background: rgba(16,185,129,0.15); color: var(--green); }
+.status-pending { background: rgba(245,158,11,0.15); color: var(--orange); }
+
+/* Team Shared Inbox Mockup */
+.team-grid { display: flex; flex-direction: column; gap: 12px; }
+.team-mailbox {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px; background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 12px; transition: all 0.3s ease; cursor: pointer;
+}
+.team-mailbox:hover { border-color: var(--accent); transform: translateX(6px); }
+.team-mailbox-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.team-mailbox-info { flex: 1; }
+.team-mailbox-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.team-mailbox-desc { font-size: 12px; color: var(--text-muted); }
+.team-mailbox-count {
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 12px; font-weight: 700;
+  background: rgba(99,102,241,0.15); color: var(--accent-light);
+}
+.team-calendar {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 16px;
+  padding: 16px; background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.cal-day {
+  text-align: center; padding: 8px 4px; font-size: 11px; color: var(--text-muted);
+  border-radius: 6px;
+}
+.cal-day.today { background: var(--accent); color: white; font-weight: 700; }
+.cal-day.has-event { color: var(--cyan); font-weight: 600; }
+.cal-day-header { font-size: 10px; color: var(--text-muted); font-weight: 700; padding: 8px 4px; }
+
+/* Personal Inbox Mockup */
+.personal-inbox { display: flex; flex-direction: column; gap: 10px; }
+.personal-email {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 12px; transition: all 0.3s ease; cursor: pointer;
+}
+.personal-email:hover { border-color: var(--accent); transform: translateX(4px); }
+.personal-email.priority-high { border-left: 3px solid var(--red); }
+.personal-email.priority-medium { border-left: 3px solid var(--orange); }
+.personal-email.priority-low { border-left: 3px solid var(--green); }
+.personal-email-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: white; flex-shrink: 0;
+}
+.personal-email-info { flex: 1; min-width: 0; }
+.personal-email-sender { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.personal-email-subject { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.personal-email-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+.personal-email-priority {
+  padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; flex-shrink: 0;
+}
+.p-high { background: rgba(239,68,68,0.15); color: var(--red); }
+.p-medium { background: rgba(245,158,11,0.15); color: var(--orange); }
+.p-low { background: rgba(16,185,129,0.15); color: var(--green); }
+
+/* ===== FEATURES GRID ===== */
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.feature-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 32px; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  position: relative; overflow: hidden;
+}
+.feature-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--gradient-1); opacity: 0; transition: opacity 0.3s ease;
+}
+.feature-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(99,102,241,0.06) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+}
+.feature-card:hover { border-color: var(--border-light); transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+.feature-card:hover::before { opacity: 1; }
+.feature-card:hover::after { opacity: 1; }
+.feature-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 20px; transition: transform 0.3s ease;
+}
+.feature-card:hover .feature-icon { transform: scale(1.1) rotate(-5deg); }
+.feature-icon.purple { background: rgba(99,102,241,0.15); color: var(--accent-light); }
+.feature-icon.cyan { background: rgba(6,182,212,0.15); color: var(--cyan); }
+.feature-icon.green { background: rgba(16,185,129,0.15); color: var(--green); }
+.feature-icon.pink { background: rgba(236,72,153,0.15); color: var(--pink); }
+.feature-icon.orange { background: rgba(245,158,11,0.15); color: var(--orange); }
+.feature-icon.red { background: rgba(239,68,68,0.15); color: var(--red); }
+.feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+/* ===== USE CASES ===== */
+.use-cases-section {
+  padding: 100px 40px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.use-cases-section .section { padding: 0; max-width: 1400px; margin: 0 auto; }
+.use-case-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+}
+.use-case-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 36px; transition: all 0.4s ease; position: relative; overflow: hidden;
+}
+.use-case-card::after {
+  content: ''; position: absolute; top: 0; right: 0; width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  transition: all 0.4s ease; opacity: 0;
+}
+.use-case-card:hover { border-color: var(--border-light); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.use-case-card:hover::after { opacity: 1; }
+.use-case-icon { font-size: 36px; margin-bottom: 16px; }
+.use-case-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.use-case-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+.use-case-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.use-case-tag {
+  padding: 4px 10px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 6px; font-size: 11px; color: var(--accent-light); font-weight: 500;
+}
+
+/* ===== ROI CALCULATOR ===== */
+.roi-section {
+  padding: 100px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.roi-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.roi-content h2 {
+  font-size: 36px; font-weight: 800; margin-bottom: 16px; line-height: 1.2;
+}
+.roi-content h2 .gradient-text {
+  background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.roi-content > p {
+  font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px;
+}
+.roi-calculator {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+  padding: 36px; position: relative; overflow: hidden;
+}
+.roi-calculator::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-1);
+}
+.roi-input-group { margin-bottom: 24px; }
+.roi-input-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+.roi-slider {
+  width: 100%; -webkit-appearance: none; appearance: none;
+  height: 6px; background: var(--border); border-radius: 3px; outline: none;
+}
+.roi-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent); cursor: pointer;
+  box-shadow: 0 0 10px rgba(99,102,241,0.4);
+  transition: transform 0.2s ease;
+}
+.roi-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.roi-slider-value {
+  font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 8px;
+}
+.roi-results {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px;
+  padding-top: 24px; border-top: 1px solid var(--border);
+}
+.roi-result { text-align: center; }
+.roi-result-value { font-size: 28px; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.roi-result-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-section {
+  padding: 100px 40px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.testimonials-section .section { padding: 0; max-width: 1400px; margin: 0 auto; }
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.testimonial-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 32px; transition: all 0.4s ease; position: relative; overflow: hidden;
+}
+.testimonial-card::before {
+  content: '"'; position: absolute; top: 16px; right: 24px;
+  font-size: 72px; font-weight: 900; color: var(--accent); opacity: 0.1; line-height: 1;
+}
+.testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.testimonial-stars { color: var(--orange); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+.testimonial-text { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: white;
+}
+.testimonial-name { font-size: 14px; font-weight: 600; }
+.testimonial-role { font-size: 12px; color: var(--text-muted); }
+
+/* ===== CTA ===== */
+.cta-section { padding: 100px 40px; text-align: center; }
+.cta-box {
+  max-width: 850px; margin: 0 auto;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+  padding: 72px 48px; position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-1);
+}
+.cta-box::after {
+  content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+  width: 400px; height: 200px;
+  background: radial-gradient(ellipse, rgba(99,102,241,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-box h2 { font-size: clamp(32px, 3.5vw, 42px); font-weight: 800; margin-bottom: 16px; position: relative; z-index: 1; }
+.cta-box p { font-size: 16px; color: var(--text-secondary); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; z-index: 1; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px;
+  font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none; font-family: 'Inter', sans-serif;
+  position: relative; overflow: hidden;
+}
+.btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px rgba(99,102,241,0.3); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 36px rgba(99,102,241,0.5); }
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%); transition: transform 0.6s ease;
+}
+.btn-primary:hover::before { transform: translateX(100%); }
+.btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-3px); }
+
+/* ===== FOOTER ===== */
+.footer { border-top: 1px solid var(--border); padding: 64px 40px 32px; max-width: 1400px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-top: 12px; max-width: 300px; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 16px; }
+.footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 14px; padding: 6px 0; transition: all 0.2s ease; cursor: pointer; }
+.footer-col a:hover { color: var(--accent-light); transform: translateX(4px); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+.footer-social { display: flex; gap: 16px; }
+.footer-social a {
+  width: 36px; height: 36px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; color: var(--text-muted);
+  font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;
+}
+.footer-social a:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed; bottom: 30px; right: 30px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 16px 24px; display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 9999;
+  animation: toastIn 0.5s cubic-bezier(0.16,1,0.3,1); font-size: 14px; font-weight: 500;
+}
+@keyframes toastIn { from { opacity:0; transform: translateY(30px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
+.toast.success { border-left: 3px solid var(--green); }
+.toast.error { border-left: 3px solid var(--red); }
+
+/* ===== RIPPLE ===== */
+.ripple {
+  position: absolute; border-radius: 50%; background: rgba(255,255,255,0.2);
+  animation: rippleAnim 0.6s ease-out; pointer-events: none;
+}
+@keyframes rippleAnim { from { transform: scale(0); opacity:1; } to { transform: scale(4); opacity:0; } }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .solution-hero-card { grid-template-columns: 1fr; gap: 40px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .use-case-grid { grid-template-columns: 1fr; }
+  .roi-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; }
+  .navbar-links { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .page-hero { padding: 120px 20px 60px; }
+  .section { padding: 60px 20px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .roi-results { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .solution-tabs { flex-direction: column; }
+  .admin-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader">
+    <div class="loader-icon">✉️</div>
+    <div class="loader-text">Loading ThePost</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="navbar-logo" href="index.html">
+    <svg viewBox="0 0 32 32" fill="none" width="32" height="32">
+      <rect width="32" height="32" rx="8" fill="url(#lg)"/>
+      <path d="M8 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="6" y="10" width="20" height="14" rx="2" stroke="white" stroke-width="2"/>
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+    </svg>
+    <span>thepost.space</span>
+  </a>
+  <div class="navbar-links">
+    <a href="solutions.html" class="active">Solutions</a>
+    <a href="security.html">Security</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="about.html">About</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="navbar-actions">
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" onclick="switchLang('ru')">RU</button>
+    </div>
+    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
+    <a class="nav-btn nav-btn-ghost" href="login.html">Sign In</a>
+    <a class="nav-btn nav-btn-primary" href="login.html">Get Started</a>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="solutions.html">Solutions</a>
+  <a href="security.html">Security</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="integrations.html">Integrations</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+  <a href="help.html">Help Center</a>
+  <a href="login.html">Sign In</a>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <div class="blob ph-blob-1"></div>
+    <div class="blob ph-blob-2"></div>
+    <div class="ph-grid"></div>
+  </div>
+  <div class="page-hero-content">
+    <div class="page-hero-badge"><span class="dot"></span><span data-i18n="sol_hero_badge">Solutions for every need</span></div>
+    <h1 data-i18n="sol_hero_title">Email solutions that <span class="gradient-text">scale with you</span></h1>
+    <p data-i18n="sol_hero_desc">From personal inboxes to enterprise deployments — find the perfect solution for your organization.</p>
+  </div>
+</section>
+
+<!-- ===== SOLUTION TABS ===== -->
+<section class="section" style="padding-top: 40px;">
+  <div class="solution-tabs aos">
+    <button class="solution-tab active" onclick="switchTab('enterprise', this)" data-i18n="tab_enterprise">Enterprise</button>
+    <button class="solution-tab" onclick="switchTab('teams', this)" data-i18n="tab_teams">Teams</button>
+    <button class="solution-tab" onclick="switchTab('personal', this)" data-i18n="tab_personal">Personal</button>
+  </div>
+
+  <!-- ENTERPRISE PANEL -->
+  <div class="solution-panel active" id="panel-enterprise">
+    <div class="solution-hero-card">
+      <div class="solution-hero-text aos-left">
+        <h2 data-i18n="ent_title">Enterprise-grade <span class="gradient-text">email infrastructure</span></h2>
+        <p data-i18n="ent_desc">Full control, maximum security, and unlimited scalability for organizations that demand the best. Deploy across thousands of employees with zero compromise.</p>
+        <div class="solution-features-list">
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="ent_f1">Unlimited custom domains & aliases</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="ent_f2">SSO / SAML / SCIM provisioning</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="ent_f3">Advanced admin dashboard & analytics</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="ent_f4">Data residency & on-premise options</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="ent_f5">Dedicated account manager & 24/7 SLA</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <a class="btn btn-primary" href="contact.html" data-i18n="ent_btn_contact">Contact Sales</a>
+          <a class="btn btn-secondary" href="pricing.html" data-i18n="ent_btn_pricing">View Pricing</a>
+        </div>
+      </div>
+      <div class="solution-visual aos-right">
+        <div class="mockup-header">
+          <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+          <div class="mockup-url">admin.thepost.space/dashboard</div>
+        </div>
+        <div class="mockup-body">
+          <div class="admin-grid">
+            <div class="admin-stat">
+              <div class="admin-stat-label" data-i18n="ent_stat1_label">Total Users</div>
+              <div class="admin-stat-value">2,847</div>
+              <div class="admin-stat-change">↑ 12% this month</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-label" data-i18n="ent_stat2_label">Active Domains</div>
+              <div class="admin-stat-value">18</div>
+              <div class="admin-stat-change">↑ 3 new this quarter</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-label" data-i18n="ent_stat3_label">Storage Used</div>
+              <div class="admin-stat-value">4.2 TB</div>
+              <div class="admin-stat-change">of 10 TB allocated</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-label" data-i18n="ent_stat4_label">Uptime</div>
+              <div class="admin-stat-value">99.99%</div>
+              <div class="admin-stat-change">Last 90 days</div>
+            </div>
+          </div>
+          <div class="admin-bar-chart">
+            <div class="admin-bar" style="height: 45%;"></div>
+            <div class="admin-bar" style="height: 62%;"></div>
+            <div class="admin-bar" style="height: 38%;"></div>
+            <div class="admin-bar" style="height: 75%;"></div>
+            <div class="admin-bar" style="height: 88%;"></div>
+            <div class="admin-bar" style="height: 55%;"></div>
+            <div class="admin-bar" style="height: 92%;"></div>
+            <div class="admin-bar" style="height: 68%;"></div>
+            <div class="admin-bar" style="height: 80%;"></div>
+            <div class="admin-bar" style="height: 95%;"></div>
+          </div>
+          <div class="admin-users">
+            <div class="admin-user-avatar" style="background: var(--gradient-1);">A</div>
+            <div class="admin-user-info">
+              <div class="admin-user-name">admin@company.com</div>
+              <div class="admin-user-role" data-i18n="ent_user_role">Super Admin</div>
+            </div>
+            <div class="admin-user-status status-active" data-i18n="ent_user_status">Active</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-label aos" data-i18n="ent_features_label">🏢 Enterprise Features</div>
+      <h2 class="section-title aos d1" data-i18n="ent_features_title">Built for scale</h2>
+      <p class="section-subtitle aos d2" data-i18n="ent_features_subtitle">Everything you need to manage email at enterprise scale.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card aos d1">
+        <div class="feature-icon purple">🔐</div>
+        <h3 data-i18n="ent_fc1_title">Advanced Compliance</h3>
+        <p data-i18n="ent_fc1_desc">eDiscovery, legal hold, data retention policies, and audit trails for regulatory compliance.</p>
+      </div>
+      <div class="feature-card aos d2">
+        <div class="feature-icon cyan">🌐</div>
+        <h3 data-i18n="ent_fc2_title">Multi-Region Deployment</h3>
+        <p data-i18n="ent_fc2_desc">Deploy across regions with data residency controls. EU, US, APAC — you choose where data lives.</p>
+      </div>
+      <div class="feature-card aos d3">
+        <div class="feature-icon green">📊</div>
+        <h3 data-i18n="ent_fc3_title">Real-Time Analytics</h3>
+        <p data-i18n="ent_fc3_desc">Live dashboards showing email flow, security threats, user activity, and system health metrics.</p>
+      </div>
+      <div class="feature-card aos d1">
+        <div class="feature-icon pink">🔑</div>
+        <h3 data-i18n="ent_fc4_title">Identity Management</h3>
+        <p data-i18n="ent_fc4_desc">SSO via SAML 2.0, SCIM provisioning, role-based access control, and custom permission policies.</p>
+      </div>
+      <div class="feature-card aos d2">
+        <div class="feature-icon orange">🛡️</div>
+        <h3 data-i18n="ent_fc5_title">Threat Protection</h3>
+        <p data-i18n="ent_fc5_desc">Advanced threat detection, DMARC enforcement, URL scanning, and attachment sandboxing.</p>
+      </div>
+      <div class="feature-card aos d3">
+        <div class="feature-icon red">📞</div>
+        <h3 data-i18n="ent_fc6_title">Dedicated Support</h3>
+        <p data-i18n="ent_fc6_desc">Named account manager, priority 24/7 phone support, quarterly business reviews, and custom SLAs.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAMS PANEL -->
+  <div class="solution-panel" id="panel-teams">
+    <div class="solution-hero-card">
+      <div class="solution-hero-text aos-left">
+        <h2 data-i18n="teams_title">Collaborative email <span class="gradient-text">for modern teams</span></h2>
+        <p data-i18n="teams_desc">Shared inboxes, team calendars, and collaboration tools built right into your email workflow. Stop juggling multiple tools.</p>
+        <div class="solution-features-list">
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="teams_f1">Shared team mailboxes (support@, sales@)</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="teams_f2">Team calendar with availability sharing</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="teams_f3">Internal notes & email assignments</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="teams_f4">Email templates & canned responses</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="teams_f5">Team analytics & performance metrics</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <a class="btn btn-primary" href="login.html" data-i18n="teams_btn_start">Start Free Trial</a>
+          <a class="btn btn-secondary" href="pricing.html" data-i18n="teams_btn_pricing">See Plans</a>
+        </div>
+      </div>
+      <div class="solution-visual aos-right">
+        <div class="mockup-header">
+          <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+          <div class="mockup-url">app.thepost.space/team/shared</div>
+        </div>
+        <div class="mockup-body">
+          <div class="team-grid">
+            <div class="team-mailbox">
+              <div class="team-mailbox-icon" style="background: rgba(99,102,241,0.15);">📧</div>
+              <div class="team-mailbox-info">
+                <div class="team-mailbox-name">support@company.com</div>
+                <div class="team-mailbox-desc" data-i18n="teams_mb1_desc">12 agents • 48 open tickets</div>
+              </div>
+              <div class="team-mailbox-count">48</div>
+            </div>
+            <div class="team-mailbox">
+              <div class="team-mailbox-icon" style="background: rgba(16,185,129,0.15);">💰</div>
+              <div class="team-mailbox-info">
+                <div class="team-mailbox-name">billing@company.com</div>
+                <div class="team-mailbox-desc" data-i18n="teams_mb2_desc">4 agents • 12 pending</div>
+              </div>
+              <div class="team-mailbox-count">12</div>
+            </div>
+            <div class="team-mailbox">
+              <div class="team-mailbox-icon" style="background: rgba(245,158,11,0.15);">🚀</div>
+              <div class="team-mailbox-info">
+                <div class="team-mailbox-name">sales@company.com</div>
+                <div class="team-mailbox-desc" data-i18n="teams_mb3_desc">8 agents • 34 leads</div>
+              </div>
+              <div class="team-mailbox-count">34</div>
+            </div>
+          </div>
+          <div style="margin-top: 20px; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px;" data-i18n="teams_cal_label">Team Calendar — May 2026</div>
+          <div class="team-calendar">
+            <div class="cal-day-header">Mo</div><div class="cal-day-header">Tu</div><div class="cal-day-header">We</div><div class="cal-day-header">Th</div><div class="cal-day-header">Fr</div><div class="cal-day-header">Sa</div><div class="cal-day-header">Su</div>
+            <div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day has-event">6</div><div class="cal-day">7</div><div class="cal-day has-event">8</div><div class="cal-day">9</div><div class="cal-day">10</div>
+            <div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day has-event">13</div><div class="cal-day">14</div><div class="cal-day today">15</div><div class="cal-day">16</div><div class="cal-day">17</div>
+            <div class="cal-day has-event">18</div><div class="cal-day">19</div><div class="cal-day">20</div><div class="cal-day has-event">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-label aos" data-i18n="teams_features_label">👥 Team Features</div>
+      <h2 class="section-title aos d1" data-i18n="teams_features_title">Work better together</h2>
+      <p class="section-subtitle aos d2" data-i18n="teams_features_subtitle">Everything your team needs to collaborate efficiently through email.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card aos d1">
+        <div class="feature-icon purple">📬</div>
+        <h3 data-i18n="teams_fc1_title">Shared Mailboxes</h3>
+        <p data-i18n="teams_fc1_desc">Multiple team members can manage a shared inbox. Assign emails, add internal notes, and track who's handling what.</p>
+      </div>
+      <div class="feature-card aos d2">
+        <div class="feature-icon cyan">📅</div>
+        <h3 data-i18n="teams_fc2_title">Team Calendar</h3>
+        <p data-i18n="teams_fc2_desc">See team availability, schedule meetings, and avoid conflicts. Shared calendars that integrate with your inbox.</p>
+      </div>
+      <div class="feature-card aos d3">
+        <div class="feature-icon green">📝</div>
+        <h3 data-i18n="teams_fc3_title">Templates & Macros</h3>
+        <p data-i18n="teams_fc3_desc">Create reusable email templates and macros. Respond to common inquiries in seconds, not minutes.</p>
+      </div>
+      <div class="feature-card aos d1">
+        <div class="feature-icon pink">📊</div>
+        <h3 data-i18n="teams_fc4_title">Team Analytics</h3>
+        <p data-i18n="teams_fc4_desc">Track response times, resolution rates, and team performance. Identify bottlenecks and optimize workflows.</p>
+      </div>
+      <div class="feature-card aos d2">
+        <div class="feature-icon orange">🔔</div>
+        <h3 data-i18n="teams_fc5_title">Smart Notifications</h3>
+        <p data-i18n="teams_fc5_desc">Configurable notifications for shared mailboxes. Get alerted only when it matters — no notification fatigue.</p>
+      </div>
+      <div class="feature-card aos d3">
+        <div class="feature-icon red">🔗</div>
+        <h3 data-i18n="teams_fc6_title">Integrations</h3>
+        <p data-i18n="teams_fc6_desc">Connect with Slack, Jira, HubSpot, and 50+ other tools. Your email becomes the center of your workflow.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL PANEL -->
+  <div class="solution-panel" id="panel-personal">
+    <div class="solution-hero-card">
+      <div class="solution-hero-text aos-left">
+        <h2 data-i18n="personal_title">Your personal email, <span class="gradient-text">reimagined</span></h2>
+        <p data-i18n="personal_desc">A beautiful, fast, and private email experience for individuals who value their digital life. No ads, no tracking, no compromises.</p>
+        <div class="solution-features-list">
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="personal_f1">AI-powered smart inbox sorting</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="personal_f2">End-to-end encryption by default</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="personal_f3">Custom themes & dark mode</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="personal_f4">Unlimited email aliases</span>
+          </div>
+          <div class="solution-feature-item">
+            <div class="solution-feature-check">✓</div>
+            <span data-i18n="personal_f5">Cross-device sync (Web, iOS, Android)</span>
+          </div>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <a class="btn btn-primary" href="login.html" data-i18n="personal_btn_start">Start Free</a>
+          <a class="btn btn-secondary" href="pricing.html" data-i18n="personal_btn_upgrade">Upgrade to Pro</a>
+        </div>
+      </div>
+      <div class="solution-visual aos-right">
+        <div class="mockup-header">
+          <div class="mockup-dot"></div><div class="mockup-dot"></div><div class="mockup-dot"></div>
+          <div class="mockup-url">app.thepost.space/inbox</div>
+        </div>
+        <div class="mockup-body">
+          <div class="personal-inbox">
+            <div class="personal-email priority-high">
+              <div class="personal-email-avatar" style="background: var(--gradient-1);">B</div>
+              <div class="personal-email-info">
+                <div class="personal-email-sender">Bank Alert</div>
+                <div class="personal-email-subject" data-i18n="p_email1">Suspicious activity detected on your account</div>
+              </div>
+              <div class="personal-email-time">2m ago</div>
+              <div class="personal-email-priority p-high" data-i18n="p_high">High</div>
+            </div>
+            <div class="personal-email priority-medium">
+              <div class="personal-email-avatar" style="background: var(--gradient-2);">J</div>
+              <div class="personal-email-info">
+                <div class="personal-email-sender">Jane Cooper</div>
+                <div class="personal-email-subject" data-i18n="p_email2">Re: Weekend plans — are you free Saturday?</div>
+              </div>
+              <div class="personal-email-time">1h ago</div>
+              <div class="personal-email-priority p-medium" data-i18n="p_medium">Medium</div>
+            </div>
+            <div class="personal-email priority-low">
+              <div class="personal-email-avatar" style="background: var(--gradient-3);">N</div>
+              <div class="personal-email-info">
+                <div class="personal-email-sender">Netflix</div>
+                <div class="personal-email-subject" data-i18n="p_email3">New releases you might enjoy this week</div>
+              </div>
+              <div class="personal-email-time">3h ago</div>
+              <div class="personal-email-priority p-low" data-i18n="p_low">Low</div>
+            </div>
+            <div class="personal-email priority-low">
+              <div class="personal-email-avatar" style="background: var(--gradient-4);">G</div>
+              <div class="personal-email-info">
+                <div class="personal-email-sender">GitHub</div>
+                <div class="personal-email-subject" data-i18n="p_email4">Your repository received 3 new stars</div>
+              </div>
+              <div class="personal-email-time">5h ago</div>
+              <div class="personal-email-priority p-low" data-i18n="p_low">Low</div>
+            </div>
+            <div class="personal-email priority-medium">
+              <div class="personal-email-avatar" style="background: linear-gradient(135deg, #10b981, #06b6d4);">D</div>
+              <div class="personal-email-info">
+                <div class="personal-email-sender">Dr. Smith</div>
+                <div class="personal-email-subject" data-i18n="p_email5">Appointment reminder — May 15, 2:30 PM</div>
+              </div>
+              <div class="personal-email-time">1d ago</div>
+              <div class="personal-email-priority p-medium" data-i18n="p_medium">Medium</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-label aos" data-i18n="personal_features_label">👤 Personal Features</div>
+      <h2 class="section-title aos d1" data-i18n="personal_features_title">Email, perfected for you</h2>
+      <p class="section-subtitle aos d2" data-i18n="personal_features_subtitle">Every feature designed to make your personal email experience delightful.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card aos d1">
+        <div class="feature-icon purple">🤖</div>
+        <h3 data-i18n="personal_fc1_title">AI Inbox Sorting</h3>
+        <p data-i18n="personal_fc1_desc">Smart categorization into Personal, Work, Finance, Social, and Updates. Never miss what matters.</p>
+      </div>
+      <div class="feature-card aos d2">
+        <div class="feature-icon cyan">✍️</div>
+        <h3 data-i18n="personal_fc2_title">Smart Compose</h3>
+        <p data-i18n="personal_fc2_desc">AI-powered email drafting and reply suggestions. Write professional emails in seconds.</p>
+      </div>
+      <div class="feature-card aos d3">
+        <div class="feature-icon green">📎</div>
+        <h3 data-i18n="personal_fc3_title">Large Attachments</h3>
+        <p data-i18n="personal_fc3_desc">Send files up to 2GB with built-in cloud storage integration. No more bounce-backs.</p>
+      </div>
+      <div class="feature-card aos d1">
+        <div class="feature-icon pink">🎨</div>
+        <h3 data-i18n="personal_fc4_title">Beautiful Themes</h3>
+        <p data-i18n="personal_fc4_desc">Choose from dozens of stunning themes. Dark mode, custom accents, and more.</p>
+      </div>
+      <div class="feature-card aos d2">
+        <div class="feature-icon orange">⏰</div>
+        <h3 data-i18n="personal_fc5_title">Schedule & Snooze</h3>
+        <p data-i18n="personal_fc5_desc">Schedule emails to send later. Snooze non-urgent emails until you're ready to deal with them.</p>
+      </div>
+      <div class="feature-card aos d3">
+        <div class="feature-icon red">🛡️</div>
+        <h3 data-i18n="personal_fc6_title">Spam Protection</h3>
+        <p data-i18n="personal_fc6_desc">99.7% spam detection accuracy. Your inbox stays clean without you lifting a finger.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== USE CASES ===== -->
+<section class="use-cases-section">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label aos" data-i18n="usecase_label">🎯 Use Cases</div>
+      <h2 class="section-title aos d1" data-i18n="usecase_title">Built for your industry</h2>
+      <p class="section-subtitle aos d2" data-i18n="usecase_subtitle">ThePost adapts to your specific workflow and compliance requirements.</p>
+    </div>
+    <div class="use-case-grid">
+      <div class="use-case-card aos d1">
+        <div class="use-case-icon">💼</div>
+        <h3 data-i18n="uc1_title">Startups & SMBs</h3>
+        <p data-i18n="uc1_desc">Professional email with custom domains, team collaboration, and affordable pricing. Scale as you grow without switching providers.</p>
+        <div class="use-case-tags">
+          <span class="use-case-tag" data-i18n="uc1_t1">Custom Domains</span>
+          <span class="use-case-tag" data-i18n="uc1_t2">Team Inbox</span>
+          <span class="use-case-tag" data-i18n="uc1_t3">Affordable</span>
+        </div>
+      </div>
+      <div class="use-case-card aos d2">
+        <div class="use-case-icon">🏥</div>
+        <h3 data-i18n="uc2_title">Healthcare</h3>
+        <p data-i18n="uc2_desc">HIPAA-compliant email with end-to-end encryption, audit logs, and data residency controls for patient communication.</p>
+        <div class="use-case-tags">
+          <span class="use-case-tag" data-i18n="uc2_t1">HIPAA</span>
+          <span class="use-case-tag" data-i18n="uc2_t2">E2E Encryption</span>
+          <span class="use-case-tag" data-i18n="uc2_t3">Audit Logs</span>
+        </div>
+      </div>
+      <div class="use-case-card aos d3">
+        <div class="use-case-icon">⚖️</div>
+        <h3 data-i18n="uc3_title">Legal & Finance</h3>
+        <p data-i18n="uc3_desc">Secure communication with eDiscovery, legal hold, and data retention. Meet regulatory requirements effortlessly.</p>
+        <div class="use-case-tags">
+          <span class="use-case-tag" data-i18n="uc3_t1">eDiscovery</span>
+          <span class="use-case-tag" data-i18n="uc3_t2">Legal Hold</span>
+          <span class="use-case-tag" data-i18n="uc3_t3">SOC 2</span>
+        </div>
+      </div>
+      <div class="use-case-card aos d4">
+        <div class="use-case-icon">🎓</div>
+        <h3 data-i18n="uc4_title">Education</h3>
+        <p data-i18n="uc4_desc">Free and discounted plans for schools and universities. FERPA-compliant email with admin controls for IT departments.</p>
+        <div class="use-case-tags">
+          <span class="use-case-tag" data-i18n="uc4_t1">FERPA</span>
+          <span class="use-case-tag" data-i18n="uc4_t2">Free Plans</span>
+          <span class="use-case-tag" data-i18n="uc4_t3">Admin Tools</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROI CALCULATOR ===== -->
+<section class="roi-section">
+  <div class="roi-grid">
+    <div class="roi-content aos-left">
+      <div class="section-label" data-i18n="roi_label">📈 ROI Calculator</div>
+      <h2 data-i18n="roi_title">See how much you'll <span class="gradient-text">save</span></h2>
+      <p data-i18n="roi_desc">ThePost helps teams save time, reduce costs, and improve productivity. Use our calculator to estimate your savings.</p>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(16,185,129,0.15);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;">✓</div>
+          <span style="font-size:14px;color:var(--text-secondary);" data-i18n="roi_li1">Save 2+ hours per employee per week</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(16,185,129,0.15);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;">✓</div>
+          <span style="font-size:14px;color:var(--text-secondary);" data-i18n="roi_li2">Reduce IT support tickets by 40%</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(16,185,129,0.15);color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:700;">✓</div>
+          <span style="font-size:14px;color:var(--text-secondary);" data-i18n="roi_li3">40% faster email response times</span>
+        </div>
+      </div>
+    </div>
+    <div class="roi-calculator aos-right">
+      <div class="roi-input-group">
+        <label data-i18n="roi_slider1_label">Number of Employees</label>
+        <input type="range" class="roi-slider" id="roiEmployees" min="5" max="500" value="50" oninput="updateROI()">
+        <div class="roi-slider-value" id="roiEmployeesValue">50</div>
+      </div>
+      <div class="roi-input-group">
+        <label data-i18n="roi_slider2_label">Avg. Emails per Employee / Day</label>
+        <input type="range" class="roi-slider" id="roiEmails" min="10" max="200" value="50" oninput="updateROI()">
+        <div class="roi-slider-value" id="roiEmailsValue">50</div>
+      </div>
+      <div class="roi-results">
+        <div class="roi-result">
+          <div class="roi-result-value" id="roiHours">104</div>
+          <div class="roi-result-label" data-i18n="roi_r1">Hours Saved / Week</div>
+        </div>
+        <div class="roi-result">
+          <div class="roi-result-value" id="roiCost">$5,200</div>
+          <div class="roi-result-label" data-i18n="roi_r2">Monthly Savings</div>
+        </div>
+        <div class="roi-result">
+          <div class="roi-result-value" id="roiROI">340%</div>
+          <div class="roi-result-label" data-i18n="roi_r3">Annual ROI</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials-section">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label aos" data-i18n="testimonials_label">💬 Testimonials</div>
+      <h2 class="section-title aos d1" data-i18n="testimonials_title">Trusted by teams everywhere</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card aos d1">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text" data-i18n="t1_text">"Migrating our 200-person company to ThePost was seamless. The admin dashboard is everything we needed."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: var(--gradient-1);">M</div>
+          <div>
+            <div class="testimonial-name">Marcus Chen</div>
+            <div class="testimonial-role" data-i18n="t1_role">IT Director, CloudBase</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card aos d2">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text" data-i18n="t2_text">"The shared inbox feature transformed our customer support. Response times dropped by 60% in the first month."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: var(--gradient-2);">S</div>
+          <div>
+            <div class="testimonial-name">Sarah Kim</div>
+            <div class="testimonial-role" data-i18n="t2_role">Support Lead, HelpDesk Pro</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card aos d3">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text" data-i18n="t3_text">"As a freelancer, the personal plan is perfect. Beautiful interface, great AI sorting, and it just works."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: var(--gradient-3);">R</div>
+          <div>
+            <div class="testimonial-name">Ryan Park</div>
+            <div class="testimonial-role" data-i18n="t3_role">Freelance Designer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <div class="cta-box aos-scale">
+    <h2 data-i18n="cta_title">Ready to transform your email?</h2>
+    <p data-i18n="cta_desc">Start free today. No credit card required. Upgrade anytime.</p>
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="login.html" data-i18n="cta_start">Start Free Trial</a>
+      <a class="btn btn-secondary" href="contact.html" data-i18n="cta_contact">Talk to Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="navbar-logo" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" width="32" height="32">
+          <rect width="32" height="32" rx="8" fill="url(#lg2)"/>
+          <path d="M8 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="6" y="10" width="20" height="14" rx="2" stroke="white" stroke-width="2"/>
+          <defs><linearGradient id="lg2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+        </svg>
+        <span>thepost.space</span>
+      </a>
+      <p data-i18n="footer_desc">Modern email for modern teams. Secure, fast, and beautifully designed.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_product">Product</h4>
+      <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+      <a href="security.html" data-i18n="nav_security">Security</a>
+      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+      <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_company">Company</h4>
+      <a href="about.html" data-i18n="nav_about">About</a>
+      <a href="blog.html" data-i18n="nav_blog">Blog</a>
+      <a href="contact.html" data-i18n="nav_contact">Contact</a>
+      <a href="about.html" data-i18n="footer_careers">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_support">Support</h4>
+      <a href="help.html" data-i18n="nav_help">Help Center</a>
+      <a href="contact.html" data-i18n="footer_status">System Status</a>
+      <a href="help.html" data-i18n="footer_api">API Docs</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer_legal">Legal</h4>
+      <a href="contact.html" data-i18n="footer_privacy">Privacy Policy</a>
+      <a href="contact.html" data-i18n="footer_terms">Terms of Service</a>
+      <a href="contact.html" data-i18n="footer_cookies">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ThePost.Space. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="#">𝕏</a><a href="#">in</a><a href="#">GH</a><a href="#">▶</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  en: {
+    sol_hero_badge: "Solutions for every need",
+    sol_hero_title: 'Email solutions that <span class="gradient-text">scale with you</span>',
+    sol_hero_desc: "From personal inboxes to enterprise deployments — find the perfect solution for your organization.",
+    tab_enterprise: "Enterprise", tab_teams: "Teams", tab_personal: "Personal",
+    ent_title: 'Enterprise-grade <span class="gradient-text">email infrastructure</span>',
+    ent_desc: "Full control, maximum security, and unlimited scalability for organizations that demand the best. Deploy across thousands of employees with zero compromise.",
+    ent_f1: "Unlimited custom domains & aliases", ent_f2: "SSO / SAML / SCIM provisioning",
+    ent_f3: "Advanced admin dashboard & analytics", ent_f4: "Data residency & on-premise options",
+    ent_f5: "Dedicated account manager & 24/7 SLA",
+    ent_btn_contact: "Contact Sales", ent_btn_pricing: "View Pricing",
+    ent_stat1_label: "Total Users", ent_stat2_label: "Active Domains", ent_stat3_label: "Storage Used", ent_stat4_label: "Uptime",
+    ent_user_role: "Super Admin", ent_user_status: "Active",
+    ent_features_label: "🏢 Enterprise Features", ent_features_title: "Built for scale",
+    ent_features_subtitle: "Everything you need to manage email at enterprise scale.",
+    ent_fc1_title: "Advanced Compliance", ent_fc1_desc: "eDiscovery, legal hold, data retention policies, and audit trails for regulatory compliance.",
+    ent_fc2_title: "Multi-Region Deployment", ent_fc2_desc: "Deploy across regions with data residency controls. EU, US, APAC — you choose where data lives.",
+    ent_fc3_title: "Real-Time Analytics", ent_fc3_desc: "Live dashboards showing email flow, security threats, user activity, and system health metrics.",
+    ent_fc4_title: "Identity Management", ent_fc4_desc: "SSO via SAML 2.0, SCIM provisioning, role-based access control, and custom permission policies.",
+    ent_fc5_title: "Threat Protection", ent_fc5_desc: "Advanced threat detection, DMARC enforcement, URL scanning, and attachment sandboxing.",
+    ent_fc6_title: "Dedicated Support", ent_fc6_desc: "Named account manager, priority 24/7 phone support, quarterly business reviews, and custom SLAs.",
+    teams_title: 'Collaborative email <span class="gradient-text">for modern teams</span>',
+    teams_desc: "Shared inboxes, team calendars, and collaboration tools built right into your email workflow. Stop juggling multiple tools.",
+    teams_f1: "Shared team mailboxes (support@, sales@)", teams_f2: "Team calendar with availability sharing",
+    teams_f3: "Internal notes & email assignments", teams_f4: "Email templates & canned responses",
+    teams_f5: "Team analytics & performance metrics",
+    teams_btn_start: "Start Free Trial", teams_btn_pricing: "See Plans",
+    teams_mb1_desc: "12 agents • 48 open tickets", teams_mb2_desc: "4 agents • 12 pending", teams_mb3_desc: "8 agents • 34 leads",
+    teams_cal_label: "Team Calendar — May 2026",
+    teams_features_label: "👥 Team Features", teams_features_title: "Work better together",
+    teams_features_subtitle: "Everything your team needs to collaborate efficiently through email.",
+    teams_fc1_title: "Shared Mailboxes", teams_fc1_desc: "Multiple team members can manage a shared inbox. Assign emails, add internal notes, and track who's handling what.",
+    teams_fc2_title: "Team Calendar", teams_fc2_desc: "See team availability, schedule meetings, and avoid conflicts. Shared calendars that integrate with your inbox.",
+    teams_fc3_title: "Templates & Macros", teams_fc3_desc: "Create reusable email templates and macros. Respond to common inquiries in seconds, not minutes.",
+    teams_fc4_title: "Team Analytics", teams_fc4_desc: "Track response times, resolution rates, and team performance. Identify bottlenecks and optimize workflows.",
+    teams_fc5_title: "Smart Notifications", teams_fc5_desc: "Configurable notifications for shared mailboxes. Get alerted only when it matters — no notification fatigue.",
+    teams_fc6_title: "Integrations", teams_fc6_desc: "Connect with Slack, Jira, HubSpot, and 50+ other tools. Your email becomes the center of your workflow.",
+    personal_title: 'Your personal email, <span class="gradient-text">reimagined</span>',
+    personal_desc: "A beautiful, fast, and private email experience for individuals who value their digital life. No ads, no tracking, no compromises.",
+    personal_f1: "AI-powered smart inbox sorting", personal_f2: "End-to-end encryption by default",
+    personal_f3: "Custom themes & dark mode", personal_f4: "Unlimited email aliases",
+    personal_f5: "Cross-device sync (Web, iOS, Android)",
+    personal_btn_start: "Start Free", personal_btn_upgrade: "Upgrade to Pro",
+    p_email1: "Suspicious activity detected on your account", p_email2: "Re: Weekend plans — are you free Saturday?",
+    p_email3: "New releases you might enjoy this week", p_email4: "Your repository received 3 new stars",
+    p_email5: "Appointment reminder — May 15, 2:30 PM",
+    p_high: "High", p_medium: "Medium", p_low: "Low",
+    personal_features_label: "👤 Personal Features", personal_features_title: "Email, perfected for you",
+    personal_features_subtitle: "Every feature designed to make your personal email experience delightful.",
+    personal_fc1_title: "AI Inbox Sorting", personal_fc1_desc: "Smart categorization into Personal, Work, Finance, Social, and Updates. Never miss what matters.",
+    personal_fc2_title: "Smart Compose", personal_fc2_desc: "AI-powered email drafting and reply suggestions. Write professional emails in seconds.",
+    personal_fc3_title: "Large Attachments", personal_fc3_desc: "Send files up to 2GB with built-in cloud storage integration. No more bounce-backs.",
+    personal_fc4_title: "Beautiful Themes", personal_fc4_desc: "Choose from dozens of stunning themes. Dark mode, custom accents, and more.",
+    personal_fc5_title: "Schedule & Snooze", personal_fc5_desc: "Schedule emails to send later. Snooze non-urgent emails until you're ready to deal with them.",
+    personal_fc6_title: "Spam Protection", personal_fc6_desc: "99.7% spam detection accuracy. Your inbox stays clean without you lifting a finger.",
+    usecase_label: "🎯 Use Cases", usecase_title: "Built for your industry",
+    usecase_subtitle: "ThePost adapts to your specific workflow and compliance requirements.",
+    uc1_title: "Startups & SMBs", uc1_desc: "Professional email with custom domains, team collaboration, and affordable pricing. Scale as you grow without switching providers.",
+    uc1_t1: "Custom Domains", uc1_t2: "Team Inbox", uc1_t3: "Affordable",
+    uc2_title: "Healthcare", uc2_desc: "HIPAA-compliant email with end-to-end encryption, audit logs, and data residency controls for patient communication.",
+    uc2_t1: "HIPAA", uc2_t2: "E2E Encryption", uc2_t3: "Audit Logs",
+    uc3_title: "Legal & Finance", uc3_desc: "Secure communication with eDiscovery, legal hold, and data retention. Meet regulatory requirements effortlessly.",
+    uc3_t1: "eDiscovery", uc3_t2: "Legal Hold", uc3_t3: "SOC 2",
+    uc4_title: "Education", uc4_desc: "Free and discounted plans for schools and universities. FERPA-compliant email with admin controls for IT departments.",
+    uc4_t1: "FERPA", uc4_t2: "Free Plans", uc4_t3: "Admin Tools",
+    roi_label: "📈 ROI Calculator", roi_title: 'See how much you\'ll <span class="gradient-text">save</span>',
+    roi_desc: "ThePost helps teams save time, reduce costs, and improve productivity. Use our calculator to estimate your savings.",
+    roi_li1: "Save 2+ hours per employee per week", roi_li2: "Reduce IT support tickets by 40%", roi_li3: "40% faster email response times",
+    roi_slider1_label: "Number of Employees", roi_slider2_label: "Avg. Emails per Employee / Day",
+    roi_r1: "Hours Saved / Week", roi_r2: "Monthly Savings", roi_r3: "Annual ROI",
+    testimonials_label: "💬 Testimonials", testimonials_title: "Trusted by teams everywhere",
+    t1_text: '"Migrating our 200-person company to ThePost was seamless. The admin dashboard is everything we needed."',
+    t1_role: "IT Director, CloudBase",
+    t2_text: '"The shared inbox feature transformed our customer support. Response times dropped by 60% in the first month."',
+    t2_role: "Support Lead, HelpDesk Pro",
+    t3_text: '"As a freelancer, the personal plan is perfect. Beautiful interface, great AI sorting, and it just works."',
+    t3_role: "Freelance Designer",
+    cta_title: "Ready to transform your email?", cta_desc: "Start free today. No credit card required. Upgrade anytime.",
+    cta_start: "Start Free Trial", cta_contact: "Talk to Sales",
+    footer_desc: "Modern email for modern teams. Secure, fast, and beautifully designed.",
+    footer_product: "Product", footer_company: "Company", footer_support: "Support", footer_legal: "Legal",
+    footer_careers: "Careers", footer_status: "System Status", footer_api: "API Docs",
+    footer_privacy: "Privacy Policy", footer_terms: "Terms of Service", footer_cookies: "Cookie Policy",
+    nav_solutions: "Solutions", nav_security: "Security", nav_pricing: "Pricing", nav_integrations: "Integrations",
+    nav_about: "About", nav_blog: "Blog", nav_contact: "Contact", nav_help: "Help Center"
+  },
+  ru: {
+    sol_hero_badge: "Решения для любых задач",
+    sol_hero_title: 'Почтовые решения, которые <span class="gradient-text">растут с вами</span>',
+    sol_hero_desc: "От личных ящиков до корпоративных развёртываний — найдите идеальное решение для вашей организации.",
+    tab_enterprise: "Корпоративное", tab_teams: "Команды", tab_personal: "Личное",
+    ent_title: 'Корпоративная <span class="gradient-text">почтовая инфраструктура</span>',
+    ent_desc: "Полный контроль, максимальная безопасность и безграничная масштабируемость для организаций, требующих лучшего. Развёртывание для тысяч сотрудников без компромиссов.",
+    ent_f1: "Безлимитные домены и алиасы", ent_f2: "SSO / SAML / SCIM provisioning",
+    ent_f3: "Продвинутая админ-панель и аналитика", ent_f4: "Резиденция данных и on-premise",
+    ent_f5: "Выделенный менеджер и SLA 24/7",
+    ent_btn_contact: "Связаться с отделом продаж", ent_btn_pricing: "Смотреть тарифы",
+    ent_stat1_label: "Всего пользователей", ent_stat2_label: "Активных доменов", ent_stat3_label: "Используемое хранилище", ent_stat4_label: "Доступность",
+    ent_user_role: "Супер Админ", ent_user_status: "Активен",
+    ent_features_label: "🏢 Корпоративные функции", ent_features_title: "Создано для масштаба",
+    ent_features_subtitle: "Всё необходимое для управления почтой на корпоративном уровне.",
+    ent_fc1_title: "Продвинутое соответствие", ent_fc1_desc: "eDiscovery, legal hold, политики хранения данных и аудиторские следы.",
+    ent_fc2_title: "Мультирегиональное развёртывание", ent_fc2_desc: "Развёртывание в разных регионах с контролем резиденции данных. ЕС, США, Азиатско-Тихоокеанский регион.",
+    ent_fc3_title: "Аналитика в реальном времени", ent_fc3_desc: "Живые дашборды: поток писем, угрозы, активность пользователей и метрики системы.",
+    ent_fc4_title: "Управление идентификацией", ent_fc4_desc: "SSO через SAML 2.0, SCIM provisioning, ролевой контроль доступа и кастомные политики.",
+    ent_fc5_title: "Защита от угроз", ent_fc5_desc: "Продвинутое обнаружение угроз, DMARC, сканирование URL и песочница для вложений.",
+    ent_fc6_title: "Выделенная поддержка", ent_fc6_desc: "Именной менеджер, приоритетная поддержка 24/7, ежеквартальные обзоры и кастомные SLA.",
+    teams_title: 'Совместная почта <span class="gradient-text">для современных команд</span>',
+    teams_desc: "Общие ящики, командные календари и инструменты коллаборации прямо в вашем почтовом workflow. Хватит жонглировать инструментами.",
+    teams_f1: "Общие командные ящики (support@, sales@)", teams_f2: "Командный календарь с отображением доступности",
+    teams_f3: "Внутренние заметки и назначение писем", teams_f4: "Шаблоны писем и готовые ответы",
+    teams_f5: "Командная аналитика и метрики",
+    teams_btn_start: "Бесплатный триал", teams_btn_pricing: "Смотреть планы",
+    teams_mb1_desc: "12 агентов • 48 открытых тикетов", teams_mb2_desc: "4 агента • 12 ожидающих", teams_mb3_desc: "8 агентов • 34 лида",
+    teams_cal_label: "Командный календарь — Май 2026",
+    teams_features_label: "👥 Командные функции", teams_features_title: "Работайте лучше вместе",
+    teams_features_subtitle: "Всё, что нужно вашей команде для эффективной работы через почту.",
+    teams_fc1_title: "Общие ящики", teams_fc1_desc: "Несколько членов команды могут управлять общим ящиком. Назначайте письма, добавляйте заметки.",
+    teams_fc2_title: "Командный календарь", teams_fc2_desc: "Видьте доступность команды, планируйте встречи и избегайте конфликтов.",
+    teams_fc3_title: "Шаблоны и макросы", teams_fc3_desc: "Создавайте переиспользуемые шаблоны писем. Отвечайте на типовые запросы за секунды.",
+    teams_fc4_title: "Командная аналитика", teams_fc4_desc: "Отслеживайте время ответа, показатели команды. Выявляйте узкие места.",
+    teams_fc5_title: "Умные уведомления", teams_fc5_desc: "Настраиваемые уведомления для общих ящиков. Получайте оповещения только когда это важно.",
+    teams_fc6_title: "Интеграции", teams_fc6_desc: "Подключайте Slack, Jira, HubSpot и 50+ других инструментов. Почта — центр вашего workflow.",
+    personal_title: 'Ваша личная почта, <span class="gradient-text">переосмысленная</span>',
+    personal_desc: "Красивый, быстрый и приватный почтовый опыт для людей, ценящих свою цифровую жизнь. Без рекламы, без трекинга, без компромиссов.",
+    personal_f1: "ИИ-сортировка входящих", personal_f2: "Сквозное шифрование по умолчанию",
+    personal_f3: "Собственные темы и тёмный режим", personal_f4: "Безлимитные алиасы",
+    personal_f5: "Синхронизация (Web, iOS, Android)",
+    personal_btn_start: "Начать бесплатно", personal_btn_upgrade: "Обновить до Pro",
+    p_email1: "Подозрительная активность в вашем аккаунте", p_email2: "Re: Планы на выходные — свободен в субботу?",
+    p_email3: "Новые релизы, которые вам понравятся", p_email4: "Ваш репозиторий получил 3 новые звезды",
+    p_email5: "Напоминание о записи — 15 мая, 14:30",
+    p_high: "Высокий", p_medium: "Средний", p_low: "Низкий",
+    personal_features_label: "👤 Личные функции", personal_features_title: "Почта, доведённая до совершенства",
+    personal_features_subtitle: "Каждая функция создана для идеального личного почтового опыта.",
+    personal_fc1_title: "ИИ-сортировка", personal_fc1_desc: "Умная категоризация: Личное, Работа, Финансы, Соцсети, Обновления.",
+    personal_fc2_title: "Умный набор текста", personal_fc2_desc: "ИИ-генерация черновиков и предложений ответов. Пишите профессиональные письма за секунды.",
+    personal_fc3_title: "Большие вложения", personal_fc3_desc: "Отправляйте файлы до 2ГБ с облачным хранилищем. Никаких отказов.",
+    personal_fc4_title: "Красивые темы", personal_fc4_desc: "Выбирайте из десятков потрясающих тем. Тёмный режим, кастомные акценты.",
+    personal_fc5_title: "Планирование и Snooze", personal_fc5_desc: "Планируйте отправку. Откладывайте не срочные письма.",
+    personal_fc6_title: "Защита от спама", personal_fc6_desc: "Точность обнаружения спама 99.7%. Ваш ящик остаётся чистым.",
+    usecase_label: "🎯 Сценарии использования", usecase_title: "Создано для вашей индустрии",
+    usecase_subtitle: "ThePost адаптируется к вашему workflow и требованиям соответствия.",
+    uc1_title: "Стартапы и малый бизнес", uc1_desc: "Профессиональная почта с кастомными доменами и командной коллаборацией по доступной цене.",
+    uc1_t1: "Кастомные домены", uc1_t2: "Командный ящик", uc1_t3: "Доступная цена",
+    uc2_title: "Здравоохранение", uc2_desc: "HIPAA-совместимая почта со сквозным шифрованием и аудиторскими логами.",
+    uc2_t1: "HIPAA", uc2_t2: "E2E Шифрование", uc2_t3: "Аудит-логи",
+    uc3_title: "Юриспруденция и Финансы", uc3_desc: "Безопасная коммуникация с eDiscovery и legal hold. Соответствуйте регуляторным требованиям.",
+    uc3_t1: "eDiscovery", uc3_t2: "Legal Hold", uc3_t3: "SOC 2",
+    uc4_title: "Образование", uc4_desc: "Бесплатные и льготные планы для школ и университетов. FERPA-совместимая почта.",
+    uc4_t1: "FERPA", uc4_t2: "Бесплатные планы", uc4_t3: "Админ-инструменты",
+    roi_label: "📈 Калькулятор ROI", roi_title: 'Узнайте, сколько вы <span class="gradient-text">сэкономите</span>',
+    roi_desc: "ThePost помогает командам экономить время, снижать затраты и повышать продуктивность.",
+    roi_li1: "Экономия 2+ часов на сотрудника в неделю", roi_li2: "Снижение IT-тикетов на 40%", roi_li3: "На 40% быстрее время ответа",
+    roi_slider1_label: "Количество сотрудников", roi_slider2_label: "Среднее кол-во писем / сотрудник / день",
+    roi_r1: "Часов экономии / неделю", roi_r2: "Экономия / месяц", roi_r3: "Годовой ROI",
+    testimonials_label: "💬 Отзывы", testimonials_title: "Доверяют команды повсюду",
+    t1_text: '"Миграция нашей компании из 200 человек на ThePost прошла безупречно. Админ-панель — всё, что нам было нужно."',
+    t1_role: "IT Директор, CloudBase",
+    t2_text: '"Общий ящик трансформировал нашу поддержку. Время ответа снизилось на 60% в первый месяц."',
+    t2_role: "Руководитель поддержки, HelpDesk Pro",
+    t3_text: '"Как фрилансер, личный план идеален. Красивый интерфейс, отличная ИИ-сортировка, просто работает."',
+    t3_role: "Фрилансер-дизайнер",
+    cta_title: "Готовы трансформировать свою почту?", cta_desc: "Начните бесплатно. Без кредитной карты. Обновляйте в любое время.",
+    cta_start: "Начать бесплатно", cta_contact: "Поговорить с отделом продаж",
+    footer_desc: "Современная почта для современных команд. Безопасная, быстрая и красиво оформленная.",
+    footer_product: "Продукт", footer_company: "Компания", footer_support: "Поддержка", footer_legal: "Правовая информация",
+    footer_careers: "Карьера", footer_status: "Статус системы", footer_api: "API документация",
+    footer_privacy: "Политика конфиденциальности", footer_terms: "Условия использования", footer_cookies: "Политика cookies",
+    nav_solutions: "Решения", nav_security: "Безопасность", nav_pricing: "Тарифы", nav_integrations: "Интеграции",
+    nav_about: "О нас", nav_blog: "Блог", nav_contact: "Контакты", nav_help: "Центр помощи"
+  }
+};
+
+let currentLang = 'en';
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn')[0].classList.toggle('active', lang === 'en');
+  document.querySelectorAll('.lang-btn')[1].classList.toggle('active', lang === 'ru');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) el.innerHTML = translations[lang][key];
+  });
+}
+
+// === CURSOR GLOW ===
+const cursorGlow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => {
+  cursorGlow.style.left = e.clientX + 'px';
+  cursorGlow.style.top = e.clientY + 'px';
+});
+
+// === FEATURE CARD MOUSE FOLLOW ===
+document.querySelectorAll('.feature-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width) * 100 + '%');
+    card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height) * 100 + '%');
+  });
+});
+
+// === NAVBAR ===
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+
+// === SCROLL ANIMATIONS ===
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.aos, .aos-left, .aos-right, .aos-scale').forEach(el => observer.observe(el));
+}
+
+// === TABS ===
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.solution-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.solution-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + tabId).classList.add('active');
+  // Re-trigger animations in the new panel
+  setTimeout(() => initScrollAnimations(), 50);
+}
+
+// === ROI CALCULATOR ===
+function updateROI() {
+  const emp = parseInt(document.getElementById('roiEmployees').value);
+  const emails = parseInt(document.getElementById('roiEmails').value);
+  document.getElementById('roiEmployeesValue').textContent = emp;
+  document.getElementById('roiEmailsValue').textContent = emails;
+  const hoursSaved = Math.round(emp * 2.08);
+  const monthlySavings = Math.round(emp * 104);
+  const annualROI = Math.round((monthlySavings * 12) / (emp * 9) * 100);
+  document.getElementById('roiHours').textContent = hoursSaved.toLocaleString();
+  document.getElementById('roiCost').textContent = '$' + monthlySavings.toLocaleString();
+  document.getElementById('roiROI').textContent = annualROI + '%';
+}
+
+// === RIPPLE ===
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn, .pricing-btn, .nav-btn-primary, .solution-tab');
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.left = (e.clientX - rect.left) + 'px';
+  ripple.style.top = (e.clientY - rect.top) + 'px';
+  btn.style.position = 'relative';
+  btn.style.overflow = 'hidden';
+  btn.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+});
+
+// === TOAST ===
+function showToast(msg, type='success') {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${type==='success'?'✅':'❌'}</span> ${msg}`;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transform='translateY(20px)'; toast.style.transition='all 0.3s ease'; setTimeout(()=>toast.remove(),300); }, 3000);
+}
+
+// === INIT ===
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 2000);
+  initScrollAnimations();
+  updateROI();
+});
+</script>
+</body>
+</html>

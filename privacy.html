@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — ThePost.Space</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root{--bg:#06060b;--bg2:#0c0c14;--bgc:#10101a;--border:#1e1e30;--bl:#2a2a40;--t:#f0f0f5;--ts:#8888a0;--tm:#55556a;--acc:#6366f1;--al:#818cf8;--g1:linear-gradient(135deg,#6366f1,#06b6d4);--r:12px;--rl:20px;--rxl:28px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);overflow-x:hidden;line-height:1.6}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bl);border-radius:3px}
+
+.loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:10000;transition:opacity .6s,visibility .6s}.loading.hidden{opacity:0;visibility:hidden}
+.ld{display:flex;flex-direction:column;align-items:center;gap:24px}.li{width:70px;height:70px;border-radius:20px;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:32px;animation:lf 2s ease-in-out infinite}@keyframes lf{0%,100%{transform:translateY(0)}25%{transform:translateY(-10px) rotate(2deg)}75%{transform:translateY(-12px) rotate(-2deg)}}
+.lb{width:240px;height:4px;background:var(--border);border-radius:4px;overflow:hidden}.lf2{height:100%;background:var(--g1);border-radius:4px;animation:lfill 1.8s cubic-bezier(.4,0,.2,1) forwards}@keyframes lfill{from{width:0}30%{width:40%}60%{width:70%}to{width:100%}}
+
+.cg{position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,.06),transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:left .3s,top .3s}
+
+.nb{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,11,.7);backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:all .4s}
+.nb.scrolled{border-bottom-color:var(--border);background:rgba(6,6,11,.92);box-shadow:0 4px 30px rgba(0,0,0,.3)}
+.nl{display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer}.nl svg{width:32px;height:32px}.nl span{font-size:20px;font-weight:700;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nlk{display:flex;gap:4px}.nlk a{color:var(--ts);text-decoration:none;padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;transition:all .25s;cursor:pointer;position:relative}.nlk a:hover,.nlk a.active{color:var(--t);background:rgba(99,102,241,.1)}
+.na{display:flex;align-items:center;gap:12px}.ls{display:flex;background:var(--bgc);border:1px solid var(--border);border-radius:8px;padding:3px}.lbtn{padding:5px 12px;border:none;background:transparent;color:var(--tm);font-size:12px;font-weight:600;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}.lbtn.active{background:var(--acc);color:white}
+.nb2{padding:8px 18px;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .25s;font-family:'Inter',sans-serif;text-decoration:none}.nb2.ghost{background:transparent;color:var(--ts);border:1px solid var(--border)}.nb2.ghost:hover{color:var(--t);border-color:var(--bl);background:var(--bgc)}.nb2.prim{background:var(--g1);color:white}.nb2.prim:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(99,102,241,.45)}
+.mmb{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}.mmb span{display:block;width:22px;height:2px;background:var(--t);border-radius:1px}
+.mm{display:none;position:fixed;top:72px;left:0;right:0;bottom:0;background:var(--bg);z-index:999;padding:20px}.mm.active{display:block}.mm a{display:block;padding:16px;color:var(--ts);text-decoration:none;font-size:16px;font-weight:500;border-bottom:1px solid var(--border);cursor:pointer}
+
+.ph{position:relative;min-height:35vh;display:flex;align-items:center;padding:140px 40px 60px;overflow:hidden;text-align:center}
+.phb{position:absolute;inset:0;overflow:hidden}.phb .blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.12}
+.pb1{width:500px;height:500px;background:var(--acc);top:-150px;right:10%;animation:pb1 20s ease-in-out infinite}@keyframes pb1{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%;transform:translate(0,0)}50%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%;transform:translate(30px,20px)}}
+.pb2{width:350px;height:350px;background:#10b981;bottom:-100px;left:10%;animation:pb2 18s ease-in-out infinite}@keyframes pb2{0%,100%{border-radius:40% 60% 70% 30%/40% 50% 50% 60%}50%{border-radius:70% 30% 40% 60%/60% 40% 60% 30%}}
+.pgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.04) 1px,transparent 1px);background-size:60px 60px;-webkit-mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%);mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%)}
+.phc{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.phbadge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px 6px 8px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:100px;font-size:13px;font-weight:500;color:var(--al);margin-bottom:24px}
+.phbadge .dot{width:8px;height:8px;background:#10b981;border-radius:50%;animation:dp 2s infinite}@keyframes dp{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+.ph h1{font-size:clamp(36px,4vw,52px);font-weight:900;line-height:1.1;margin-bottom:16px;letter-spacing:-.03em}
+.ph h1 .gt{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:gm 4s ease infinite}@keyframes gm{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.ph p{font-size:16px;color:var(--ts);line-height:1.7;max-width:600px;margin:0 auto}
+
+.aos{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.aos.vis{opacity:1;transform:translateY(0)}
+.aos-l{opacity:0;transform:translateX(-40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.aos-l.vis{opacity:1;transform:translateX(0)}
+.aos-r{opacity:0;transform:translateX(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.aos-r.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.3s!important}
+
+.content-legal{padding:60px 40px 100px;max-width:850px;margin:0 auto}
+.content-legal h2{font-size:28px;font-weight:800;margin:40px 0 16px;color:var(--t)}
+.content-legal h3{font-size:20px;font-weight:700;margin:24px 0 12px;color:var(--t)}
+.content-legal p{font-size:16px;color:var(--ts);line-height:1.8;margin-bottom:16px}
+.content-legal ul,.content-legal ol{margin:16px 0;padding-left:24px;color:var(--ts)}
+.content-legal li{margin-bottom:8px;line-height:1.6}
+.content-legal .highlight{background:var(--bgc);border:1px solid var(--border);border-left:3px solid var(--acc);border-radius:var(--r);padding:16px 20px;margin:24px 0;font-size:15px;color:var(--t)}
+.content-legal a{color:var(--al);text-decoration:none}.content-legal a:hover{text-decoration:underline}
+.last-updated{font-size:13px;color:var(--tm);margin-bottom:32px;font-weight:500}
+
+.ft{border-top:1px solid var(--border);padding:64px 40px 32px;max-width:1400px;margin:0 auto}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.fb p{font-size:14px;color:var(--tm);line-height:1.7;margin-top:12px;max-width:300px}
+.fc h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-bottom:16px}
+.fc a{display:block;color:var(--ts);text-decoration:none;font-size:14px;padding:6px 0;transition:all .2s;cursor:pointer}.fc a:hover{color:var(--al);transform:translateX(4px)}
+.fbt{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--border);font-size:13px;color:var(--tm)}
+.fs{display:flex;gap:16px}.fs a{width:36px;height:36px;border-radius:8px;background:var(--bgc);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--tm);font-size:14px;font-weight:600;text-decoration:none;transition:all .3s}.fs a:hover{border-color:var(--acc);color:var(--al);transform:translateY(-3px);box-shadow:0 0 40px rgba(99,102,241,.15)}
+
+@media(max-width:1024px){.fg{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:768px){.nb{padding:0 16px}.nlk{display:none}.mmb{display:flex}.ph{padding:120px 20px 60px}.content-legal{padding:40px 20px 80px}.ft{padding:48px 20px 24px}.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="loading" id="ld">
+  <div class="ld"><div class="li">✉️</div><div class="lb"><div class="lf2"></div></div></div>
+</div>
+<div class="cg" id="cg"></div>
+
+<nav class="nb" id="nb">
+  <a class="nl" href="index.html">
+    <svg viewBox="0 0 32 32" fill="none" width="32" height="32"><rect width="32" height="32" rx="8" fill="url(#lg)"/><path d="M8 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="10" width="20" height="14" rx="2" stroke="white" stroke-width="2"/><defs><linearGradient id="lg" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+    <span>thepost.space</span>
+  </a>
+  <div class="nlk">
+    <a href="solutions.html">Solutions</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a>
+    <a href="integrations.html">Integrations</a><a href="about.html">About</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+  </div>
+  <div class="na">
+    <div class="ls"><button class="lbtn active" id="len" onclick="sl('en')">EN</button><button class="lbtn" id="lru" onclick="sl('ru')">RU</button></div>
+    <a class="nb2 ghost" href="help.html">Help Center</a>
+    <a class="nb2 ghost" href="login.html">Sign In</a>
+    <a class="nb2 prim" href="login.html">Get Started</a>
+    <button class="mmb" onclick="tm()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mm" id="mm">
+  <a href="solutions.html">Solutions</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a>
+  <a href="integrations.html">Integrations</a><a href="about.html">About</a><a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a><a href="help.html">Help Center</a><a href="login.html">Sign In</a>
+</div>
+
+<section class="ph">
+  <div class="phb"><div class="blob pb1"></div><div class="blob pb2"></div><div class="pgrid"></div></div>
+  <div class="phc">
+    <div class="phbadge"><span class="dot"></span><span data-i18n="phb">Legal Documents</span></div>
+    <h1 data-i18n="title">Privacy <span class="gt">Policy</span></h1>
+    <p data-i18n="desc">How we collect, use, and protect your personal data. Transparency and privacy are at the core of everything we build.</p>
+  </div>
+</section>
+
+<article class="content-legal aos-l">
+  <p class="last-updated" data-i18n="updated">Last Updated: May 1, 2026</p>
+  
+  <h2 data-i18n="h1">1. Introduction</h2>
+  <p data-i18n="p1_1">ThePost ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our email service, website, and related applications.</p>
+  <p data-i18n="p1_2">By accessing or using ThePost, you agree to the collection and use of information in accordance with this policy. If you do not agree, please do not use our services.</p>
+
+  <h2 data-i18n="h2">2. Information We Collect</h2>
+  <h3 data-i18n="h2_1">2.1 Information You Provide</h3>
+  <ul>
+    <li data-i18n="li2_1">Account details (name, email address, password)</li>
+    <li data-i18n="li2_2">Profile information, signatures, and custom settings</li>
+    <li data-i18n="li2_3">Payment and billing information (processed securely via Stripe)</li>
+    <li data-i18n="li2_4">Content of emails, contacts, and files you upload</li>
+  </ul>
+
+  <h3 data-i18n="h2_2">2.2 Information Collected Automatically</h3>
+  <ul>
+    <li data-i18n="li2_3b">Device information, IP address, browser type, and operating system</li>
+    <li data-i18n="li2_4b">Usage data: login times, feature interactions, and performance metrics</li>
+    <li data-i18n="li2_5">Cookies and similar tracking technologies (see our Cookie Policy)</li>
+  </ul>
+
+  <div class="highlight" data-i18n="note1">We use zero-knowledge architecture. Your email content is encrypted on your device before transmission. We cannot read your emails, and we do not sell or share your personal data with advertisers.</div>
+
+  <h2 data-i18n="h3">3. How We Use Your Data</h2>
+  <p data-i18n="p3">We use your information solely to:</p>
+  <ul>
+    <li data-i18n="li3_1">Provide, maintain, and improve our email services</li>
+    <li data-i18n="li3_2">Authenticate your identity and secure your account</li>
+    <li data-i18n="li3_3">Process payments and send service-related notifications</li>
+    <li data-i18n="li3_4">Comply with legal obligations and prevent fraud</li>
+  </ul>
+
+  <h2 data-i18n="h4">4. Data Sharing & Third Parties</h2>
+  <p data-i18n="p4">We do not sell your personal information. We may share data only with:</p>
+  <ul>
+    <li data-i18n="li4_1"><strong>Service Providers:</strong> Trusted partners who assist in hosting, payment processing, and customer support (bound by strict DPAs)</li>
+    <li data-i18n="li4_2"><strong>Legal Requirements:</strong> When required by law, regulation, or valid legal process</li>
+    <li data-i18n="li4_3"><strong>Business Transfers:</strong> In the event of a merger, acquisition, or asset sale (you will be notified)</li>
+  </ul>
+
+  <h2 data-i18n="h5">5. Data Security</h2>
+  <p data-i18n="p5">We implement industry-leading security measures including AES-256 encryption, TLS 1.3, end-to-end encryption (E2EE) for supported clients, regular third-party security audits, and SOC 2 Type II compliance.</p>
+
+  <h2 data-i18n="h6">6. Your Rights</h2>
+  <p data-i18n="p6">Depending on your location, you may have the right to:</p>
+  <ul>
+    <li data-i18n="li6_1">Access, correct, or delete your personal data</li>
+    <li data-i18n="li6_2">Object to or restrict certain processing activities</li>
+    <li data-i18n="li6_3">Data portability (export your data in a machine-readable format)</li>
+    <li data-i18n="li6_4">Withdraw consent at any time without affecting prior lawful processing</li>
+  </ul>
+  <p data-i18n="p6_2">To exercise these rights, contact us at <a href="mailto:privacy@thepost.space">privacy@thepost.space</a>. We will respond within 30 days.</p>
+
+  <h2 data-i18n="h7">7. Data Retention</h2>
+  <p data-i18n="p7">We retain your data as long as your account is active. Upon account deletion, all personal data is permanently purged from our servers within 30 days, except where legally required to retain certain records.</p>
+
+  <h2 data-i18n="h8">8. International Transfers</h2>
+  <p data-i18n="p8">Your data may be transferred to servers outside your country. We ensure appropriate safeguards (Standard Contractual Clauses, adequacy decisions) are in place to protect your information in accordance with this policy.</p>
+
+  <h2 data-i18n="h9">9. Children's Privacy</h2>
+  <p data-i18n="p9">ThePost is not intended for users under 16. We do not knowingly collect personal data from children. If you believe a child has provided us with data, please contact us immediately.</p>
+
+  <h2 data-i18n="h10">10. Changes to This Policy</h2>
+  <p data-i18n="p10">We may update this policy periodically. Material changes will be communicated via email or prominent notice on our website. Continued use after changes constitutes acceptance of the revised policy.</p>
+
+  <h2 data-i18n="h11">11. Contact Us</h2>
+  <p data-i18n="p11">Questions or concerns about this Privacy Policy? Reach out to our Data Protection Officer:<br>
+  📧 <a href="mailto:privacy@thepost.space">privacy@thepost.space</a><br>
+  📍 ThePost Space GmbH, Friedrichstraße 123, 10117 Berlin, Germany</p>
+</article>
+
+<footer class="ft">
+  <div class="fg">
+    <div class="fb"><a class="nl" href="index.html"><svg viewBox="0 0 32 32" fill="none" width="32" height="32"><rect width="32" height="32" rx="8" fill="url(#lg2)"/><path d="M8 12l8 5 8-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="10" width="20" height="14" rx="2" stroke="white" stroke-width="2"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg><span>thepost.space</span></a><p data-i18n="fdesc">Modern email for modern teams. Secure, fast, and beautifully designed.</p></div>
+    <div class="fc"><h4 data-i18n="fp">Product</h4><a href="solutions.html" data-i18n="ns">Solutions</a><a href="security.html" data-i18n="nse">Security</a><a href="pricing.html" data-i18n="np">Pricing</a><a href="integrations.html" data-i18n="ni">Integrations</a></div>
+    <div class="fc"><h4 data-i18n="fc">Company</h4><a href="about.html" data-i18n="na">About</a><a href="blog.html" data-i18n="nb">Blog</a><a href="contact.html" data-i18n="nc">Contact</a><a href="careers.html" data-i18n="fcar">Careers</a></div>
+    <div class="fc"><h4 data-i18n="fs">Support</h4><a href="help.html" data-i18n="nh">Help Center</a><a href="status.html" data-i18n="fstat">System Status</a><a href="api.html" data-i18n="fapi">API Docs</a></div>
+    <div class="fc"><h4 data-i18n="fl">Legal</h4><a href="privacy.html" data-i18n="fpriv">Privacy Policy</a><a href="terms.html" data-i18n="fterms">Terms of Service</a><a href="cookies.html" data-i18n="fcook">Cookie Policy</a></div>
+  </div>
+  <div class="fbt"><span>© 2026 ThePost.Space. All rights reserved.</span><div class="fs"><a href="#">𝕏</a><a href="#">in</a><a href="#">GH</a><a href="#">▶</a></div></div>
+</footer>
+
+<script>
+const T={
+  en:{phb:"Legal Documents",title:'Privacy <span class="gt">Policy</span>',desc:"How we collect, use, and protect your personal data. Transparency and privacy are at the core of everything we build.",updated:"Last Updated: May 1, 2026",h1:"1. Introduction",p1_1:"ThePost (\"we\", \"our\", or \"us\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our email service, website, and related applications.",p1_2:"By accessing or using ThePost, you agree to the collection and use of information in accordance with this policy. If you do not agree, please do not use our services.",h2:"2. Information We Collect",h2_1:"2.1 Information You Provide",li2_1:"Account details (name, email address, password)",li2_2:"Profile information, signatures, and custom settings",li2_3:"Payment and billing information (processed securely via Stripe)",li2_4:"Content of emails, contacts, and files you upload",h2_2:"2.2 Information Collected Automatically",li2_3b:"Device information, IP address, browser type, and operating system",li2_4b:"Usage data: login times, feature interactions, and performance metrics",li2_5:"Cookies and similar tracking technologies (see our Cookie Policy)",note1:"We use zero-knowledge architecture. Your email content is encrypted on your device before transmission. We cannot read your emails, and we do not sell or share your personal data with advertisers.",h3:"3. How We Use Your Data",p3:"We use your information solely to:",li3_1:"Provide, maintain, and improve our email services",li3_2:"Authenticate your identity and secure your account",li3_3:"Process payments and send service-related notifications",li3_4:"Comply with legal obligations and prevent fraud",h4:"4. Data Sharing & Third Parties",p4:"We do not sell your personal information. We may share data only with:",li4_1:"Service Providers: Trusted partners who assist in hosting, payment processing, and customer support (bound by strict DPAs)",li4_2:"Legal Requirements: When required by law, regulation, or valid legal process",li4_3:"Business Transfers: In the event of a merger, acquisition, or asset sale (you will be notified)",h5:"5. Data Security",p5:"We implement industry-leading security measures including AES-256 encryption, TLS 1.3, end-to-end encryption (E2EE) for supported clients, regular third-party security audits, and SOC 2 Type II compliance.",h6:"6. Your Rights",p6:"Depending on your location, you may have the right to:",li6_1:"Access, correct, or delete your personal data",li6_2:"Object to or restrict certain processing activities",li6_3:"Data portability (export your data in a machine-readable format)",li6_4:"Withdraw consent at any time without affecting prior lawful processing",p6_2:"To exercise these rights, contact us at privacy@thepost.space. We will respond within 30 days.",h7:"7. Data Retention",p7:"We retain your data as long as your account is active. Upon account deletion, all personal data is permanently purged from our servers within 30 days, except where legally required to retain certain records.",h8:"8. International Transfers",p8:"Your data may be transferred to servers outside your country. We ensure appropriate safeguards (Standard Contractual Clauses, adequacy decisions) are in place to protect your information in accordance with this policy.",h9:"9. Children's Privacy",p9:"ThePost is not intended for users under 16. We do not knowingly collect personal data from children. If you believe a child has provided us with data, please contact us immediately.",h10:"10. Changes to This Policy",p10:"We may update this policy periodically. Material changes will be communicated via email or prominent notice on our website. Continued use after changes constitutes acceptance of the revised policy.",h11:"11. Contact Us",p11:"Questions or concerns about this Privacy Policy? Reach out to our Data Protection Officer: privacy@thepost.space | ThePost Space GmbH, Friedrichstraße 123, 10117 Berlin, Germany",fdesc:"Modern email for modern teams. Secure, fast, and beautifully designed.",fp:"Product",fc:"Company",fs:"Support",fl:"Legal",ns:"Solutions",nse:"Security",np:"Pricing",ni:"Integrations",na:"About",nb:"Blog",nc:"Contact",fcar:"Careers",nh:"Help Center",fstat:"System Status",fapi:"API Docs",fpriv:"Privacy Policy",fterms:"Terms of Service",fcook:"Cookie Policy"},
+  ru:{phb:"Юридические документы",title:'Политика <span class="gt">конфиденциальности</span>',desc:"Как мы собираем, используем и защищаем ваши персональные данные. Прозрачность и приватность лежат в основе всего, что мы создаем.",updated:"Обновлено: 1 мая 2026",h1:"1. Введение",p1_1:"ThePost (\"мы\", \"наш\" или \"нас\") обязуется защищать вашу конфиденциальность. Данная Политика объясняет, как мы собираем, используем, раскрываем и защищаем вашу информацию при использовании нашего сервиса, сайта и приложений.",p1_2:"Используя ThePost, вы соглашаетесь со сбором и использованием информации в соответствии с данной политикой. Если вы не согласны, пожалуйста, не используйте наши сервисы.",h2:"2. Собираемая информация",h2_1:"2.1 Предоставляемая вами информация",li2_1:"Данные аккаунта (имя, email, пароль)",li2_2:"Информация профиля, подписи и настройки",li2_3:"Платежные и биллинговые данные (обработка через Stripe)",li2_4:"Содержимое писем, контактов и загружаемых файлов",h2_2:"2.2 Автоматически собираемая информация",li2_3b:"Данные устройства, IP-адрес, браузер и ОС",li2_4b:"Данные использования: время входа, взаимодействие с функциями, метрики",li2_5:"Cookies и аналогичные технологии отслеживания",note1:"Мы используем zero-knowledge архитектуру. Содержимое писем шифруется на вашем устройстве до отправки. Мы не можем читать ваши письма и не продаём ваши данные рекламодателям.",h3:"3. Как мы используем данные",p3:"Мы используем вашу информацию исключительно для:",li3_1:"Предоставления, поддержки и улучшения сервиса",li3_2:"Аутентификации и защиты аккаунта",li3_3:"Обработки платежей и отправки уведомлений",li3_4:"Соблюдения законов и предотвращения мошенничества",h4:"4. Передача данных третьим лицам",p4:"Мы не продаём вашу информацию. Передача возможна только:",li4_1:"Поставщикам услуг: Проверенные партнёры (хостинг, платежи, поддержка) с жёсткими соглашениями о защите данных",li4_2:"По требованию закона: При наличии судебных решений или регуляторных запросов",li4_3:"При передаче бизнеса: В случае слияния или продажи активов (вы будете уведомлены)",h5:"5. Безопасность данных",p5:"Мы применяем передовые меры: AES-256, TLS 1.3, E2EE, регулярные аудиты безопасности и сертификация SOC 2 Type II.",h6:"6. Ваши права",p6:"В зависимости от юрисдикции вы имеете право:",li6_1:"Получать доступ, исправлять или удалять данные",li6_2:"Ограничивать или запрещать определённую обработку",li6_3:"Переносить данные в машиночитаемом формате",li6_4:"Отозвать согласие в любой момент",p6_2:"Для реализации прав напишите на privacy@thepost.space. Ответим в течение 30 дней.",h7:"7. Хранение данных",p7:"Храним данные, пока активен аккаунт. При удалении все данные удаляются с серверов в течение 30 дней, кроме случаев, требуемых законом.",h8:"8. Международные передачи",p8:"Данные могут передаваться на серверы за пределы вашей страны. Мы обеспечиваем адекватные гарантии защиты в соответствии с данной политикой.",h9:"9. Конфиденциальность детей",p9:"ThePost не предназначен для лиц младше 16 лет. Мы не собираем данные детей. Если вы узнали о таком случае, сообщите нам.",h10:"10. Изменения политики",p10:"Мы можем периодически обновлять политику. О существенных изменениях сообщим по email или через уведомление на сайте. Продолжение использования означает принятие новой редакции.",h11:"11. Контакты",p11:"Вопросы по конфиденциальности? Свяжитесь с нашим офицером по защите данных: privacy@thepost.space | ThePost Space GmbH, Фридрихштрассе 123, 10117 Берлин, Германия",fdesc:"Современная почта для современных команд. Безопасная, быстрая и красиво оформленная.",fp:"Продукт",fc:"Компания",fs:"Поддержка",fl:"Правовая информация",ns:"Решения",nse:"Безопасность",np:"Тарифы",ni:"Интеграции",na:"О нас",nb:"Блог",nc:"Контакты",fcar:"Карьера",nh:"Центр помощи",fstat:"Статус системы",fapi:"API документация",fpriv:"Политика конфиденциальности",fterms:"Условия использования",fcook:"Политика cookies"}
+};
+let cLang='en';
+function sl(l){cLang=l;document.getElementById('len').classList.toggle('active',l==='en');document.getElementById('lru').classList.toggle('active',l==='ru');document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.getAttribute('data-i18n');if(T[l]&&T[l][k])e.innerHTML=T[l][k]})}
+const cg=document.getElementById('cg');document.addEventListener('mousemove',e=>{cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px'});
+window.addEventListener('scroll',()=>document.getElementById('nb').classList.toggle('scrolled',window.scrollY>20));
+function tm(){document.getElementById('mm').classList.toggle('active')}
+function initA(){const o=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.1,rootMargin:'0px 0px -40px 0px'});document.querySelectorAll('.aos,.aos-l,.aos-r').forEach(el=>o.observe(el))}
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('ld').classList.add('hidden'),1800);setTimeout(initA,100)});
+</script>
+</body>
+</html>

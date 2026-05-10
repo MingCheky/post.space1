@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — ThePost.Space</title>
+<meta name="description" content="ThePost.Space is a new-generation international postal service. Learn about our mission to make global mail fast, secure, and simple.">
+<meta property="og:title" content="About — ThePost.Space">
+<meta property="og:description" content="A new-generation international postal service launching soon.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thepost.space/about.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><path d='M6 10h20v12a2 2 0 01-2 2H8a2 2 0 01-2-2V10z' fill='none' stroke='white' stroke-width='2'/><path d='M6 10l10 7 10-7' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #05050e;
+  --bg-secondary: #08081a;
+  --bg-card: #0d0d20;
+  --bg-card-hover: #131328;
+  --border: #1a1a32;
+  --border-light: #252540;
+  --text-primary: #eeeef5;
+  --text-secondary: #7878a0;
+  --text-muted: #4a4a6a;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --accent-dark: #4f46e5;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --pink: #ec4899;
+  --red: #ef4444;
+  --gradient-1: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+  --gradient-2: linear-gradient(135deg, #ec4899 0%, #6366f1 100%);
+  --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+  --gradient-4: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow: 0 4px 30px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 50px rgba(99,102,241,0.18);
+  --font-display: 'Syne', -apple-system, sans-serif;
+  --font-body: 'Outfit', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); overflow-x: hidden; line-height: 1.65; }
+h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* LOADING */
+.loading-screen { position: fixed; inset: 0; background: var(--bg-primary); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.7s ease, visibility 0.7s ease; }
+.loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.loader-icon { width: 72px; height: 72px; border-radius: 20px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; animation: loaderFloat 2s ease-in-out infinite, loaderGlow 2s ease-in-out infinite; }
+@keyframes loaderFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-10px) rotate(2deg); } 75% { transform: translateY(-12px) rotate(-2deg); } }
+@keyframes loaderGlow { 0%,100% { box-shadow: 0 0 20px rgba(99,102,241,0.3); } 50% { box-shadow: 0 0 55px rgba(99,102,241,0.65); } }
+.loader-text { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+.loader-bar { width: 240px; height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.loader-bar-fill { height: 100%; background: var(--gradient-1); border-radius: 3px; animation: loaderFill 1.8s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes loaderFill { 0% { width:0; } 30% { width:40%; } 60% { width:70%; } 100% { width:100%; } }
+
+/* CURSOR GLOW */
+.cursor-glow { position: fixed; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%); pointer-events: none; z-index: 1; transform: translate(-50%, -50%); transition: left 0.4s ease, top 0.4s ease; will-change: left, top; }
+
+/* NAVBAR */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 clamp(16px, 3vw, 48px); height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(5,5,14,0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid transparent; transition: all 0.4s ease; }
+.navbar.scrolled { border-bottom-color: var(--border); background: rgba(5,5,14,0.92); box-shadow: 0 4px 32px rgba(0,0,0,0.35); }
+.navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.navbar-logo-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+.navbar-logo span { font-family: var(--font-display); font-size: 19px; font-weight: 700; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.navbar-links { display: flex; align-items: center; gap: 2px; }
+.navbar-links a { color: var(--text-secondary); text-decoration: none; padding: 8px 13px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.25s ease; position: relative; }
+.navbar-links a:hover, .navbar-links a.active { color: var(--text-primary); background: rgba(99,102,241,0.1); }
+.navbar-links a.active::after { content:''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 18px; height: 2px; background: var(--accent); border-radius: 1px; }
+.navbar-actions { display: flex; align-items: center; gap: 10px; }
+.lang-switch { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 3px; gap: 2px; }
+.lang-btn { padding: 5px 11px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; font-family: var(--font-display); letter-spacing: 0.05em; }
+.lang-btn.active { background: var(--accent); color: white; }
+.nav-btn { padding: 8px 18px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; font-family: var(--font-body); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.nav-btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+.nav-btn-ghost:hover { color: var(--text-primary); border-color: var(--border-light); background: var(--bg-card); }
+.nav-btn-primary { background: var(--gradient-1); color: white; border: none; box-shadow: 0 2px 14px rgba(99,102,241,0.3); }
+.nav-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
+.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 0.3s ease; }
+.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 999; padding: 20px; overflow-y: auto; }
+.mobile-menu.active { display: block; animation: menuSlideIn 0.3s ease; }
+@keyframes menuSlideIn { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: translateY(0); } }
+.mobile-menu a { display: flex; align-items: center; padding: 15px 16px; color: var(--text-secondary); text-decoration: none; font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); transition: all 0.2s ease; }
+.mobile-menu a:hover { color: var(--text-primary); background: var(--bg-card); border-radius: 8px; }
+.mobile-menu-actions { padding: 20px 0; display: flex; flex-direction: column; gap: 12px; }
+
+/* PAGE HERO */
+.page-hero { position: relative; min-height: 60vh; display: flex; align-items: center; padding: 140px clamp(16px,3vw,48px) 80px; overflow: hidden; text-align: center; }
+.page-hero-bg { position: absolute; inset: 0; overflow: hidden; }
+.page-hero-bg .blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.11; }
+.ph-blob-1 { width: 500px; height: 500px; background: var(--pink); top: -150px; right: 10%; animation: phBlob1 20s ease-in-out infinite; }
+.ph-blob-2 { width: 350px; height: 350px; background: var(--cyan); bottom: -100px; left: 10%; animation: phBlob2 18s ease-in-out infinite; }
+.ph-blob-3 { width: 250px; height: 250px; background: var(--accent); top: 50%; left: 50%; animation: phBlob3 15s ease-in-out infinite; }
+@keyframes phBlob1 { 0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; transform: translate(0,0); } 50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; transform: translate(30px,20px); } }
+@keyframes phBlob2 { 0%,100% { border-radius: 40% 60% 70% 30%/40% 50% 50% 60%; } 50% { border-radius: 70% 30% 40% 60%/60% 40% 60% 30%; } }
+@keyframes phBlob3 { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.3); } }
+.ph-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%); }
+.page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+.page-hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px 6px 8px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light); margin-bottom: 24px; animation: badgePulse 3.5s ease-in-out infinite; }
+@keyframes badgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); } 50% { box-shadow: 0 0 0 10px rgba(99,102,241,0.06); } }
+.page-hero-badge .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: dotPulse 2s infinite; }
+@keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 7px rgba(16,185,129,0); } }
+.page-hero h1 { font-size: clamp(36px,5vw,62px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.03em; opacity: 0; animation: fadeUp 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) forwards; }
+.gradient-text { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-hero p { font-size: 18px; color: var(--text-secondary); line-height: 1.72; max-width: 600px; margin: 0 auto; opacity: 0; animation: fadeUp 0.8s 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+
+/* ANIMATIONS */
+.aos { opacity:0; transform: translateY(42px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos.visible { opacity:1; transform: translateY(0); }
+.aos-left { opacity:0; transform: translateX(-52px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos-left.visible { opacity:1; transform: translateX(0); }
+.aos-right { opacity:0; transform: translateX(52px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos-right.visible { opacity:1; transform: translateX(0); }
+.aos-scale { opacity:0; transform: scale(0.88); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos-scale.visible { opacity:1; transform: scale(1); }
+.d1 { transition-delay: 0.1s !important; } .d2 { transition-delay: 0.2s !important; }
+.d3 { transition-delay: 0.3s !important; } .d4 { transition-delay: 0.4s !important; }
+.d5 { transition-delay: 0.5s !important; } .d6 { transition-delay: 0.6s !important; }
+
+/* SECTION */
+.section { padding: 100px clamp(16px,3vw,48px); max-width: 1380px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(99,102,241,0.09); border: 1px solid rgba(99,102,241,0.15); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 20px; letter-spacing: 0.02em; }
+.section-title { font-size: clamp(28px,4vw,46px); font-weight: 800; line-height: 1.12; margin-bottom: 16px; letter-spacing: -0.025em; }
+.section-subtitle { font-size: 17px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.72; }
+
+/* STATS BAR */
+.stats-bar { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.stat-card { padding: 40px 32px; text-align: center; border-right: 1px solid var(--border); transition: all 0.4s ease; position: relative; overflow: hidden; }
+.stat-card:last-child { border-right: none; }
+.stat-card::after { content:''; position: absolute; bottom:0; left:0; right:0; height:2px; background:var(--gradient-1); transform:scaleX(0); transition:transform 0.4s ease; }
+.stat-card:hover::after { transform:scaleX(1); }
+.stat-card:hover { background: var(--bg-card); }
+.stat-number { font-family: var(--font-display); font-size: 38px; font-weight: 900; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+.stat-label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+
+/* STORY */
+.story-section { padding: 100px clamp(16px,3vw,48px); max-width: 1380px; margin: 0 auto; }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.story-text .section-label { display: inline-flex; }
+.story-text h2 { font-size: clamp(28px,3.5vw,44px); font-weight: 800; line-height: 1.15; margin-bottom: 24px; letter-spacing: -0.025em; }
+.story-text p { font-size: 16px; color: var(--text-secondary); line-height: 1.78; margin-bottom: 20px; }
+.story-text blockquote { border-left: 3px solid var(--accent); padding: 16px 20px; background: var(--bg-card); border-radius: 0 var(--radius) var(--radius) 0; font-size: 15px; font-style: italic; color: var(--text-primary); line-height: 1.7; margin: 24px 0; }
+.founders-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.founder-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; }
+.founder-card::before { content:''; position: absolute; top:0; left:0; right:0; height:2px; background:var(--gradient-1); opacity:0; transition:opacity 0.3s ease; }
+.founder-card:hover { border-color: var(--border-light); transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+.founder-card:hover::before { opacity:1; }
+.founder-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 26px; font-weight: 800; color: white; }
+.founder-card h4 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.founder-card .role { font-size: 13px; color: var(--accent-light); margin-bottom: 10px; font-weight: 500; }
+.founder-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+/* TIMELINE */
+.timeline-section { padding: 100px clamp(16px,3vw,48px); background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.timeline { position: relative; max-width: 900px; margin: 0 auto; }
+.timeline::before { content:''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, transparent, var(--border), var(--border), transparent); transform: translateX(-50%); }
+.timeline-item { display: flex; gap: 48px; margin-bottom: 60px; position: relative; }
+.timeline-item:nth-child(even) { flex-direction: row-reverse; }
+.timeline-content { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 28px; transition: all 0.4s ease; }
+.timeline-content:hover { border-color: var(--border-light); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.timeline-year { font-family: var(--font-display); font-size: 11px; font-weight: 700; color: var(--accent-light); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+.timeline-content h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.timeline-content p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+.timeline-dot { position: absolute; left: 50%; top: 28px; transform: translateX(-50%); width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg-secondary); box-shadow: 0 0 20px rgba(99,102,241,0.5); flex-shrink: 0; }
+
+/* VALUES */
+.values-section { padding: 100px clamp(16px,3vw,48px); max-width: 1380px; margin: 0 auto; }
+.values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.value-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.value-card::before { content:''; position: absolute; top:0; left:0; right:0; height:2px; background:var(--gradient-1); opacity:0; transition:opacity 0.3s ease; }
+.value-card:nth-child(2)::before { background:var(--gradient-2); }
+.value-card:nth-child(3)::before { background:var(--gradient-3); }
+.value-card:nth-child(4)::before { background:var(--gradient-4); }
+.value-card:nth-child(5)::before { background:linear-gradient(135deg,#10b981,#06b6d4); }
+.value-card:nth-child(6)::before { background:linear-gradient(135deg,#ec4899,#f59e0b); }
+.value-card:hover { border-color: var(--border-light); transform: translateY(-7px); box-shadow: var(--shadow-glow); }
+.value-card:hover::before { opacity:1; }
+.value-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--accent-light); background: rgba(99,102,241,0.12); transition: transform 0.3s ease; }
+.value-card:hover .value-icon { transform: scale(1.12) rotate(-6deg); }
+.value-card:nth-child(2) .value-icon { background:rgba(236,72,153,0.12); color:var(--pink); }
+.value-card:nth-child(3) .value-icon { background:rgba(16,185,129,0.12); color:var(--green); }
+.value-card:nth-child(4) .value-icon { background:rgba(6,182,212,0.12); color:var(--cyan); }
+.value-card:nth-child(5) .value-icon { background:rgba(245,158,11,0.12); color:var(--orange); }
+.value-card:nth-child(6) .value-icon { background:rgba(239,68,68,0.12); color:var(--red); }
+.value-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; transition: color 0.3s ease; }
+.value-card:hover h3 { color: var(--accent-light); }
+.value-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.72; }
+
+/* TEAM */
+.team-section { padding: 100px clamp(16px,3vw,48px); background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.team-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; max-width: 1380px; margin: 0 auto; }
+.team-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 28px; text-align: center; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden; }
+.team-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gradient-1); opacity:0; transition:opacity 0.3s ease; }
+.team-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-glow); border-color: var(--border-light); }
+.team-card:hover::before { opacity:1; }
+.team-avatar { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 28px; font-weight: 800; color: white; transition: transform 0.3s ease; }
+.team-card:hover .team-avatar { transform: scale(1.08); }
+.team-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.team-card .role { font-size: 13px; color: var(--accent-light); margin-bottom: 10px; font-weight: 500; }
+.team-card p { font-size: 13px; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
+.team-socials { display: flex; justify-content: center; gap: 8px; }
+.team-social-link { width: 32px; height: 32px; border-radius: 8px; background: var(--bg-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s ease; }
+.team-social-link:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-2px); }
+.team-social-link svg { width: 14px; height: 14px; }
+
+/* CULTURE */
+.culture-section { padding: 100px clamp(16px,3vw,48px); max-width: 1380px; margin: 0 auto; }
+.culture-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.culture-card { display: flex; gap: 16px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); transition: all 0.3s ease; }
+.culture-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+.culture-icon { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.12); color: var(--accent-light); transition: transform 0.3s ease; }
+.culture-card:hover .culture-icon { transform: scale(1.1) rotate(-5deg); }
+.culture-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; transition: color 0.3s ease; }
+.culture-card:hover h3 { color: var(--accent-light); }
+.culture-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+
+/* CTA */
+.cta-wrap { padding: 0 clamp(16px,3vw,48px) 100px; }
+.cta-box { max-width: 860px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 72px 48px; position: relative; overflow: hidden; text-align: center; }
+.cta-box::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gradient-2); }
+.cta-box::after { content:''; position:absolute; top:-100px; left:50%; transform:translateX(-50%); width:420px; height:220px; background:radial-gradient(ellipse, rgba(99,102,241,0.09) 0%, transparent 70%); pointer-events:none; }
+.cta-box h2 { font-size: clamp(28px,3.5vw,42px); font-weight: 800; margin-bottom: 16px; position: relative; z-index:1; }
+.cta-box p { font-size: 16px; color: var(--text-secondary); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; position: relative; z-index:1; line-height:1.72; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; z-index:1; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none; font-family: var(--font-body); position: relative; overflow: hidden; }
+.btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 22px rgba(99,102,241,0.35); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(99,102,241,0.55); }
+.btn-primary::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,transparent,rgba(255,255,255,0.18),transparent); transform:translateX(-110%); transition:transform 0.6s ease; }
+.btn-primary:hover::before { transform:translateX(110%); }
+.btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-3px); }
+
+/* RIPPLE */
+.ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,0.18); animation:rippleA 0.65s ease-out; pointer-events:none; }
+@keyframes rippleA { 0%{transform:scale(0);opacity:1} 100%{transform:scale(4.5);opacity:0} }
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--border); padding: 64px clamp(16px,3vw,48px) 32px; max-width: 1380px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.72; margin-top: 12px; max-width: 300px; }
+.footer-col h4 { font-family: var(--font-display); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px; }
+.footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 14px; padding: 6px 0; transition: all 0.2s ease; }
+.footer-col a:hover { color: var(--accent-light); transform: translateX(4px); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); flex-wrap: wrap; gap: 16px; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s ease; }
+.footer-social a:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
+.footer-social a svg { width: 16px; height: 16px; }
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1024px) {
+  .story-grid { grid-template-columns: 1fr; gap: 48px; }
+  .culture-grid { grid-template-columns: repeat(2,1fr); }
+  .timeline::before { left: 20px; }
+  .timeline-item, .timeline-item:nth-child(even) { flex-direction: row; padding-left: 50px; }
+  .timeline-content { width: 100%; }
+  .timeline-dot { left: 20px; }
+  .footer-grid { grid-template-columns: repeat(3, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .stat-card:nth-child(odd) { border-right: 1px solid var(--border); }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; }
+  .navbar-links, .nav-btn-ghost { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .section { padding: 60px 16px; }
+  .story-section, .values-section, .culture-section, .cta-wrap { padding: 60px 16px; }
+  .timeline-section { padding: 60px 16px; }
+  .team-section { padding: 60px 16px; }
+  .values-grid { grid-template-columns: 1fr; }
+  .culture-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+  .cta-box { padding: 40px 24px; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .founders-grid { grid-template-columns: 1fr; }
+  .page-hero { padding: 120px 16px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
+  <div class="loader">
+    <div class="loader-icon" aria-hidden="true">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+    </div>
+    <div class="loader-text">Loading ThePost</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
+    <div class="navbar-logo-icon" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+    </div>
+    <span>thepost.space</span>
+  </a>
+  <div class="navbar-links" role="menubar">
+    <a href="solutions.html" role="menuitem">Solutions</a>
+    <a href="solutions.html" role="menuitem">Security</a>
+    <a href="pricing.html" role="menuitem">Pricing</a>
+    <a href="integrations.html" role="menuitem">Integrations</a>
+    <a href="about.html" class="active" role="menuitem">About</a>
+    <a href="blog.html" role="menuitem">Blog</a>
+    <a href="contact.html" role="menuitem">Contact</a>
+  </div>
+  <div class="navbar-actions">
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-btn active" id="langEn" onclick="switchLang('en')" aria-pressed="true">EN</button>
+      <button class="lang-btn" id="langRu" onclick="switchLang('ru')" aria-pressed="false">RU</button>
+    </div>
+    <a class="nav-btn nav-btn-ghost" href="help.html">Help</a>
+    <a class="nav-btn nav-btn-primary" href="contact.html">Early Access</a>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
+  <a href="solutions.html">Solutions</a>
+  <a href="solutions.html">Security</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="integrations.html">Integrations</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+  <a href="help.html">Help Center</a>
+  <div class="mobile-menu-actions">
+    <a class="btn btn-primary" href="contact.html" style="justify-content:center;">Request Early Access</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero" aria-labelledby="aboutTitle">
+  <div class="page-hero-bg" aria-hidden="true">
+    <div class="blob ph-blob-1"></div>
+    <div class="blob ph-blob-2"></div>
+    <div class="blob ph-blob-3"></div>
+    <div class="ph-grid"></div>
+  </div>
+  <div class="page-hero-content">
+    <div class="page-hero-badge"><span class="dot" aria-hidden="true"></span><span>Launching Soon</span></div>
+    <h1 id="aboutTitle">International mail <span class="gradient-text">reimagined.</span></h1>
+    <p>ThePost.Space is a new-generation postal service built for today's world — fast, secure, and radically simple. We're on a mission to make sending things anywhere on Earth feel effortless.</p>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar" aria-label="Company statistics">
+  <div class="section" style="padding:0;">
+    <div class="stats-grid" role="list">
+      <div class="stat-card aos d1" role="listitem">
+        <div class="stat-number">2024</div>
+        <div class="stat-label">Year Founded</div>
+      </div>
+      <div class="stat-card aos d2" role="listitem">
+        <div class="stat-number">150+</div>
+        <div class="stat-label">Countries Covered</div>
+      </div>
+      <div class="stat-card aos d3" role="listitem">
+        <div class="stat-number">&lt;48h</div>
+        <div class="stat-label">Express Delivery</div>
+      </div>
+      <div class="stat-card aos d4" role="listitem">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">Uptime SLA</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OUR STORY -->
+<section class="story-section" aria-labelledby="storyTitle">
+  <div class="story-grid">
+    <div class="story-text aos-left">
+      <div class="section-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/></svg>
+        Our Story
+      </div>
+      <h2 id="storyTitle">Born from a real <span class="gradient-text">problem</span></h2>
+      <p>International shipping is broken. It's slow, opaque, unpredictable — and nobody has fixed it. We built ThePost.Space because we believe you deserve to know exactly where your mail is, every step of the way.</p>
+      <p>Our founding team brings together logistics experts, software engineers, and design thinkers who share one obsession: making the movement of physical things as smooth and trackable as sending an email.</p>
+      <blockquote>"We didn't set out to compete with postal services. We set out to reinvent them for a world that expects Amazon-speed and Apple-simplicity."</blockquote>
+      <p>From our distributed network of processing hubs across 150+ countries, we're building the infrastructure for the next generation of international mail.</p>
+    </div>
+    <div class="story-visual aos-right">
+      <p style="font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:20px;letter-spacing:0.1em;text-transform:uppercase;">Our Founders</p>
+      <div class="founders-grid">
+        <div class="founder-card">
+          <div class="founder-avatar" style="background:var(--gradient-1);">A</div>
+          <h4>Alex Rivera</h4>
+          <div class="role">CEO & Co-founder</div>
+          <p>10 years in logistics tech. Former VP at a global freight platform serving 80+ countries.</p>
+        </div>
+        <div class="founder-card">
+          <div class="founder-avatar" style="background:var(--gradient-2);">M</div>
+          <h4>Maya Chen</h4>
+          <div class="role">CTO & Co-founder</div>
+          <p>Infrastructure engineer. Built real-time tracking systems processing millions of parcel events daily.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section" aria-labelledby="valuesTitle">
+  <div class="section-header">
+    <div class="section-label aos">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      Our Values
+    </div>
+    <h2 id="valuesTitle" class="section-title aos d1">What drives us every day</h2>
+    <p class="section-subtitle aos d2">These principles guide everything we build — from our routing algorithms to our customer support.</p>
+  </div>
+  <div class="values-grid">
+    <div class="value-card aos d1">
+      <div class="value-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <h3>Speed First</h3>
+      <p>Every delay costs trust. We obsess over transit times, cutting unnecessary handoffs and routing inefficiencies out of the system.</p>
+    </div>
+    <div class="value-card aos d2">
+      <div class="value-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Secure by Design</h3>
+      <p>Your shipment data is yours. We use end-to-end encryption for tracking data and never share your information with third parties.</p>
+    </div>
+    <div class="value-card aos d3">
+      <div class="value-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      <h3>Truly Global</h3>
+      <p>We build for every country equally. No second-class destinations. 150+ countries with the same quality of service and tracking.</p>
+    </div>
+    <div class="value-card aos d1">
+      <div class="value-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,12 16,12 14,15 10,15 8,12 2,12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+      </div>
+      <h3>Full Transparency</h3>
+      <p>Know where your mail is at every moment. Real-time tracking, proactive notifications, and honest ETAs — no guessing games.</p>
+    </div>
+    <div class="value-card aos d2">
+      <div class="value-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <h3>Human Support</h3>
+      <p>Real people, not bots. Every support request reaches a trained specialist who knows our network and can actually solve your problem.</p>
+    </div>
+    <div class="value-card aos d3">
+      <div class="value-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><leaf/><path d="M11 20A7 7 0 013.8 7.1M11 20a7 7 0 007.2-7.1M11 20v-9m0 0a7 7 0 017.2-7.1M11 11a7 7 0 01-7.2-7.1M11 11l5.1-5.1M11 11l-5.1 5.1"/><circle cx="11" cy="11" r="2"/></svg>
+      </div>
+      <h3>Sustainable Shipping</h3>
+      <p>We carbon-offset every shipment by default and partner exclusively with carriers committed to reducing their environmental impact.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section" aria-labelledby="teamTitle">
+  <div class="section-header" style="max-width:1380px;margin:0 auto;padding:0 clamp(16px,3vw,48px);">
+    <div class="section-label aos">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      The Team
+    </div>
+    <h2 id="teamTitle" class="section-title aos d1">Built by people who ship</h2>
+    <p class="section-subtitle aos d2">Logistics engineers, product designers, and global operations experts united by one goal.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card aos d1">
+      <div class="team-avatar" style="background:var(--gradient-1);">A</div>
+      <h4>Alex Rivera</h4>
+      <div class="role">CEO & Co-founder</div>
+      <p>10 years in logistics. Former VP at a global freight platform serving 80+ countries.</p>
+      <div class="team-socials">
+        <a href="#" class="team-social-link" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" class="team-social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+    </div>
+    <div class="team-card aos d2">
+      <div class="team-avatar" style="background:var(--gradient-2);">M</div>
+      <h4>Maya Chen</h4>
+      <div class="role">CTO & Co-founder</div>
+      <p>Infrastructure engineer. Built real-time tracking systems processing millions of events daily.</p>
+      <div class="team-socials">
+        <a href="#" class="team-social-link" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" class="team-social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+    </div>
+    <div class="team-card aos d3">
+      <div class="team-avatar" style="background:var(--gradient-3);">D</div>
+      <h4>David Kim</h4>
+      <div class="role">Head of Design</div>
+      <p>Product designer with 8 years building interfaces for logistics and supply chain platforms.</p>
+      <div class="team-socials">
+        <a href="#" class="team-social-link" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" class="team-social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+    </div>
+    <div class="team-card aos d4">
+      <div class="team-avatar" style="background:var(--gradient-4);">S</div>
+      <h4>Sarah Okafor</h4>
+      <div class="role">VP of Engineering</div>
+      <p>Distributed systems specialist. Scaled backend infrastructure at two Series B logistics startups.</p>
+      <div class="team-socials">
+        <a href="#" class="team-social-link" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="#" class="team-social-link" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section class="culture-section" aria-labelledby="cultureTitle">
+  <div class="section-header">
+    <div class="section-label aos">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      How We Work
+    </div>
+    <h2 id="cultureTitle" class="section-title aos d1">Life at ThePost.Space</h2>
+    <p class="section-subtitle aos d2">We believe great work requires great working conditions. Here's how we take care of our team.</p>
+  </div>
+  <div class="culture-grid">
+    <div class="culture-card aos d1">
+      <div class="culture-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      <div>
+        <h3>Remote-First</h3>
+        <p>Work from anywhere in the world. Our team spans 3 continents with flexible hours and async-first communication.</p>
+      </div>
+    </div>
+    <div class="culture-card aos d2">
+      <div class="culture-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      </div>
+      <div>
+        <h3>Learning Budget</h3>
+        <p>€2,000/year per person for courses, conferences, and books. We invest heavily in your professional growth.</p>
+      </div>
+    </div>
+    <div class="culture-card aos d3">
+      <div class="culture-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div>
+        <h3>Flexible PTO</h3>
+        <p>Take the time you need. We trust our team to manage their own time and recharge when necessary.</p>
+      </div>
+    </div>
+    <div class="culture-card aos d1">
+      <div class="culture-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div>
+        <h3>Team Retreats</h3>
+        <p>Quarterly gatherings to connect, plan, and explore. Past retreats: Lisbon, Tbilisi, and Bali.</p>
+      </div>
+    </div>
+    <div class="culture-card aos d2">
+      <div class="culture-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
+      <div>
+        <h3>Top Equipment</h3>
+        <p>Latest hardware, ergonomic setup, and any software you need to do your best work. No penny-pinching.</p>
+      </div>
+    </div>
+    <div class="culture-card aos d3">
+      <div class="culture-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div>
+        <h3>Health & Wellbeing</h3>
+        <p>Full health coverage, gym membership, and mental health support. Your wellbeing comes first.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap" aria-labelledby="ctaTitle">
+  <div class="cta-box aos-scale">
+    <h2 id="ctaTitle">Join us — <span class="gradient-text">we're just getting started</span></h2>
+    <p>ThePost.Space is launching soon. We're building a small, passionate team of people who want to change how the world sends things.</p>
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="careers.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        View Open Roles
+      </a>
+      <a class="btn btn-secondary" href="contact.html">Get Early Access</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="navbar-logo" href="index.html" style="display:inline-flex;" aria-label="ThePost.Space homepage">
+        <div class="navbar-logo-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+        </div>
+        <span>thepost.space</span>
+      </a>
+      <p>Modern mail for modern people. Fast, secure, and beautifully simple international shipping.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="solutions.html">Solutions</a>
+      <a href="solutions.html">Security</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="integrations.html">Integrations</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="about.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="careers.html">Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="help.html">Help Center</a>
+      <a href="contact.html">System Status</a>
+      <a href="help.html">API Docs</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="cookies.html">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ThePost.Space. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* CURSOR GLOW */
+const cg = document.getElementById('cursorGlow');
+if (window.matchMedia('(hover: hover)').matches) {
+  document.addEventListener('mousemove', e => {
+    cg.style.left = e.clientX + 'px';
+    cg.style.top = e.clientY + 'px';
+  }, { passive: true });
+}
+
+/* NAVBAR SCROLL */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* MOBILE MENU */
+function toggleMobileMenu() {
+  const btn = document.getElementById('mobileMenuBtn');
+  const menu = document.getElementById('mobileMenu');
+  const isOpen = menu.classList.toggle('active');
+  btn.classList.toggle('open', isOpen);
+  btn.setAttribute('aria-expanded', isOpen);
+  menu.setAttribute('aria-hidden', !isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.remove('active');
+    document.getElementById('mobileMenuBtn').classList.remove('open');
+    document.getElementById('mobileMenuBtn').setAttribute('aria-expanded','false');
+    document.getElementById('mobileMenu').setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  });
+});
+
+/* SCROLL ANIMATIONS */
+function initAOS() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.aos, .aos-left, .aos-right, .aos-scale').forEach(el => obs.observe(el));
+}
+
+/* RIPPLE */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn, .nav-btn-primary');
+  if (!btn) return;
+  const r = btn.getBoundingClientRect();
+  const rip = document.createElement('span');
+  rip.className = 'ripple';
+  const size = Math.max(r.width, r.height);
+  rip.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
+  btn.appendChild(rip);
+  setTimeout(() => rip.remove(), 700);
+}, { passive: true });
+
+/* LANG SWITCH (stub) */
+function switchLang(l) {
+  document.getElementById('langEn').classList.toggle('active', l==='en');
+  document.getElementById('langEn').setAttribute('aria-pressed', l==='en');
+  document.getElementById('langRu').classList.toggle('active', l==='ru');
+  document.getElementById('langRu').setAttribute('aria-pressed', l==='ru');
+}
+
+/* INIT */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1800);
+  initAOS();
+}, { once: true });
+</script>
+</body>
+</html>
