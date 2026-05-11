@@ -612,9 +612,9 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
 <!-- LOADING SCREEN -->
 <div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
   <div class="loader">
-    <div class="loader-icon" aria-hidden="true">
-      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    </div>
+  <div class="loader-icon" aria-hidden="true">
+    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+  </div>
     <div class="loader-text" data-i18n="loader_text">Loading Security</div>
     <div class="loader-bar"><div class="loader-bar-fill"></div></div>
   </div>
@@ -647,8 +647,9 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
       <button class="lang-btn active" id="langEn" onclick="switchLang('en')" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" onclick="switchLang('ru')" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html" data-i18n="nav_help">Help</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html" data-i18n="nav_cta">Early Access</a>
+    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
+    <a class="nav-btn nav-btn-ghost" href="login.html">Sign In</a>
+    <a class="nav-btn nav-btn-primary" href="login.html">Get Started</a>
     <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -666,7 +667,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
   <a href="contact.html" data-i18n="nav_contact">Contact</a>
   <a href="help.html" data-i18n="nav_help">Help Center</a>
   <div class="mobile-menu-actions">
-    <a class="btn btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_cta">Request Early Access</a>
+    <a class="btn btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_cta">Submit Application</a>
   </div>
 </div>
 
@@ -696,7 +697,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
       <div class="hero-actions">
         <a class="btn btn-primary" href="contact.html" data-i18n="sec_cta_primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          <span data-i18n="sec_cta_primary">Request Early Access</span>
+          <span data-i18n="sec_cta_primary">Submit Application</span>
         </a>
         <a class="btn btn-secondary" href="#deepdive" data-i18n="sec_cta_secondary">Read the whitepaper</a>
       </div>
@@ -1199,7 +1200,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
     <div class="footer-col">
       <h4 data-i18n="foot_prod">Product</h4>
       <a href="solutions.html" data-i18n="foot_solutions">Solutions</a>
-      <a href="security.html" data-i18n="foot_security">Security</a>
+      <a href="solutions.html" data-i18n="foot_security">Security</a>
       <a href="pricing.html" data-i18n="foot_pricing">Pricing</a>
       <a href="integrations.html" data-i18n="foot_integrations">Integrations</a>
     </div>
@@ -1212,7 +1213,6 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
     <div class="footer-col">
       <h4 data-i18n="foot_sup">Support</h4>
       <a href="help.html" data-i18n="foot_help">Help Center</a>
-      <a href="help.html" data-i18n="foot_api">API Docs</a>
     </div>
     <div class="footer-col">
       <h4 data-i18n="foot_legal">Legal</h4>
@@ -1222,7 +1222,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 ThePost.Space. All rights reserved.</span>
+    <span>© 2024 - 2026 ThePost.Space. All rights reserved.</span>
     <div class="footer-social">
       <a href="#" aria-label="X (Twitter)">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -1256,7 +1256,7 @@ const T = {
     sec_h1_1: 'Your privacy is',
     sec_h1_2: 'non-negotiable.',
     sec_hero_desc: 'ThePost.Space was built with security as a foundation, not an afterthought. End-to-end encryption, zero-knowledge architecture, and full regulatory compliance — so your data stays yours, always.',
-    sec_cta_primary: 'Request Early Access',
+    sec_cta_primary: 'Submit Application',
     sec_cta_secondary: 'Read the whitepaper',
 
     pillars_label: 'Security Pillars',
