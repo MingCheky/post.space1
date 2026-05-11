@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security — ThePost.Space</title>
+<meta name="description" content="ThePost.Space security overview — end-to-end encryption, zero-knowledge architecture, SOC 2 Type II, and GDPR compliance. Your privacy is non-negotiable.">
+<meta property="og:title" content="Security — ThePost.Space">
+<meta property="og:description" content="Military-grade encryption, zero-knowledge architecture, and full regulatory compliance. Your data belongs to you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thepost.space/security">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><path d='M6 10h20v12a2 2 0 01-2 2H8a2 2 0 01-2-2V10z' fill='none' stroke='white' stroke-width='2'/><path d='M6 10l10 7 10-7' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #05050e;
+  --bg-secondary: #08081a;
+  --bg-card: #0d0d20;
+  --bg-card-hover: #131328;
+  --border: #1a1a32;
+  --border-light: #252540;
+  --text-primary: #eeeef5;
+  --text-secondary: #7878a0;
+  --text-muted: #4a4a6a;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --accent-dark: #4f46e5;
+  --cyan: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --pink: #ec4899;
+  --red: #ef4444;
+  --gradient-1: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+  --gradient-2: linear-gradient(135deg, #ec4899 0%, #6366f1 100%);
+  --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+  --gradient-4: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow: 0 4px 30px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 50px rgba(99,102,241,0.18);
+  --font-display: 'Syne', -apple-system, sans-serif;
+  --font-body: 'Outfit', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); overflow-x: hidden; line-height: 1.65; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ===================== LOADING ===================== */
+.loading-screen {
+  position: fixed; inset: 0; background: var(--bg-primary);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10000; transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+.loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.loader-icon {
+  width: 72px; height: 72px; border-radius: 20px;
+  background: var(--gradient-1); display: flex; align-items: center;
+  justify-content: center; color: white;
+  animation: loaderFloat 2s ease-in-out infinite, loaderGlow 2s ease-in-out infinite;
+}
+@keyframes loaderFloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(2deg); }
+  75% { transform: translateY(-12px) rotate(-2deg); }
+}
+@keyframes loaderGlow {
+  0%,100% { box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+  50% { box-shadow: 0 0 55px rgba(99,102,241,0.65); }
+}
+.loader-text { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+.loader-bar { width: 240px; height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.loader-bar-fill { height: 100%; background: var(--gradient-1); border-radius: 3px; animation: loaderFill 1.8s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes loaderFill { 0% { width:0; } 30% { width:40%; } 60% { width:70%; } 100% { width:100%; } }
+
+/* ===================== CURSOR GLOW ===================== */
+.cursor-glow {
+  position: fixed; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%);
+  pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
+  transition: left 0.4s ease, top 0.4s ease; will-change: left, top;
+}
+
+/* ===================== NAVBAR ===================== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 0 clamp(16px, 3vw, 48px); height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(5,5,14,0.6); backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid transparent; transition: all 0.4s ease;
+}
+.navbar.scrolled { border-bottom-color: var(--border); background: rgba(5,5,14,0.92); box-shadow: 0 4px 32px rgba(0,0,0,0.35); }
+.navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.navbar-logo-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+.navbar-logo span { font-family: var(--font-display); font-size: 19px; font-weight: 700; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.navbar-links { display: flex; align-items: center; gap: 2px; }
+.navbar-links a { color: var(--text-secondary); text-decoration: none; padding: 8px 13px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.25s ease; position: relative; }
+.navbar-links a:hover, .navbar-links a.active { color: var(--text-primary); background: rgba(99,102,241,0.1); }
+.navbar-links a.active::after { content:''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 18px; height: 2px; background: var(--accent); border-radius: 1px; }
+.navbar-actions { display: flex; align-items: center; gap: 10px; }
+.lang-switch { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 3px; gap: 2px; }
+.lang-btn { padding: 5px 11px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; font-family: var(--font-display); letter-spacing: 0.05em; }
+.lang-btn.active { background: var(--accent); color: white; }
+.nav-btn { padding: 8px 18px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; font-family: var(--font-body); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.nav-btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+.nav-btn-ghost:hover { color: var(--text-primary); border-color: var(--border-light); background: var(--bg-card); }
+.nav-btn-primary { background: var(--gradient-1); color: white; border: none; box-shadow: 0 2px 14px rgba(99,102,241,0.3); }
+.nav-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
+.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 0.3s ease; }
+.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu {
+  display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+  background: var(--bg-primary); z-index: 999; padding: 20px;
+  overflow-y: auto;
+}
+.mobile-menu.active { display: block; animation: menuSlideIn 0.3s ease; }
+@keyframes menuSlideIn { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: translateY(0); } }
+.mobile-menu a { display: flex; align-items: center; padding: 15px 16px; color: var(--text-secondary); text-decoration: none; font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); transition: all 0.2s ease; }
+.mobile-menu a:hover { color: var(--text-primary); background: var(--bg-card); border-radius: 8px; }
+.mobile-menu-actions { padding: 20px 0; display: flex; flex-direction: column; gap: 12px; }
+
+/* ===================== HERO ===================== */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 140px clamp(16px,3vw,48px) 100px;
+  overflow: hidden;
+}
+.hero-bg { position: absolute; inset: 0; overflow: hidden; }
+.blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.11; }
+.blob-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -80px; animation: blobMorph1 22s ease-in-out infinite; }
+.blob-2 { width: 450px; height: 450px; background: var(--green); bottom: -120px; left: -100px; animation: blobMorph2 18s ease-in-out infinite; }
+.blob-3 { width: 320px; height: 320px; background: var(--cyan); top: 45%; left: 42%; animation: blobMorph3 14s ease-in-out infinite; }
+@keyframes blobMorph1 { 0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; transform: translate(0,0); } 33% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; transform: translate(25px,-18px); } 66% { border-radius: 50% 60% 30% 60%/30% 60% 70% 40%; transform: translate(-15px,25px); } }
+@keyframes blobMorph2 { 0%,100% { border-radius: 40% 60% 70% 30%/40% 50% 50% 60%; } 50% { border-radius: 70% 30% 40% 60%/60% 40% 60% 30%; transform: translate(-25px,-20px); } }
+@keyframes blobMorph3 { 0%,100% { border-radius: 50% 50% 40% 60%/50% 40% 60% 50%; transform: scale(1); } 50% { border-radius: 40% 60% 60% 40%/60% 50% 40% 60%; transform: scale(1.18); } }
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+.hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.particle { position: absolute; border-radius: 50%; animation: particleRise linear infinite; }
+@keyframes particleRise {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  8% { opacity: 0.6; }
+  92% { opacity: 0.6; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 1380px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.hero-text { animation: heroSlide 1s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes heroSlide { from { opacity:0; transform: translateX(-60px); } to { opacity:1; transform: translateX(0); } }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 16px 5px 7px;
+  background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light);
+  margin-bottom: 28px; animation: badgePulse 3.5s ease-in-out infinite;
+}
+@keyframes badgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); } 50% { box-shadow: 0 0 0 10px rgba(99,102,241,0.08); } }
+.badge-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: dotPulse 2s infinite; }
+@keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 7px rgba(16,185,129,0); } }
+.hero h1 { font-size: clamp(42px, 5.5vw, 72px); font-weight: 800; line-height: 1.04; margin-bottom: 24px; letter-spacing: -0.035em; }
+.hero h1 .line { display: block; opacity: 0; animation: lineReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+.hero h1 .line:nth-child(1) { animation-delay: 0.3s; }
+.hero h1 .line:nth-child(2) { animation-delay: 0.5s; }
+@keyframes lineReveal { from { opacity:0; transform: translateY(32px); } to { opacity:1; transform: translateY(0); } }
+.gradient-text { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradShift 5s ease infinite; }
+@keyframes gradShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.hero-desc { font-size: 18px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 40px; max-width: 520px; opacity: 0; animation: fadeUp 0.8s 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+@keyframes fadeUp { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+.hero-actions { display: flex; gap: 14px; margin-bottom: 52px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none; font-family: var(--font-body); position: relative; overflow: hidden; }
+.btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 22px rgba(99,102,241,0.35); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(99,102,241,0.55); }
+.btn-primary::before { content:''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.18), transparent); transform: translateX(-110%); transition: transform 0.6s ease; }
+.btn-primary:hover::before { transform: translateX(110%); }
+.btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-3px); box-shadow: 0 6px 22px rgba(0,0,0,0.3); }
+
+/* hero trust badges */
+.hero-trust { display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1.1s cubic-bezier(0.16,1,0.3,1) forwards; }
+.trust-badge {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px 7px 9px;
+  background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 100px; font-size: 12px; font-weight: 500; color: var(--green);
+}
+.trust-badge svg { flex-shrink: 0; }
+
+/* ===================== SHIELD HERO VISUAL ===================== */
+.hero-preview {
+  perspective: 1200px;
+  opacity: 0; animation: previewReveal 1.2s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  display: flex; align-items: center; justify-content: center;
+}
+@keyframes previewReveal { from { opacity:0; transform: translateX(60px) rotateY(10deg) scale(0.94); } to { opacity:1; transform: translateX(0) rotateY(0) scale(1); } }
+
+.shield-hero {
+  position: relative; width: 420px; height: 480px;
+  display: flex; align-items: center; justify-content: center;
+}
+.shield-hero-bg {
+  position: absolute; inset: 0; border-radius: var(--radius-xl);
+  background: var(--bg-card); border: 1px solid var(--border);
+  overflow: hidden;
+}
+.shield-hero-bg::before {
+  content: '';
+  position: absolute; top: -60px; left: -60px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+}
+.shield-hero-bg::after {
+  content: '';
+  position: absolute; bottom: -60px; right: -60px;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+}
+
+.shield-center {
+  position: relative; z-index: 2;
+  width: 160px; height: 160px;
+}
+.shield-ring-outer {
+  position: absolute; inset: -50px; border-radius: 50%;
+  border: 1px solid var(--border);
+  animation: ringRot 22s linear infinite;
+}
+.shield-ring-outer::before {
+  content: ''; position: absolute;
+  top: -5px; left: 50%; transform: translateX(-50%);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 16px var(--accent);
+}
+.shield-ring-mid {
+  position: absolute; inset: -25px; border-radius: 50%;
+  border: 1px solid rgba(99,102,241,0.15);
+  animation: ringRot 16s linear infinite reverse;
+}
+.shield-ring-mid::before {
+  content: ''; position: absolute;
+  top: -5px; left: 50%; transform: translateX(-50%);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--cyan); box-shadow: 0 0 16px var(--cyan);
+}
+@keyframes ringRot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.shield-icon-wrap {
+  width: 160px; height: 160px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(99,102,241,0.2) 0%, rgba(16,185,129,0.2) 100%);
+  border: 1px solid rgba(99,102,241,0.3);
+  display: flex; align-items: center; justify-content: center;
+  animation: shieldPulse 3.5s ease-in-out infinite;
+  box-shadow: 0 0 60px rgba(99,102,241,0.15);
+}
+@keyframes shieldPulse { 0%,100% { transform: scale(1); box-shadow: 0 0 60px rgba(99,102,241,0.15); } 50% { transform: scale(1.04); box-shadow: 0 0 90px rgba(99,102,241,0.28); } }
+
+/* floating cert cards */
+.cert-card {
+  position: absolute; z-index: 3;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; color: var(--text-primary);
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.cert-card-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cert-card:nth-child(1) { top: 30px; left: -20px; animation: floatCard1 5s ease-in-out infinite; }
+.cert-card:nth-child(2) { top: 30px; right: -20px; animation: floatCard2 6s ease-in-out infinite 1s; }
+.cert-card:nth-child(3) { bottom: 60px; left: -30px; animation: floatCard1 7s ease-in-out infinite 0.5s; }
+.cert-card:nth-child(4) { bottom: 60px; right: -30px; animation: floatCard2 5.5s ease-in-out infinite 1.5s; }
+@keyframes floatCard1 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes floatCard2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+/* scanning line animation */
+.scan-line {
+  position: absolute; inset: 0; border-radius: var(--radius-xl);
+  overflow: hidden; pointer-events: none; z-index: 1;
+}
+.scan-line::after {
+  content: '';
+  position: absolute; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), rgba(6,182,212,0.5), transparent);
+  animation: scanMove 3s ease-in-out infinite;
+}
+@keyframes scanMove {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ===================== AOS ANIMATIONS ===================== */
+.aos { opacity:0; transform: translateY(42px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos.visible { opacity:1; transform: translateY(0); }
+.aos-left { opacity:0; transform: translateX(-52px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos-left.visible { opacity:1; transform: translateX(0); }
+.aos-right { opacity:0; transform: translateX(52px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos-right.visible { opacity:1; transform: translateX(0); }
+.aos-scale { opacity:0; transform: scale(0.84); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
+.aos-scale.visible { opacity:1; transform: scale(1); }
+.d1 { transition-delay: 0.1s !important; } .d2 { transition-delay: 0.2s !important; }
+.d3 { transition-delay: 0.3s !important; } .d4 { transition-delay: 0.4s !important; }
+.d5 { transition-delay: 0.5s !important; } .d6 { transition-delay: 0.6s !important; }
+
+/* ===================== SECTION STYLES ===================== */
+.section { padding: 100px clamp(16px,3vw,48px); max-width: 1380px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(99,102,241,0.09); border: 1px solid rgba(99,102,241,0.15); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 20px; letter-spacing: 0.02em; }
+.section-label svg { color: var(--accent-light); }
+.section-title { font-size: clamp(30px, 4vw, 50px); font-weight: 800; line-height: 1.12; margin-bottom: 16px; letter-spacing: -0.025em; }
+.section-subtitle { font-size: 18px; color: var(--text-secondary); max-width: 640px; margin: 0 auto; line-height: 1.72; }
+
+/* ===================== MARQUEE ===================== */
+.marquee-wrapper { position: relative; padding: 22px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-secondary); }
+.marquee-wrapper::before, .marquee-wrapper::after { content:''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 2; }
+.marquee-wrapper::before { left: 0; background: linear-gradient(to right, var(--bg-secondary), transparent); }
+.marquee-wrapper::after { right: 0; background: linear-gradient(to left, var(--bg-secondary), transparent); }
+.marquee-track { display: flex; gap: 48px; animation: marqueeSpin 38s linear infinite; width: max-content; }
+@keyframes marqueeSpin { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.mq-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+.mq-item svg { color: var(--accent-light); flex-shrink: 0; }
+.mq-div { color: var(--border-light); font-size: 18px; opacity: 0.35; }
+
+/* ===================== PILLAR CARDS ===================== */
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+}
+.pillar-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 36px;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  position: relative; overflow: hidden; cursor: default;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.pillar-card::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.3s ease; }
+.pillar-card.p-purple::before { background: var(--gradient-1); }
+.pillar-card.p-green::before  { background: linear-gradient(135deg,#10b981,#06b6d4); }
+.pillar-card.p-orange::before { background: linear-gradient(135deg,#f59e0b,#ef4444); }
+.pillar-card.p-pink::before   { background: var(--gradient-2); }
+.pillar-card.p-cyan::before   { background: var(--gradient-3); }
+.pillar-card.p-red::before    { background: var(--gradient-4); }
+.pillar-card:hover { border-color: var(--border-light); transform: translateY(-7px); box-shadow: var(--shadow-glow); }
+.pillar-card:hover::before { opacity: 1; }
+.pillar-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.35s ease; flex-shrink: 0;
+}
+.pillar-card:hover .pillar-icon { transform: scale(1.12) rotate(-6deg); }
+.pi-purple { background: rgba(99,102,241,0.15); color: var(--accent-light); }
+.pi-green  { background: rgba(16,185,129,0.15); color: var(--green); }
+.pi-orange { background: rgba(245,158,11,0.15); color: var(--orange); }
+.pi-pink   { background: rgba(236,72,153,0.15); color: var(--pink); }
+.pi-cyan   { background: rgba(6,182,212,0.15);  color: var(--cyan); }
+.pi-red    { background: rgba(239,68,68,0.15);  color: var(--red); }
+.pillar-card h3 { font-size: 19px; font-weight: 700; transition: color 0.3s ease; }
+.pillar-card:hover h3 { color: var(--accent-light); }
+.pillar-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.72; flex: 1; }
+.pillar-detail { font-size: 12px; color: var(--text-muted); padding-top: 14px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
+
+/* ===================== DEEP DIVE SPLIT ===================== */
+.deepdive-wrap { padding: 100px clamp(16px,3vw,48px); background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.deepdive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1380px; margin: 0 auto; }
+
+.deepdive-visual {
+  position: relative; height: 460px;
+  display: flex; align-items: center; justify-content: center;
+}
+.encrypt-flow {
+  width: 100%; max-width: 380px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); overflow: hidden;
+}
+.encrypt-header {
+  background: var(--bg-secondary); border-bottom: 1px solid var(--border);
+  padding: 14px 20px; display: flex; align-items: center; gap: 8px;
+}
+.encrypt-header-dot { width: 9px; height: 9px; border-radius: 50%; }
+.encrypt-header-dot:nth-child(1) { background: var(--red); }
+.encrypt-header-dot:nth-child(2) { background: var(--orange); }
+.encrypt-header-dot:nth-child(3) { background: var(--green); }
+.encrypt-header-title { font-size: 12px; color: var(--text-muted); margin-left: auto; margin-right: auto; font-family: var(--font-display); font-weight: 600; }
+
+.encrypt-step {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  opacity: 0; animation: stepFadeIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.encrypt-step:last-child { border-bottom: none; }
+.encrypt-step:nth-child(2) { animation-delay: 0.5s; }
+.encrypt-step:nth-child(3) { animation-delay: 1.0s; }
+.encrypt-step:nth-child(4) { animation-delay: 1.5s; }
+.encrypt-step:nth-child(5) { animation-delay: 2.0s; }
+.encrypt-step:nth-child(6) { animation-delay: 2.5s; }
+@keyframes stepFadeIn { from { opacity:0; transform: translateX(16px); } to { opacity:1; transform: translateX(0); } }
+
+.step-num-badge {
+  width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 11px; font-weight: 700;
+}
+.step-info { flex: 1; min-width: 0; }
+.step-info-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+.step-info-sub { font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.step-status { flex-shrink: 0; }
+
+.deepdive-content h2 { font-size: clamp(28px,3.5vw,42px); font-weight: 800; line-height: 1.18; margin-bottom: 18px; }
+.deepdive-content > p { font-size: 16px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 32px; }
+.deepdive-features { display: flex; flex-direction: column; gap: 14px; }
+.df-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); transition: all 0.3s ease; cursor: default; }
+.df-item:hover { border-color: var(--accent); transform: translateX(9px); box-shadow: var(--shadow-glow); }
+.df-icon { width: 32px; height: 32px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.df-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.df-text p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ===================== COMPLIANCE GRID ===================== */
+.compliance-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+.comp-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 28px;
+  transition: all 0.4s ease; cursor: default; position: relative; overflow: hidden;
+}
+.comp-card::after { content:''; position: absolute; inset: 0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(99,102,241,0.05) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.comp-card:hover::after { opacity: 1; }
+.comp-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-glow); border-color: var(--border-light); }
+.comp-logo {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px; font-family: var(--font-display); font-size: 11px; font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.comp-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.comp-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.68; }
+.comp-badge { display: inline-flex; align-items: center; gap: 5px; margin-top: 14px; padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; }
+.comp-badge-green { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+.comp-badge-cyan  { background: rgba(6,182,212,0.12);  color: var(--cyan);  border: 1px solid rgba(6,182,212,0.2); }
+.comp-badge-purple{ background: rgba(99,102,241,0.12); color: var(--accent-light); border: 1px solid rgba(99,102,241,0.2); }
+.comp-badge-orange{ background: rgba(245,158,11,0.12); color: var(--orange); border: 1px solid rgba(245,158,11,0.2); }
+
+/* ===================== THREAT SECTION ===================== */
+.threat-wrap { padding: 100px clamp(16px,3vw,48px); background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.threat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1380px; margin: 0 auto; }
+.threat-items { display: flex; flex-direction: column; gap: 16px; }
+.threat-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 20px; border-radius: var(--radius); border: 1px solid transparent;
+  transition: all 0.3s ease; cursor: default;
+}
+.threat-item:hover { background: var(--bg-card); border-color: var(--border); transform: translateX(8px); }
+.threat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.threat-item h4 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+.threat-item p  { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+.threat-visual {
+  position: relative; height: 420px;
+  display: flex; align-items: center; justify-content: center;
+}
+.radar-wrap { position: relative; width: 300px; height: 300px; }
+.radar-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(99,102,241,0.15); top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+.radar-ring:nth-child(1) { width: 300px; height: 300px; border-color: rgba(99,102,241,0.1); }
+.radar-ring:nth-child(2) { width: 200px; height: 200px; border-color: rgba(99,102,241,0.16); }
+.radar-ring:nth-child(3) { width: 100px; height: 100px; border-color: rgba(99,102,241,0.25); }
+.radar-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(16,185,129,0.2); border: 1px solid var(--green);
+  display: flex; align-items: center; justify-content: center; color: var(--green);
+  animation: shieldPulse 2.5s ease-in-out infinite;
+}
+.radar-sweep {
+  position: absolute; top: 50%; left: 50%;
+  width: 150px; height: 2px;
+  background: linear-gradient(90deg, rgba(99,102,241,0.8), transparent);
+  transform-origin: left center;
+  animation: radarSweep 3s linear infinite;
+}
+@keyframes radarSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.radar-blip {
+  position: absolute; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 10px var(--green);
+  animation: blipPulse 2s ease-in-out infinite;
+}
+@keyframes blipPulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.3; transform: scale(1.4); } }
+.radar-blip:nth-child(5)  { top: 25%;  left: 72%; animation-delay: 0s;   }
+.radar-blip:nth-child(6)  { top: 60%;  left: 20%; animation-delay: 0.7s; background: var(--red); box-shadow: 0 0 10px var(--red); }
+.radar-blip:nth-child(7)  { top: 78%;  left: 58%; animation-delay: 1.4s; }
+.radar-blip:nth-child(8)  { top: 18%;  left: 38%; animation-delay: 2.1s; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+
+/* ===================== STATS BAR ===================== */
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; }
+.stat-card::before { content:''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gradient-1); transform: scaleX(0); transition: transform 0.4s ease; }
+.stat-card:hover::before { transform: scaleX(1); }
+.stat-card:hover { transform: translateY(-7px); box-shadow: var(--shadow-glow); }
+.stat-num { font-family: var(--font-display); font-size: 42px; font-weight: 900; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+.stat-lbl { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+
+/* ===================== FAQ ===================== */
+.faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.faq-question {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; background: none; cursor: pointer;
+  font-family: var(--font-display); font-size: 15px; font-weight: 600;
+  color: var(--text-primary); text-align: left; transition: background 0.2s ease;
+  border: none;
+}
+.faq-question:hover { background: var(--bg-card-hover); }
+.faq-icon {
+  width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px;
+  background: var(--bg-secondary); display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(99,102,241,0.15); color: var(--accent-light); }
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  padding: 0 24px;
+}
+.faq-answer p { padding-bottom: 22px; font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
+.faq-item.open .faq-answer { max-height: 300px; }
+
+/* ===================== CTA ===================== */
+.cta-box { max-width: 860px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 72px 48px; position: relative; overflow: hidden; text-align: center; }
+.cta-box::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-1); }
+.cta-box::after { content:''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 420px; height: 220px; background: radial-gradient(ellipse, rgba(99,102,241,0.09) 0%, transparent 70%); pointer-events: none; }
+.cta-box h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; margin-bottom: 16px; position: relative; z-index: 1; }
+.cta-box p { font-size: 17px; color: var(--text-secondary); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; line-height: 1.7; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; z-index: 1; flex-wrap: wrap; }
+
+/* ===================== FOOTER ===================== */
+.footer { border-top: 1px solid var(--border); padding: 64px clamp(16px,3vw,48px) 32px; max-width: 1380px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.72; margin-top: 12px; max-width: 300px; }
+.footer-col h4 { font-family: var(--font-display); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px; }
+.footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 14px; padding: 6px 0; transition: all 0.2s ease; }
+.footer-col a:hover { color: var(--accent-light); transform: translateX(4px); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); flex-wrap: wrap; gap: 16px; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s ease; }
+.footer-social a:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
+.footer-social a svg { width: 16px; height: 16px; }
+
+/* ===================== TOAST & RIPPLE ===================== */
+.toast { position: fixed; bottom: 28px; right: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 15px 22px; display: flex; align-items: center; gap: 12px; box-shadow: 0 12px 44px rgba(0,0,0,0.55); z-index: 9999; animation: toastIn 0.5s cubic-bezier(0.16,1,0.3,1); font-size: 14px; font-weight: 500; }
+@keyframes toastIn { from { opacity:0; transform: translateY(32px) scale(0.94); } to { opacity:1; transform: translateY(0) scale(1); } }
+.toast.success { border-left: 3px solid var(--green); }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.18); animation: rippleA 0.65s ease-out; pointer-events: none; }
+@keyframes rippleA { 0% { transform: scale(0); opacity:1; } 100% { transform: scale(4.5); opacity:0; } }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 1024px) {
+  .hero-content { grid-template-columns: 1fr; gap: 48px; }
+  .hero-preview { max-width: 500px; width: 100%; }
+  .pillars-grid { grid-template-columns: repeat(2,1fr); }
+  .deepdive-grid { grid-template-columns: 1fr; gap: 48px; }
+  .threat-grid { grid-template-columns: 1fr; }
+  .compliance-grid { grid-template-columns: repeat(2,1fr); }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { grid-template-columns: repeat(3,1fr); }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; }
+  .navbar-links, .navbar-actions .nav-btn-ghost { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .hero { padding: 100px 16px 60px; }
+  .section { padding: 60px 16px; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .compliance-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .cta-box { padding: 40px 24px; }
+  .shield-hero { width: 100%; height: 360px; }
+  .cert-card { display: none; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
+  <div class="loader">
+    <div class="loader-icon" aria-hidden="true">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div class="loader-text" data-i18n="loader_text">Loading Security</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
+    <div class="navbar-logo-icon" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+    </div>
+    <span>thepost.space</span>
+  </a>
+
+  <div class="navbar-links" role="menubar">
+    <a href="solutions.html" role="menuitem" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" class="active" role="menuitem" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" role="menuitem" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" role="menuitem" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" role="menuitem" data-i18n="nav_about">About</a>
+    <a href="blog.html" role="menuitem" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" role="menuitem" data-i18n="nav_contact">Contact</a>
+  </div>
+
+  <div class="navbar-actions">
+    <div class="lang-switch" role="group" aria-label="Language selection">
+      <button class="lang-btn active" id="langEn" onclick="switchLang('en')" aria-pressed="true">EN</button>
+      <button class="lang-btn" id="langRu" onclick="switchLang('ru')" aria-pressed="false">RU</button>
+    </div>
+    <a class="nav-btn nav-btn-ghost" href="help.html" data-i18n="nav_help">Help</a>
+    <a class="nav-btn nav-btn-primary" href="contact.html" data-i18n="nav_cta">Early Access</a>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
+  <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+  <a href="security.html" data-i18n="nav_security">Security</a>
+  <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+  <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+  <a href="about.html" data-i18n="nav_about">About</a>
+  <a href="blog.html" data-i18n="nav_blog">Blog</a>
+  <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  <a href="help.html" data-i18n="nav_help">Help Center</a>
+  <div class="mobile-menu-actions">
+    <a class="btn btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_cta">Request Early Access</a>
+  </div>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-particles" id="heroParticles"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge" aria-label="Security status">
+        <span class="badge-dot" aria-hidden="true"></span>
+        <span data-i18n="sec_badge">Security-first architecture</span>
+      </div>
+      <h1 id="heroTitle">
+        <span class="line" data-i18n="sec_h1_1">Your privacy is</span>
+        <span class="line"><span class="gradient-text" data-i18n="sec_h1_2">non-negotiable.</span></span>
+      </h1>
+      <p class="hero-desc" data-i18n="sec_hero_desc">
+        ThePost.Space was built with security as a foundation, not an afterthought. End-to-end encryption, zero-knowledge architecture, and full regulatory compliance — so your data stays yours, always.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="contact.html" data-i18n="sec_cta_primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <span data-i18n="sec_cta_primary">Request Early Access</span>
+        </a>
+        <a class="btn btn-secondary" href="#deepdive" data-i18n="sec_cta_secondary">Read the whitepaper</a>
+      </div>
+      <div class="hero-trust" aria-label="Certifications">
+        <div class="trust-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          SOC 2 Type II
+        </div>
+        <div class="trust-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          GDPR Compliant
+        </div>
+        <div class="trust-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          256-bit AES
+        </div>
+      </div>
+    </div>
+
+    <!-- Shield visual -->
+    <div class="hero-preview" aria-hidden="true">
+      <div class="shield-hero">
+        <div class="shield-hero-bg">
+          <div class="scan-line"></div>
+        </div>
+
+        <!-- Floating cert cards -->
+        <div class="cert-card">
+          <span class="cert-card-dot" style="background:var(--green)"></span>
+          SOC 2 Type II
+        </div>
+        <div class="cert-card">
+          <span class="cert-card-dot" style="background:var(--cyan)"></span>
+          ISO 27001
+        </div>
+        <div class="cert-card">
+          <span class="cert-card-dot" style="background:var(--accent-light)"></span>
+          GDPR Ready
+        </div>
+        <div class="cert-card">
+          <span class="cert-card-dot" style="background:var(--orange)"></span>
+          CCPA Ready
+        </div>
+
+        <!-- Shield center -->
+        <div class="shield-center">
+          <div class="shield-ring-outer"></div>
+          <div class="shield-ring-mid"></div>
+          <div class="shield-icon-wrap">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent-light)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MARQUEE ==================== -->
+<div class="marquee-wrapper" aria-hidden="true" role="presentation">
+  <div class="marquee-track">
+    <!-- set 1 -->
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>End-to-End Encryption</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Zero-Knowledge Architecture</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>SOC 2 Type II Certified</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>GDPR &amp; CCPA Compliant</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg>256-bit AES Encryption</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2z"/></svg>24/7 Security Monitoring</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Real-time Threat Detection</div>
+    <div class="mq-div">·</div>
+    <!-- set 2 (duplicate for seamless loop) -->
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>End-to-End Encryption</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Zero-Knowledge Architecture</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>SOC 2 Type II Certified</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>GDPR &amp; CCPA Compliant</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/></svg>256-bit AES Encryption</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07"/></svg>24/7 Security Monitoring</div>
+    <div class="mq-div">·</div>
+    <div class="mq-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Real-time Threat Detection</div>
+    <div class="mq-div">·</div>
+  </div>
+</div>
+
+<!-- ==================== SECURITY PILLARS ==================== -->
+<section class="section" aria-labelledby="pillarsTitle">
+  <div class="section-header">
+    <div class="section-label aos" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span data-i18n="pillars_label">Security Pillars</span>
+    </div>
+    <h2 id="pillarsTitle" class="section-title aos d1" data-i18n="pillars_title">Six layers of protection</h2>
+    <p class="section-subtitle aos d2" data-i18n="pillars_sub">Every aspect of ThePost.Space is engineered around your security. From the code we write to the infrastructure we run.</p>
+  </div>
+
+  <div class="pillars-grid">
+    <!-- E2E Encryption -->
+    <div class="pillar-card p-purple aos d1">
+      <div class="pillar-icon pi-purple" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <h3 data-i18n="p1_t">End-to-End Encryption</h3>
+      <p data-i18n="p1_d">Every message is encrypted on your device before transmission. We use AES-256 combined with RSA-4096 key exchange — the same standard trusted by governments and financial institutions.</p>
+      <div class="pillar-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="p1_detail">AES-256 + RSA-4096</span>
+      </div>
+    </div>
+
+    <!-- Zero Knowledge -->
+    <div class="pillar-card p-green aos d2">
+      <div class="pillar-icon pi-green" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      </div>
+      <h3 data-i18n="p2_t">Zero-Knowledge Design</h3>
+      <p data-i18n="p2_d">We never have access to your encryption keys. Your private key is generated on your device and never leaves it. Even our engineers cannot read your messages — this is a technical guarantee, not a policy.</p>
+      <div class="pillar-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="p2_detail">Keys never leave your device</span>
+      </div>
+    </div>
+
+    <!-- Infra Security -->
+    <div class="pillar-card p-cyan aos d3">
+      <div class="pillar-icon pi-cyan" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+      </div>
+      <h3 data-i18n="p3_t">Hardened Infrastructure</h3>
+      <p data-i18n="p3_d">Our servers run in ISO 27001-certified data centres with physical access controls, network segmentation, and 24/7 intrusion detection. All data is replicated across geographically separated regions.</p>
+      <div class="pillar-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="p3_detail">ISO 27001-certified DCs</span>
+      </div>
+    </div>
+
+    <!-- Spam & Phishing -->
+    <div class="pillar-card p-orange aos d4">
+      <div class="pillar-icon pi-orange" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h3 data-i18n="p4_t">Threat Protection</h3>
+      <p data-i18n="p4_d">Our AI-powered filters block spam, phishing links, and malware attachments with 99.7% accuracy — before they ever reach your inbox. Threat models are updated continuously in real time.</p>
+      <div class="pillar-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="p4_detail">99.7% spam &amp; phishing block rate</span>
+      </div>
+    </div>
+
+    <!-- Access Control -->
+    <div class="pillar-card p-pink aos d5">
+      <div class="pillar-icon pi-pink" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="18" y1="11" x2="22" y2="15"/><line x1="22" y1="11" x2="18" y2="15"/></svg>
+      </div>
+      <h3 data-i18n="p5_t">Access Control</h3>
+      <p data-i18n="p5_d">Multi-factor authentication, hardware security key support (FIDO2/WebAuthn), session management, and granular team permission controls. You decide exactly who sees what.</p>
+      <div class="pillar-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="p5_detail">FIDO2 / WebAuthn / MFA</span>
+      </div>
+    </div>
+
+    <!-- Audit Logs -->
+    <div class="pillar-card p-red aos d6">
+      <div class="pillar-icon pi-red" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <h3 data-i18n="p6_t">Audit Logs</h3>
+      <p data-i18n="p6_d">Every login, file access, and administrative action is recorded in tamper-proof audit logs. Exportable for compliance reviews, SIEM integration, and forensic investigations.</p>
+      <div class="pillar-detail">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="p6_detail">Tamper-proof, exportable logs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DEEP DIVE: ENCRYPTION ==================== -->
+<div class="deepdive-wrap" id="deepdive">
+  <div class="deepdive-grid">
+    <!-- Animated encryption flow mockup -->
+    <div class="deepdive-visual aos-left">
+      <div class="encrypt-flow">
+        <div class="encrypt-header" aria-hidden="true">
+          <span class="encrypt-header-dot"></span>
+          <span class="encrypt-header-dot"></span>
+          <span class="encrypt-header-dot"></span>
+          <span class="encrypt-header-title">Encryption Flow</span>
+        </div>
+
+        <div class="encrypt-step">
+          <div class="step-num-badge" style="background:rgba(99,102,241,0.15);color:var(--accent-light);">01</div>
+          <div class="step-info">
+            <div class="step-info-title" data-i18n="ef1_t">Message composed</div>
+            <div class="step-info-sub">plaintext → local memory only</div>
+          </div>
+          <div class="step-status"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="color:var(--green)"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </div>
+
+        <div class="encrypt-step">
+          <div class="step-num-badge" style="background:rgba(16,185,129,0.15);color:var(--green);">02</div>
+          <div class="step-info">
+            <div class="step-info-title" data-i18n="ef2_t">AES-256 encryption</div>
+            <div class="step-info-sub">U2FsdGVkX1+9k3f… (ciphertext)</div>
+          </div>
+          <div class="step-status"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="color:var(--green)"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </div>
+
+        <div class="encrypt-step">
+          <div class="step-num-badge" style="background:rgba(6,182,212,0.15);color:var(--cyan);">03</div>
+          <div class="step-info">
+            <div class="step-info-title" data-i18n="ef3_t">RSA-4096 key exchange</div>
+            <div class="step-info-sub">recipient's public key used</div>
+          </div>
+          <div class="step-status"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="color:var(--green)"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </div>
+
+        <div class="encrypt-step">
+          <div class="step-num-badge" style="background:rgba(245,158,11,0.15);color:var(--orange);">04</div>
+          <div class="step-info">
+            <div class="step-info-title" data-i18n="ef4_t">TLS 1.3 transit</div>
+            <div class="step-info-sub">HSTS enforced, MITM-proof</div>
+          </div>
+          <div class="step-status"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="color:var(--green)"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </div>
+
+        <div class="encrypt-step">
+          <div class="step-num-badge" style="background:rgba(236,72,153,0.15);color:var(--pink);">05</div>
+          <div class="step-info">
+            <div class="step-info-title" data-i18n="ef5_t">Stored encrypted-at-rest</div>
+            <div class="step-info-sub">even DB admins see ciphertext</div>
+          </div>
+          <div class="step-status"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="color:var(--green)"><polyline points="20 6 9 17 4 12"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="deepdive-content aos-right">
+      <div class="section-label" style="margin-bottom:20px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <span data-i18n="deepdive_label">How encryption works</span>
+      </div>
+      <h2 data-i18n="deepdive_title">Your message, <span class="gradient-text">always private</span></h2>
+      <p data-i18n="deepdive_desc">From the moment you hit send, your message is encrypted on-device. Our servers only ever see ciphertext — mathematically impossible to read without the recipient's private key. Not even a court order changes that.</p>
+
+      <div class="deepdive-features">
+        <div class="df-item">
+          <div class="df-icon" style="background:rgba(99,102,241,0.15);" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="df-text">
+            <h4 data-i18n="dd1_t">Perfect Forward Secrecy</h4>
+            <p data-i18n="dd1_d">New encryption keys generated for every session. Past messages stay secure even if keys are ever compromised.</p>
+          </div>
+        </div>
+        <div class="df-item">
+          <div class="df-icon" style="background:rgba(16,185,129,0.15);" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="df-text">
+            <h4 data-i18n="dd2_t">Open Source Cryptography</h4>
+            <p data-i18n="dd2_d">We use battle-tested, open-source cryptographic primitives. No proprietary algorithms — our implementation is auditable by anyone.</p>
+          </div>
+        </div>
+        <div class="df-item">
+          <div class="df-icon" style="background:rgba(6,182,212,0.15);" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="df-text">
+            <h4 data-i18n="dd3_t">Independent Audits</h4>
+            <p data-i18n="dd3_d">Our cryptographic implementation is independently audited annually by third-party security firms. Full reports are publicly available.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STATS ==================== -->
+<section class="section" aria-label="Security statistics">
+  <div class="stats-grid" role="list">
+    <div class="stat-card aos d1" role="listitem">
+      <div class="stat-num" data-i18n="ss1_num">256-bit</div>
+      <div class="stat-lbl" data-i18n="ss1_lbl">AES Encryption Standard</div>
+    </div>
+    <div class="stat-card aos d2" role="listitem">
+      <div class="stat-num" data-i18n="ss2_num">99.7%</div>
+      <div class="stat-lbl" data-i18n="ss2_lbl">Spam &amp; Phishing Block Rate</div>
+    </div>
+    <div class="stat-card aos d3" role="listitem">
+      <div class="stat-num" data-i18n="ss3_num">0</div>
+      <div class="stat-lbl" data-i18n="ss3_lbl">Data Breaches Since Launch</div>
+    </div>
+    <div class="stat-card aos d4" role="listitem">
+      <div class="stat-num" data-i18n="ss4_num">24/7</div>
+      <div class="stat-lbl" data-i18n="ss4_lbl">Security Operations Centre</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COMPLIANCE ==================== -->
+<section class="section" aria-labelledby="complianceTitle">
+  <div class="section-header">
+    <div class="section-label aos">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+      <span data-i18n="comp_label">Compliance &amp; Certifications</span>
+    </div>
+    <h2 id="complianceTitle" class="section-title aos d1" data-i18n="comp_title">Certified across every standard</h2>
+    <p class="section-subtitle aos d2" data-i18n="comp_sub">We don't just claim compliance — we prove it with independent audits and public documentation.</p>
+  </div>
+
+  <div class="compliance-grid">
+    <div class="comp-card aos d1">
+      <div class="comp-logo" style="background:rgba(16,185,129,0.15);color:var(--green);">SOC2</div>
+      <h3 data-i18n="cert1_t">SOC 2 Type II</h3>
+      <p data-i18n="cert1_d">Independently audited by a Big Four firm. Covers security, availability, processing integrity, confidentiality, and privacy of customer data. Re-audited annually.</p>
+      <div class="comp-badge comp-badge-green">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="cert_certified">Certified</span>
+      </div>
+    </div>
+
+    <div class="comp-card aos d2">
+      <div class="comp-logo" style="background:rgba(6,182,212,0.15);color:var(--cyan);">GDPR</div>
+      <h3 data-i18n="cert2_t">GDPR Compliance</h3>
+      <p data-i18n="cert2_d">Full compliance with the EU General Data Protection Regulation. Data processing agreements available. EU users' data stays within the EU by default. DPA available on request.</p>
+      <div class="comp-badge comp-badge-cyan">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="cert_compliant">Compliant</span>
+      </div>
+    </div>
+
+    <div class="comp-card aos d3">
+      <div class="comp-logo" style="background:rgba(99,102,241,0.15);color:var(--accent-light);">CCPA</div>
+      <h3 data-i18n="cert3_t">CCPA Compliance</h3>
+      <p data-i18n="cert3_d">Full compliance with the California Consumer Privacy Act. California residents have the right to access, delete, and opt out of the sale of their personal information. Always honoured.</p>
+      <div class="comp-badge comp-badge-purple">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="cert_compliant">Compliant</span>
+      </div>
+    </div>
+
+    <div class="comp-card aos d4">
+      <div class="comp-logo" style="background:rgba(245,158,11,0.15);color:var(--orange);">ISO</div>
+      <h3 data-i18n="cert4_t">ISO 27001</h3>
+      <p data-i18n="cert4_d">Our information security management system is certified to ISO/IEC 27001:2022 — the international gold standard for information security. Covers our entire product and infrastructure.</p>
+      <div class="comp-badge comp-badge-orange">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        <span data-i18n="cert_certified">Certified</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== THREAT PROTECTION ==================== -->
+<div class="threat-wrap" aria-labelledby="threatTitle">
+  <div class="threat-grid">
+    <div class="aos-left">
+      <div class="section-label" style="margin-bottom:20px;display:inline-flex;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span data-i18n="threat_label">Active Protection</span>
+      </div>
+      <h2 id="threatTitle" style="font-size:clamp(28px,3.5vw,44px);font-weight:800;line-height:1.18;margin-bottom:18px;" data-i18n="threat_title">Threats stopped <span class="gradient-text">before they reach you</span></h2>
+      <p style="font-size:16px;color:var(--text-secondary);line-height:1.75;margin-bottom:36px;" data-i18n="threat_desc">Our multi-layered threat intelligence system analyses billions of data points daily. Every suspicious pattern is blocked in real time — with zero false positive impact on legitimate mail.</p>
+      <div class="threat-items">
+        <div class="threat-item">
+          <div class="threat-icon" style="background:rgba(239,68,68,0.15);" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div>
+            <h4 data-i18n="th1_t">Phishing &amp; Spoofing Detection</h4>
+            <p data-i18n="th1_d">AI-powered analysis of sender reputation, domain age, link patterns, and content to catch even the most sophisticated phishing attempts.</p>
+          </div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-icon" style="background:rgba(245,158,11,0.15);" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"><path d="M4 14.899A7 7 0 1115.71 8h1.79a4.5 4.5 0 012.5 8.242"/><path d="M12 12v9"/><path d="M8 17l4-4 4 4"/></svg>
+          </div>
+          <div>
+            <h4 data-i18n="th2_t">Malware &amp; Attachment Scanning</h4>
+            <p data-i18n="th2_d">Every attachment is scanned in a sandboxed environment using multiple antivirus engines before delivery. Macros and executables are blocked by default.</p>
+          </div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-icon" style="background:rgba(99,102,241,0.15);" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-light)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7a2 2 0 011.72 2z"/></svg>
+          </div>
+          <div>
+            <h4 data-i18n="th3_t">DDoS &amp; Abuse Prevention</h4>
+            <p data-i18n="th3_d">Rate limiting, geo-based anomaly detection, and automatic DDoS mitigation ensure your service stays online even under heavy attack conditions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Radar visual -->
+    <div class="threat-visual aos-right" aria-hidden="true">
+      <div class="radar-wrap">
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div class="radar-sweep"></div>
+        <div class="radar-blip"></div>
+        <div class="radar-blip"></div>
+        <div class="radar-blip"></div>
+        <div class="radar-blip"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FAQ ==================== -->
+<section class="section" aria-labelledby="faqTitle">
+  <div class="section-header">
+    <div class="section-label aos">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span data-i18n="faq_label">FAQ</span>
+    </div>
+    <h2 id="faqTitle" class="section-title aos d1" data-i18n="faq_title">Security questions, answered</h2>
+    <p class="section-subtitle aos d2" data-i18n="faq_sub">Transparency is part of our security model. Here are the questions we get asked most.</p>
+  </div>
+
+  <div class="faq-list aos d2">
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span data-i18n="faq1_q">Can ThePost.Space employees read my messages?</span>
+        <span class="faq-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      </button>
+      <div class="faq-answer" role="region"><p data-i18n="faq1_a">No — technically impossible. Your private key never leaves your device. Our servers only store ciphertext. Even with full database access, no employee can decrypt your messages.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span data-i18n="faq2_q">What happens if I lose my private key?</span>
+        <span class="faq-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      </button>
+      <div class="faq-answer" role="region"><p data-i18n="faq2_a">We provide secure, encrypted key backup during setup — protected by your master password. You can also store a recovery key in an external password manager. Without a backup, past messages cannot be recovered, which is intentional.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span data-i18n="faq3_q">Are messages encrypted when sent to non-ThePost users?</span>
+        <span class="faq-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      </button>
+      <div class="faq-answer" role="region"><p data-i18n="faq3_a">Messages to external email addresses are secured with TLS in transit (preventing third-party interception), but cannot use end-to-end encryption as the external server controls the destination keys. We clearly label this distinction in the interface.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span data-i18n="faq4_q">Has ThePost.Space ever received a government data request?</span>
+        <span class="faq-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      </button>
+      <div class="faq-answer" role="region"><p data-i18n="faq4_a">We publish a transparency report. Even if we receive a legally valid request, the only data we can provide is metadata — we have no ability to hand over message content since we don't possess the keys to decrypt it.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        <span data-i18n="faq5_q">Where is my data physically stored?</span>
+        <span class="faq-icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+      </button>
+      <div class="faq-answer" role="region"><p data-i18n="faq5_a">EU user data is stored exclusively in ISO 27001-certified data centres within the EU (Frankfurt and Amsterdam). Users can choose their preferred region. Data is never transferred outside your chosen jurisdiction without explicit consent.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section style="padding: 0 clamp(16px,3vw,48px) 100px;" aria-labelledby="ctaTitle">
+  <div class="cta-box aos-scale">
+    <h2 id="ctaTitle" data-i18n="cta_t">Security you can verify, not just trust</h2>
+    <p data-i18n="cta_d">Join ThePost.Space early access and experience email that's private by design. All audit reports and cryptographic specifications are publicly available.</p>
+    <div class="cta-actions">
+      <a class="btn btn-primary" href="contact.html" data-i18n="cta_btn1">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        Request Early Access
+      </a>
+      <a class="btn btn-secondary" href="#" data-i18n="cta_btn2">View Security Whitepaper</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="navbar-logo" href="index.html" style="display:inline-flex;" aria-label="ThePost.Space homepage">
+        <div class="navbar-logo-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+        </div>
+        <span>thepost.space</span>
+      </a>
+      <p data-i18n="foot_desc">Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="foot_prod">Product</h4>
+      <a href="solutions.html" data-i18n="foot_solutions">Solutions</a>
+      <a href="security.html" data-i18n="foot_security">Security</a>
+      <a href="pricing.html" data-i18n="foot_pricing">Pricing</a>
+      <a href="integrations.html" data-i18n="foot_integrations">Integrations</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="foot_comp">Company</h4>
+      <a href="about.html" data-i18n="foot_about">About</a>
+      <a href="blog.html" data-i18n="foot_blog">Blog</a>
+      <a href="contact.html" data-i18n="foot_contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="foot_sup">Support</h4>
+      <a href="help.html" data-i18n="foot_help">Help Center</a>
+      <a href="help.html" data-i18n="foot_api">API Docs</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="foot_legal">Legal</h4>
+      <a href="privacy.html" data-i18n="foot_priv">Privacy Policy</a>
+      <a href="terms.html" data-i18n="foot_terms">Terms of Service</a>
+      <a href="cookies.html" data-i18n="foot_cookies">Cookie Policy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ThePost.Space. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="#" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="#" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+'use strict';
+
+/* ===== TRANSLATIONS ===== */
+const T = {
+  en: {
+    loader_text: 'Loading Security',
+    nav_solutions: 'Solutions', nav_security: 'Security', nav_pricing: 'Pricing',
+    nav_integrations: 'Integrations', nav_about: 'About', nav_blog: 'Blog',
+    nav_contact: 'Contact', nav_help: 'Help', nav_cta: 'Early Access',
+
+    sec_badge: 'Security-first architecture',
+    sec_h1_1: 'Your privacy is',
+    sec_h1_2: 'non-negotiable.',
+    sec_hero_desc: 'ThePost.Space was built with security as a foundation, not an afterthought. End-to-end encryption, zero-knowledge architecture, and full regulatory compliance — so your data stays yours, always.',
+    sec_cta_primary: 'Request Early Access',
+    sec_cta_secondary: 'Read the whitepaper',
+
+    pillars_label: 'Security Pillars',
+    pillars_title: 'Six layers of protection',
+    pillars_sub: 'Every aspect of ThePost.Space is engineered around your security. From the code we write to the infrastructure we run.',
+
+    p1_t: 'End-to-End Encryption', p1_d: 'Every message is encrypted on your device before transmission. We use AES-256 combined with RSA-4096 key exchange — the same standard trusted by governments and financial institutions.', p1_detail: 'AES-256 + RSA-4096',
+    p2_t: 'Zero-Knowledge Design', p2_d: 'We never have access to your encryption keys. Your private key is generated on your device and never leaves it. Even our engineers cannot read your messages — this is a technical guarantee, not a policy.', p2_detail: 'Keys never leave your device',
+    p3_t: 'Hardened Infrastructure', p3_d: 'Our servers run in ISO 27001-certified data centres with physical access controls, network segmentation, and 24/7 intrusion detection. All data is replicated across geographically separated regions.', p3_detail: 'ISO 27001-certified DCs',
+    p4_t: 'Threat Protection', p4_d: 'Our AI-powered filters block spam, phishing links, and malware attachments with 99.7% accuracy — before they ever reach your inbox. Threat models are updated continuously in real time.', p4_detail: '99.7% spam & phishing block rate',
+    p5_t: 'Access Control', p5_d: 'Multi-factor authentication, hardware security key support (FIDO2/WebAuthn), session management, and granular team permission controls. You decide exactly who sees what.', p5_detail: 'FIDO2 / WebAuthn / MFA',
+    p6_t: 'Audit Logs', p6_d: 'Every login, file access, and administrative action is recorded in tamper-proof audit logs. Exportable for compliance reviews, SIEM integration, and forensic investigations.', p6_detail: 'Tamper-proof, exportable logs',
+
+    deepdive_label: 'How encryption works',
+    deepdive_title: 'Your message, always private',
+    deepdive_desc: 'From the moment you hit send, your message is encrypted on-device. Our servers only ever see ciphertext — mathematically impossible to read without the recipient\'s private key. Not even a court order changes that.',
+    ef1_t: 'Message composed', ef2_t: 'AES-256 encryption', ef3_t: 'RSA-4096 key exchange', ef4_t: 'TLS 1.3 transit', ef5_t: 'Stored encrypted-at-rest',
+    dd1_t: 'Perfect Forward Secrecy', dd1_d: 'New encryption keys generated for every session. Past messages stay secure even if keys are ever compromised.',
+    dd2_t: 'Open Source Cryptography', dd2_d: 'We use battle-tested, open-source cryptographic primitives. No proprietary algorithms — our implementation is auditable by anyone.',
+    dd3_t: 'Independent Audits', dd3_d: 'Our cryptographic implementation is independently audited annually by third-party security firms. Full reports are publicly available.',
+
+    ss1_num: '256-bit', ss1_lbl: 'AES Encryption Standard',
+    ss2_num: '99.7%',  ss2_lbl: 'Spam & Phishing Block Rate',
+    ss3_num: '0',      ss3_lbl: 'Data Breaches Since Launch',
+    ss4_num: '24/7',   ss4_lbl: 'Security Operations Centre',
+
+    comp_label: 'Compliance & Certifications',
+    comp_title: 'Certified across every standard',
+    comp_sub: 'We don\'t just claim compliance — we prove it with independent audits and public documentation.',
+    cert1_t: 'SOC 2 Type II', cert1_d: 'Independently audited by a Big Four firm. Covers security, availability, processing integrity, confidentiality, and privacy of customer data. Re-audited annually.',
+    cert2_t: 'GDPR Compliance', cert2_d: 'Full compliance with the EU General Data Protection Regulation. Data processing agreements available. EU users\' data stays within the EU by default.',
+    cert3_t: 'CCPA Compliance', cert3_d: 'Full compliance with the California Consumer Privacy Act. California residents have the right to access, delete, and opt out of the sale of their personal information.',
+    cert4_t: 'ISO 27001', cert4_d: 'Our information security management system is certified to ISO/IEC 27001:2022 — the international gold standard for information security.',
+    cert_certified: 'Certified', cert_compliant: 'Compliant',
+
+    threat_label: 'Active Protection',
+    threat_title: 'Threats stopped before they reach you',
+    threat_desc: 'Our multi-layered threat intelligence system analyses billions of data points daily. Every suspicious pattern is blocked in real time — with zero false positive impact on legitimate mail.',
+    th1_t: 'Phishing & Spoofing Detection', th1_d: 'AI-powered analysis of sender reputation, domain age, link patterns, and content to catch even the most sophisticated phishing attempts.',
+    th2_t: 'Malware & Attachment Scanning', th2_d: 'Every attachment is scanned in a sandboxed environment using multiple antivirus engines before delivery. Macros and executables are blocked by default.',
+    th3_t: 'DDoS & Abuse Prevention', th3_d: 'Rate limiting, geo-based anomaly detection, and automatic DDoS mitigation ensure your service stays online even under heavy attack conditions.',
+
+    faq_label: 'FAQ', faq_title: 'Security questions, answered',
+    faq_sub: 'Transparency is part of our security model. Here are the questions we get asked most.',
+    faq1_q: 'Can ThePost.Space employees read my messages?',
+    faq1_a: 'No — technically impossible. Your private key never leaves your device. Our servers only store ciphertext. Even with full database access, no employee can decrypt your messages.',
+    faq2_q: 'What happens if I lose my private key?',
+    faq2_a: 'We provide secure, encrypted key backup during setup — protected by your master password. You can also store a recovery key in an external password manager. Without a backup, past messages cannot be recovered, which is intentional.',
+    faq3_q: 'Are messages encrypted when sent to non-ThePost users?',
+    faq3_a: 'Messages to external email addresses are secured with TLS in transit, but cannot use end-to-end encryption as the external server controls the destination keys. We clearly label this distinction in the interface.',
+    faq4_q: 'Has ThePost.Space ever received a government data request?',
+    faq4_a: 'We publish a transparency report. Even if we receive a legally valid request, the only data we can provide is metadata — we have no ability to hand over message content since we don\'t possess the keys.',
+    faq5_q: 'Where is my data physically stored?',
+    faq5_a: 'EU user data is stored exclusively in ISO 27001-certified data centres within the EU (Frankfurt and Amsterdam). Users can choose their preferred region. Data is never transferred outside your chosen jurisdiction without explicit consent.',
+
+    cta_t: 'Security you can verify, not just trust',
+    cta_d: 'Join ThePost.Space early access and experience email that\'s private by design. All audit reports and cryptographic specifications are publicly available.',
+    cta_btn1: 'Request Early Access', cta_btn2: 'View Security Whitepaper',
+
+    foot_desc: 'Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.',
+    foot_prod: 'Product', foot_comp: 'Company', foot_sup: 'Support', foot_legal: 'Legal',
+    foot_solutions: 'Solutions', foot_security: 'Security', foot_pricing: 'Pricing', foot_integrations: 'Integrations',
+    foot_about: 'About', foot_blog: 'Blog', foot_contact: 'Contact',
+    foot_help: 'Help Center', foot_api: 'API Docs',
+    foot_priv: 'Privacy Policy', foot_terms: 'Terms of Service', foot_cookies: 'Cookie Policy',
+  },
+  ru: {
+    loader_text: 'Загрузка',
+    nav_solutions: 'Решения', nav_security: 'Безопасность', nav_pricing: 'Тарифы',
+    nav_integrations: 'Интеграции', nav_about: 'О нас', nav_blog: 'Блог',
+    nav_contact: 'Контакты', nav_help: 'Помощь', nav_cta: 'Ранний доступ',
+
+    sec_badge: 'Архитектура, ориентированная на безопасность',
+    sec_h1_1: 'Ваша приватность —',
+    sec_h1_2: 'не предмет торга.',
+    sec_hero_desc: 'ThePost.Space создан с безопасностью в основе, а не как дополнение. Сквозное шифрование, zero-knowledge архитектура и полное соответствие требованиям — ваши данные всегда принадлежат только вам.',
+    sec_cta_primary: 'Запросить ранний доступ',
+    sec_cta_secondary: 'Читать whitepaper',
+
+    pillars_label: 'Столпы безопасности',
+    pillars_title: 'Шесть уровней защиты',
+    pillars_sub: 'Каждый аспект ThePost.Space спроектирован вокруг вашей безопасности — от кода, который мы пишем, до инфраструктуры, которую мы запускаем.',
+
+    p1_t: 'Сквозное шифрование', p1_d: 'Каждое сообщение шифруется на вашем устройстве до отправки. Мы используем AES-256 в сочетании с обменом ключами RSA-4096 — тот же стандарт, которому доверяют правительства и финансовые учреждения.', p1_detail: 'AES-256 + RSA-4096',
+    p2_t: 'Zero-Knowledge архитектура', p2_d: 'Мы никогда не имеем доступа к вашим ключам шифрования. Ваш закрытый ключ генерируется на вашем устройстве и никогда его не покидает. Это техническая гарантия, а не просто политика.', p2_detail: 'Ключи остаются на вашем устройстве',
+    p3_t: 'Защищённая инфраструктура', p3_d: 'Наши серверы работают в дата-центрах с сертификатом ISO 27001 — с физическим контролем доступа, сегментацией сети и круглосуточным обнаружением вторжений.', p3_detail: 'ЦОД с сертификатом ISO 27001',
+    p4_t: 'Защита от угроз', p4_d: 'Наши ИИ-фильтры блокируют спам, фишинговые ссылки и вредоносные вложения с точностью 99,7% — до того, как они попадут в ваш ящик.', p4_detail: '99,7% блокировка спама и фишинга',
+    p5_t: 'Контроль доступа', p5_d: 'Многофакторная аутентификация, поддержка аппаратных ключей (FIDO2/WebAuthn), управление сессиями и детальный контроль прав команды. Вы решаете, кто что видит.', p5_detail: 'FIDO2 / WebAuthn / MFA',
+    p6_t: 'Журналы аудита', p6_d: 'Каждый вход, доступ к файлам и административное действие записывается в защищённые от изменений журналы. Экспорт для проверок соответствия и SIEM-систем.', p6_detail: 'Защищённые, экспортируемые журналы',
+
+    deepdive_label: 'Как работает шифрование',
+    deepdive_title: 'Ваше сообщение — всегда приватно',
+    deepdive_desc: 'С момента отправки ваше сообщение шифруется на устройстве. Наши серверы видят только зашифрованный текст — математически невозможно прочитать без закрытого ключа получателя.',
+    ef1_t: 'Сообщение написано', ef2_t: 'Шифрование AES-256', ef3_t: 'Обмен ключами RSA-4096', ef4_t: 'Передача по TLS 1.3', ef5_t: 'Хранение в зашифрованном виде',
+    dd1_t: 'Perfect Forward Secrecy', dd1_d: 'Для каждой сессии генерируются новые ключи. Прошлые сообщения остаются в безопасности, даже если ключи когда-либо будут скомпрометированы.',
+    dd2_t: 'Открытая криптография', dd2_d: 'Мы используем проверенные, открытые криптографические примитивы. Никаких проприетарных алгоритмов — реализация открыта для аудита.',
+    dd3_t: 'Независимые аудиты', dd3_d: 'Наша криптографическая реализация ежегодно проверяется независимыми компаниями по безопасности. Полные отчёты находятся в открытом доступе.',
+
+    ss1_num: '256-бит', ss1_lbl: 'Стандарт шифрования AES',
+    ss2_num: '99,7%',   ss2_lbl: 'Блокировка спама и фишинга',
+    ss3_num: '0',       ss3_lbl: 'Утечек данных с момента запуска',
+    ss4_num: '24/7',    ss4_lbl: 'Центр безопасности',
+
+    comp_label: 'Соответствие и сертификаты',
+    comp_title: 'Сертифицированы по всем стандартам',
+    comp_sub: 'Мы не просто заявляем о соответствии — мы доказываем его независимыми аудитами и открытой документацией.',
+    cert1_t: 'SOC 2 Type II', cert1_d: 'Независимо проверен компанией из Big Four. Охватывает безопасность, доступность, целостность обработки, конфиденциальность и приватность данных.',
+    cert2_t: 'Соответствие GDPR', cert2_d: 'Полное соответствие Общему регламенту ЕС о защите данных. Соглашения об обработке данных доступны. Данные пользователей ЕС хранятся только в ЕС.',
+    cert3_t: 'Соответствие CCPA', cert3_d: 'Полное соответствие Закону Калифорнии о конфиденциальности потребителей. Жители Калифорнии имеют право на доступ, удаление и отказ от продажи личных данных.',
+    cert4_t: 'ISO 27001', cert4_d: 'Наша система управления информационной безопасностью сертифицирована по ISO/IEC 27001:2022 — международному золотому стандарту информационной безопасности.',
+    cert_certified: 'Сертифицировано', cert_compliant: 'Соответствует',
+
+    threat_label: 'Активная защита',
+    threat_title: 'Угрозы остановлены до того, как достигнут вас',
+    threat_desc: 'Наша многоуровневая система анализирует миллиарды точек данных ежедневно. Каждый подозрительный паттерн блокируется в реальном времени — без ложных срабатываний на легитимную почту.',
+    th1_t: 'Обнаружение фишинга и спуфинга', th1_d: 'ИИ-анализ репутации отправителя, возраста домена, паттернов ссылок и контента для выявления даже самых сложных фишинговых атак.',
+    th2_t: 'Сканирование вложений', th2_d: 'Каждое вложение проверяется в изолированной среде несколькими антивирусными движками до доставки. Макросы и исполняемые файлы заблокированы по умолчанию.',
+    th3_t: 'Защита от DDoS и злоупотреблений', th3_d: 'Ограничение запросов, обнаружение геоаномалий и автоматическое смягчение DDoS-атак гарантируют доступность сервиса даже при тяжёлых атаках.',
+
+    faq_label: 'FAQ', faq_title: 'Ответы на вопросы безопасности',
+    faq_sub: 'Прозрачность — часть нашей модели безопасности. Вот вопросы, которые задают чаще всего.',
+    faq1_q: 'Могут ли сотрудники ThePost.Space читать мои сообщения?',
+    faq1_a: 'Нет — технически невозможно. Ваш закрытый ключ никогда не покидает ваше устройство. Наши серверы хранят только зашифрованный текст. Даже при полном доступе к базе данных ни один сотрудник не может расшифровать ваши сообщения.',
+    faq2_q: 'Что произойдёт, если я потеряю закрытый ключ?',
+    faq2_a: 'Мы предоставляем зашифрованное резервное копирование ключа при настройке — защищённое мастер-паролем. Вы также можете сохранить ключ восстановления во внешнем менеджере паролей. Без резервной копии прошлые сообщения не могут быть восстановлены — это сделано намеренно.',
+    faq3_q: 'Шифруются ли сообщения, отправленные пользователям не в ThePost?',
+    faq3_a: 'Сообщения на внешние адреса защищены TLS при передаче, но не могут использовать сквозное шифрование, так как внешний сервер контролирует ключи назначения. Мы чётко обозначаем это в интерфейсе.',
+    faq4_q: 'Получал ли ThePost.Space запросы от государственных органов?',
+    faq4_a: 'Мы публикуем отчёт о прозрачности. Даже если мы получаем юридически обоснованный запрос, единственное, что мы можем предоставить, — это метаданные. Мы физически не можем передать содержимое сообщений, так как не владеем ключами.',
+    faq5_q: 'Где физически хранятся мои данные?',
+    faq5_a: 'Данные пользователей ЕС хранятся исключительно в сертифицированных по ISO 27001 дата-центрах в ЕС (Франкфурт и Амстердам). Данные никогда не передаются за пределы выбранной юрисдикции без явного согласия.',
+
+    cta_t: 'Безопасность, которую можно проверить, а не просто принять на веру',
+    cta_d: 'Присоединяйтесь к раннему доступу ThePost.Space и испытайте почту, приватную по дизайну. Все отчёты аудита и криптографические спецификации находятся в открытом доступе.',
+    cta_btn1: 'Запросить ранний доступ', cta_btn2: 'Читать whitepaper',
+
+    foot_desc: 'Современная почта для современных людей. Безопасная, быстрая и красиво спроектированная.',
+    foot_prod: 'Продукт', foot_comp: 'Компания', foot_sup: 'Поддержка', foot_legal: 'Правовая информация',
+    foot_solutions: 'Решения', foot_security: 'Безопасность', foot_pricing: 'Тарифы', foot_integrations: 'Интеграции',
+    foot_about: 'О нас', foot_blog: 'Блог', foot_contact: 'Контакты',
+    foot_help: 'Центр помощи', foot_api: 'API документация',
+    foot_priv: 'Политика конфиденциальности', foot_terms: 'Условия использования', foot_cookies: 'Политика cookies',
+  }
+};
+
+let lang = 'en';
+
+/* ===== LANGUAGE SWITCH ===== */
+function switchLang(l) {
+  lang = l;
+  document.getElementById('langEn').classList.toggle('active', l === 'en');
+  document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
+  document.getElementById('langRu').classList.toggle('active', l === 'ru');
+  document.getElementById('langRu').setAttribute('aria-pressed', l === 'ru');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[l][key] !== undefined) el.innerHTML = T[l][key];
+  });
+}
+
+/* ===== CURSOR GLOW ===== */
+const cg = document.getElementById('cursorGlow');
+if (window.matchMedia('(hover: hover)').matches) {
+  document.addEventListener('mousemove', e => {
+    cg.style.left = e.clientX + 'px';
+    cg.style.top  = e.clientY + 'px';
+  }, { passive: true });
+}
+
+/* ===== NAVBAR SCROLL ===== */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ===== MOBILE MENU ===== */
+function toggleMobileMenu() {
+  const btn  = document.getElementById('mobileMenuBtn');
+  const menu = document.getElementById('mobileMenu');
+  const isOpen = menu.classList.toggle('active');
+  btn.classList.toggle('open', isOpen);
+  btn.setAttribute('aria-expanded', isOpen);
+  menu.setAttribute('aria-hidden', !isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    const menu = document.getElementById('mobileMenu');
+    const btn  = document.getElementById('mobileMenuBtn');
+    menu.classList.remove('active');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  });
+});
+
+/* ===== SCROLL ANIMATIONS ===== */
+function initAOS() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.aos, .aos-left, .aos-right, .aos-scale').forEach(el => obs.observe(el));
+}
+
+/* ===== PARTICLES ===== */
+function createParticles() {
+  const container = document.getElementById('heroParticles');
+  if (!container) return;
+  const colors = ['var(--accent)', 'var(--cyan)', 'var(--green)', 'var(--accent-light)'];
+  for (let i = 0; i < 36; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      animation-delay: ${Math.random() * 12}s;
+      animation-duration: ${9 + Math.random() * 14}s;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      width: ${2 + Math.random() * 4}px;
+      height: ${2 + Math.random() * 4}px;
+      opacity: ${0.08 + Math.random() * 0.35};
+    `;
+    container.appendChild(p);
+  }
+}
+
+/* ===== COMPLIANCE CARD MOUSE FOLLOW ===== */
+document.querySelectorAll('.comp-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+    card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+  }, { passive: true });
+});
+
+/* ===== RIPPLE EFFECT ===== */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn, .nav-btn-primary');
+  if (!btn) return;
+  const r = btn.getBoundingClientRect();
+  const rip = document.createElement('span');
+  rip.className = 'ripple';
+  const size = Math.max(r.width, r.height);
+  rip.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
+  btn.appendChild(rip);
+  setTimeout(() => rip.remove(), 700);
+}, { passive: true });
+
+/* ===== FAQ ACCORDION ===== */
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item   = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+/* ===== INIT ===== */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hidden');
+  }, 2000);
+  createParticles();
+  initAOS();
+}, { once: true });
+</script>
+</body>
+</html>
