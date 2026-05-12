@@ -12,7 +12,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><path d='M6 10h20v12a2 2 0 01-2 2H8a2 2 0 01-2-2V10z' fill='none' stroke='white' stroke-width='2'/><path d='M6 10l10 7 10-7' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg-primary: #05050e;
@@ -41,8 +41,8 @@
   --radius-xl: 28px;
   --shadow: 0 4px 30px rgba(0,0,0,0.5);
   --shadow-glow: 0 0 50px rgba(99,102,241,0.18);
-  --font-display: 'Syne', -apple-system, sans-serif;
-  --font-body: 'Outfit', -apple-system, sans-serif;
+--font-display: 'Unbounded', -apple-system, sans-serif;
+--font-body: 'Inter', -apple-system, sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -593,8 +593,6 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
   <div class="hero-content">
     <div class="hero-text">
       <div class="hero-badge" aria-label="Status">
-        <span class="badge-dot" aria-hidden="true"></span>
-        <span data-i18n="hero_badge">Now accepting early access requests</span>
       </div>
       <h1 id="heroTitle">
         <span class="line" data-i18n="hero_h1_1">Mail that reaches</span>
@@ -605,8 +603,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="contact.html" data-i18n="hero_cta_primary">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          Request Early Access
+          Apply for registration
         </a>
         <a class="btn btn-secondary" href="solutions.html" data-i18n="hero_cta_secondary">Explore Features</a>
       </div>
@@ -1194,7 +1191,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
         <li><span class="chk" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></span><span data-i18n="pf4">End-to-end encryption</span></li>
         <li><span class="chk" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></span><span data-i18n="pf5">Web &amp; mobile access</span></li>
       </ul>
-      <a class="pricing-btn pb-outline" href="pricing.html" data-i18n="p_btn_free">Get Started</a>
+      <a class="pricing-btn pb-outline" href="contact.html" data-i18n="p_btn_free">Get Started</a>
     </div>
     <div class="pricing-card popular aos d2">
       <div class="pricing-badge" data-i18n="p_popular">Most Popular</div>
@@ -1209,7 +1206,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
         <li><span class="chk" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></span><span data-i18n="pp5">Custom themes</span></li>
         <li><span class="chk" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></span><span data-i18n="pp6">Email scheduling</span></li>
       </ul>
-      <a class="pricing-btn pb-filled" href="pricing.html" data-i18n="p_btn_pro">Start Free Trial</a>
+      <a class="pricing-btn pb-filled" href="contact.html" data-i18n="p_btn_pro">Start Free Trial</a>
     </div>
     <div class="pricing-card aos d3">
       <div class="pricing-name" data-i18n="p_biz">Business</div>
@@ -1223,7 +1220,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
         <li><span class="chk" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></span><span data-i18n="pb5">SSO / SAML</span></li>
         <li><span class="chk" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></span><span data-i18n="pb6">Audit logs</span></li>
       </ul>
-      <a class="pricing-btn pb-outline" href="pricing.html" data-i18n="p_btn_biz">Contact Sales</a>
+      <a class="pricing-btn pb-outline" href="contact.html" data-i18n="p_btn_biz">Contact Sales</a>
     </div>
     <div class="pricing-card aos d4">
       <div class="pricing-name" data-i18n="p_ent">Enterprise</div>
@@ -1417,11 +1414,10 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
 <section style="padding: 0 clamp(16px,3vw,48px) 100px;" aria-labelledby="ctaTitle">
   <div class="cta-box aos-scale">
     <h2 id="ctaTitle" data-i18n="cta_t">Be among the first to experience it</h2>
-    <p data-i18n="cta_d">ThePost.Space is launching soon. Join our early access list and get priority onboarding, exclusive features, and a special founding member rate.</p>
+    <p data-i18n="cta_d">ThePost.Space has been launched and is currently available to all users. You can go ahead and create your account at any time.</p>
     <div class="cta-actions">
       <a class="btn btn-primary" href="contact.html" data-i18n="cta_btn1">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        Request Early Access
+        Apply for registration
       </a>
       <a class="btn btn-secondary" href="pricing.html" data-i18n="cta_btn2">View Pricing</a>
     </div>
@@ -1496,7 +1492,7 @@ const T = {
     hero_h1_1: 'Mail that reaches',
     hero_h1_2: 'anywhere on Earth.',
     hero_desc: 'ThePost.Space is a new-generation international postal service — secure, fast, and delightfully simple. Send letters and parcels to 150+ countries with full tracking and end-to-end transparency.',
-    hero_cta_primary: 'Request Early Access',
+    hero_cta_primary: 'Apply for registration',
     hero_cta_secondary: 'Explore Features',
     stat_countries: 'Countries Covered', stat_uptime: 'Uptime SLA', stat_speed: 'Express Delivery',
     sb_inbox: 'Inbox', sb_starred: 'Starred', sb_sent: 'Sent', sb_drafts: 'Drafts', sb_trash: 'Trash', sb_archive: 'Archive',
@@ -1553,8 +1549,8 @@ const T = {
     b2_tag: 'Security', b2_t: 'Zero-Knowledge: What It Means for Your Email', b2_d: 'Understanding zero-knowledge architecture and why it\'s the gold standard for privacy.',
     b3_tag: 'Productivity', b3_t: '10 Habits That Save You 5 Hours a Week', b3_d: 'Practical tips from productivity experts on managing your inbox more effectively.',
     b_read: 'min read',
-    cta_t: 'Be among the first to experience it', cta_d: 'ThePost.Space is launching soon. Join our early access list and get priority onboarding, exclusive features, and a special founding member rate.',
-    cta_btn1: 'Request Early Access', cta_btn2: 'View Pricing',
+    cta_t: 'Be among the first to experience it', cta_d: 'ThePost.Space has been launched and is currently available to all users. You can go ahead and create your account at any time.',
+    cta_btn1: 'Apply for registration', cta_btn2: 'View Pricing',
     foot_desc: 'Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.',
     foot_prod: 'Product', foot_comp: 'Company', foot_sup: 'Support', foot_legal: 'Legal',
     foot_solutions: 'Solutions', foot_security: 'Security', foot_pricing: 'Pricing', foot_integrations: 'Integrations',
@@ -1564,11 +1560,11 @@ const T = {
   },
   ru: {
     nav_cta: 'Ранний доступ',
-    hero_badge: 'Открыта запись на ранний доступ',
+    hero_badge: 'Подать заявку на регистрацию',
     hero_h1_1: 'Почта, которая доставит',
     hero_h1_2: 'куда угодно.',
     hero_desc: 'ThePost.Space — почтовый сервис нового поколения. Безопасный, быстрый и невероятно простой. Отправляйте письма и посылки в 150+ стран с полным отслеживанием.',
-    hero_cta_primary: 'Запросить ранний доступ',
+    hero_cta_primary: 'Подать заявку на регистрацию',
     hero_cta_secondary: 'Узнать больше',
     stat_countries: 'Стран покрытия', stat_uptime: 'SLA доступности', stat_speed: 'Экспресс-доставка',
     sb_inbox: 'Входящие', sb_starred: 'Избранные', sb_sent: 'Отправленные', sb_drafts: 'Черновики', sb_trash: 'Корзина', sb_archive: 'Архив',
@@ -1625,8 +1621,8 @@ const T = {
     b2_tag: 'Безопасность', b2_t: 'Zero-Knowledge: что это значит для вашей почты', b2_d: 'Zero-knowledge архитектура и почему это золотой стандарт приватности.',
     b3_tag: 'Продуктивность', b3_t: '10 привычек, экономящих 5 часов в неделю', b3_d: 'Практические советы экспертов для эффективного управления ящиком.',
     b_read: 'мин чтения',
-    cta_t: 'Будьте в числе первых', cta_d: 'ThePost.Space скоро запускается. Запишитесь на ранний доступ и получите приоритетный онбординг, эксклюзивные функции и специальную цену основателя.',
-    cta_btn1: 'Запросить ранний доступ', cta_btn2: 'Смотреть тарифы',
+    cta_t: 'Будьте в числе первых', cta_d: 'ThePost.Space запущен и в данный момент доступен всем пользователям. Вы можете создать свою учётную запись в любое время.',
+    cta_btn1: 'Подать заявку на регистрацию', cta_btn2: 'Смотреть тарифы',
     foot_desc: 'Современная почта для современных людей. Безопасная, быстрая и красиво спроектированная.',
     foot_prod: 'Продукт', foot_comp: 'Компания', foot_sup: 'Поддержка', foot_legal: 'Правовая информация',
     foot_solutions: 'Решения', foot_security: 'Безопасность', foot_pricing: 'Тарифы', foot_integrations: 'Интеграции',
