@@ -9,7 +9,7 @@
 <meta property="og:description" content="Get in touch with ThePost.Space. Apply for registration or ask us anything.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://thepost.space/contact">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><path d='M6 10h20v12a2 2 0 01-2 2H8a2 2 0 01-2-2V10z' fill='none' stroke='white' stroke-width='2'/><path d='M6 10l10 7 10-7' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>">
+<link rel="icon" href="assets/logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -99,8 +99,8 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
 .cursor-glow {
   position: fixed; width: 500px; height: 500px; border-radius: 50%;
   background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%);
-  pointer-events: none; z-index: 1; transform: translate(-50%,-50%);
-  transition: left 0.4s ease, top 0.4s ease; will-change: left,top;
+  pointer-events: none; z-index: 1; top: 0; left: 0;
+  will-change: transform;
 }
 
 /* ===================== NAVBAR ===================== */
@@ -554,9 +554,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
 <!-- ==================== NAVBAR ==================== -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
   <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
-    <div class="navbar-logo-icon" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
-    </div>
+    <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
 
@@ -572,13 +570,13 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
 
   <div class="navbar-actions">
     <div class="lang-switch" role="group" aria-label="Language selection">
-      <button class="lang-btn active" id="langEn" onclick="switchLang('en')" aria-pressed="true">EN</button>
-      <button class="lang-btn" id="langRu" onclick="switchLang('ru')" aria-pressed="false">RU</button>
+      <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
+      <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
     <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
     <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
     <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
+    <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-label="Toggle mobile menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -763,9 +761,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
   <div class="footer-grid">
     <div class="footer-brand">
       <a class="navbar-logo" href="index.html" style="display:inline-flex;" aria-label="ThePost.Space homepage">
-        <div class="navbar-logo-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
-        </div>
+        <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
         <span>thepost.space</span>
       </a>
       <p data-i18n="foot_desc">Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.</p>
@@ -773,7 +769,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
     <div class="footer-col">
       <h4 data-i18n="foot_prod">Product</h4>
       <a href="solutions.html" data-i18n="foot_solutions">Solutions</a>
-      <a href="solutions.html" data-i18n="foot_security">Security</a>
+      <a href="security.html" data-i18n="foot_security">Security</a>
       <a href="pricing.html" data-i18n="foot_pricing">Pricing</a>
       <a href="integrations.html" data-i18n="foot_integrations">Integrations</a>
     </div>
@@ -922,10 +918,20 @@ const T = {
 };
 
 let lang = 'en';
+  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
 
 /* ===== LANGUAGE SWITCH ===== */
-function switchLang(l) {
-  lang = l;
+/* ===== BUTTON EVENT DELEGATION (replaces inline onclick) ===== */
+    document.addEventListener('click', e => {
+        const langBtn = e.target.closest('[data-lang]');
+        if (langBtn) { switchLang(langBtn.dataset.lang); return; }
+        const menuBtn = e.target.closest('#mobileMenuBtn');
+        if (menuBtn) { toggleMobileMenu(); }
+    });
+
+    function switchLang(l) {
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.documentElement.lang = l;
   document.getElementById('langEn').classList.toggle('active', l === 'en');
   document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
   document.getElementById('langRu').classList.toggle('active', l === 'ru');
@@ -1154,10 +1160,9 @@ if (sendAnotherBtn) {
 }
 
 /* ===== INIT ===== */
+(function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loadingScreen').classList.add('hidden');
-  }, 1800);
+  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
   createParticles();
   initAOS();
 

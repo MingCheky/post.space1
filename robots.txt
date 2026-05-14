@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /sign_in.html
+
+Sitemap: https://thepost.space/sitemap.xml

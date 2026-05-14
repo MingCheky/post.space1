@@ -5,271 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Help Center — ThePost.Space</title>
 <meta name="description" content="Search our knowledge base, browse categories, or find answers to frequently asked questions.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><path d='M6 10h20v12a2 2 0 01-2 2H8a2 2 0 01-2-2V10z' fill='none' stroke='white' stroke-width='2'/><path d='M6 10l10 7 10-7' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>">
+<link rel="icon" href="assets/logo.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg-primary: #05050e;
-  --bg-secondary: #08081a;
-  --bg-card: #0d0d20;
-  --bg-card-hover: #131328;
-  --border: #1a1a32;
-  --border-light: #252540;
-  --text-primary: #eeeef5;
-  --text-secondary: #7878a0;
-  --text-muted: #4a4a6a;
-  --accent: #6366f1;
-  --accent-light: #818cf8;
-  --accent-dark: #4f46e5;
-  --cyan: #06b6d4;
-  --green: #10b981;
-  --orange: #f59e0b;
-  --pink: #ec4899;
-  --red: #ef4444;
-  --gradient-1: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
-  --gradient-2: linear-gradient(135deg, #ec4899 0%, #6366f1 100%);
-  --gradient-3: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
-  --gradient-4: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-  --radius: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --shadow: 0 4px 30px rgba(0,0,0,0.5);
-  --shadow-glow: 0 0 50px rgba(99,102,241,0.18);
-  --font-display: 'Unbounded', -apple-system, sans-serif;
-  --font-body: 'Inter', -apple-system, sans-serif;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); overflow-x: hidden; line-height: 1.65; }
-h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-/* LOADING */
-.loading-screen { position: fixed; inset: 0; background: var(--bg-primary); display: flex; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.7s ease, visibility 0.7s ease; }
-.loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader { display: flex; flex-direction: column; align-items: center; gap: 24px; }
-.loader-icon { width: 72px; height: 72px; border-radius: 20px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; animation: loaderFloat 2s ease-in-out infinite, loaderGlow 2s ease-in-out infinite; }
-@keyframes loaderFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-10px) rotate(2deg); } 75% { transform: translateY(-12px) rotate(-2deg); } }
-@keyframes loaderGlow { 0%,100% { box-shadow: 0 0 20px rgba(99,102,241,0.3); } 50% { box-shadow: 0 0 55px rgba(99,102,241,0.65); } }
-.loader-text { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
-.loader-bar { width: 240px; height: 3px; background: var(--border); border-radius: 3px; overflow: hidden; }
-.loader-bar-fill { height: 100%; background: var(--gradient-1); border-radius: 3px; animation: loaderFill 1.8s cubic-bezier(0.4,0,0.2,1) forwards; }
-@keyframes loaderFill { 0% { width:0; } 30% { width:40%; } 60% { width:70%; } 100% { width:100%; } }
-
-/* CURSOR GLOW */
-.cursor-glow { position: fixed; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%); pointer-events: none; z-index: 1; transform: translate(-50%, -50%); transition: left 0.4s ease, top 0.4s ease; will-change: left, top; }
-
-/* NAVBAR */
-.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 clamp(16px, 3vw, 48px); height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(5,5,14,0.6); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid transparent; transition: all 0.4s ease; }
-.navbar.scrolled { border-bottom-color: var(--border); background: rgba(5,5,14,0.92); box-shadow: 0 4px 32px rgba(0,0,0,0.35); }
-.navbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.navbar-logo-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--gradient-1); display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
-.navbar-logo span { font-family: var(--font-display); font-size: 19px; font-weight: 700; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.navbar-links { display: flex; align-items: center; gap: 2px; }
-.navbar-links a { color: var(--text-secondary); text-decoration: none; padding: 8px 13px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.25s ease; position: relative; }
-.navbar-links a:hover, .navbar-links a.active { color: var(--text-primary); background: rgba(99,102,241,0.1); }
-.navbar-links a.active::after { content:''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 18px; height: 2px; background: var(--accent); border-radius: 1px; }
-.navbar-actions { display: flex; align-items: center; gap: 10px; }
-.lang-switch { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 3px; gap: 2px; }
-.lang-btn { padding: 5px 11px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; font-family: var(--font-display); letter-spacing: 0.05em; }
-.lang-btn.active { background: var(--accent); color: white; }
-.nav-btn { padding: 8px 18px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; font-family: var(--font-body); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
-.nav-btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
-.nav-btn-ghost:hover { color: var(--text-primary); border-color: var(--border-light); background: var(--bg-card); }
-.nav-btn-primary { background: var(--gradient-1); color: white; border: none; box-shadow: 0 2px 14px rgba(99,102,241,0.3); }
-.nav-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(99,102,241,0.5); }
-.mobile-menu-btn { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
-.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text-primary); border-radius: 1px; transition: all 0.3s ease; }
-.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
-.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 999; padding: 20px; overflow-y: auto; }
-.mobile-menu.active { display: block; animation: menuSlideIn 0.3s ease; }
-@keyframes menuSlideIn { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: translateY(0); } }
-.mobile-menu a { display: flex; align-items: center; padding: 15px 16px; color: var(--text-secondary); text-decoration: none; font-size: 16px; font-weight: 500; border-bottom: 1px solid var(--border); transition: all 0.2s ease; }
-.mobile-menu a:hover { color: var(--text-primary); background: var(--bg-card); border-radius: 8px; }
-.mobile-menu-actions { padding: 20px 0; display: flex; flex-direction: column; gap: 12px; }
-
-/* PAGE HERO */
-.page-hero { position: relative; min-height: 52vh; display: flex; align-items: center; padding: 140px clamp(16px,3vw,48px) 80px; overflow: hidden; text-align: center; }
-.page-hero-bg { position: absolute; inset: 0; overflow: hidden; }
-.blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.11; }
-.ph-blob-1 { width: 500px; height: 500px; background: var(--accent); top: -150px; right: 10%; animation: phBlob1 20s ease-in-out infinite; }
-.ph-blob-2 { width: 350px; height: 350px; background: var(--green); bottom: -100px; left: 10%; animation: phBlob2 18s ease-in-out infinite; }
-.ph-blob-3 { width: 250px; height: 250px; background: var(--cyan); top: 50%; left: 50%; animation: phBlob3 15s ease-in-out infinite; }
-@keyframes phBlob1 { 0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; transform: translate(0,0); } 50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; transform: translate(30px,20px); } }
-@keyframes phBlob2 { 0%,100% { border-radius: 40% 60% 70% 30%/40% 50% 50% 60%; } 50% { border-radius: 70% 30% 40% 60%/60% 40% 60% 30%; } }
-@keyframes phBlob3 { 0%,100% { border-radius: 50% 50% 40% 60%/50% 40% 60% 50%; transform: translate(-50%,-50%) scale(1); } 50% { border-radius: 40% 60% 60% 40%/60% 50% 40% 60%; transform: translate(-50%,-50%) scale(1.2); } }
-.ph-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%); }
-.page-hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
-.page-hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px 6px 8px; background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light); margin-bottom: 24px; animation: badgePulse 3.5s ease-in-out infinite; }
-@keyframes badgePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); } 50% { box-shadow: 0 0 0 10px rgba(99,102,241,0.06); } }
-.page-hero-badge .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: dotPulse 2s infinite; }
-@keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 7px rgba(16,185,129,0); } }
-.page-hero h1 { font-size: clamp(36px,5vw,62px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.03em; opacity: 0; animation: fadeUp 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) forwards; }
-.gradient-text { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.page-hero p { font-size: 18px; color: var(--text-secondary); line-height: 1.72; max-width: 600px; margin: 0 auto; opacity: 0; animation: fadeUp 0.8s 0.5s cubic-bezier(0.16,1,0.3,1) forwards; }
-@keyframes fadeUp { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
-
-/* ANIMATIONS */
-.aos { opacity:0; transform: translateY(42px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
-.aos.visible { opacity:1; transform: translateY(0); }
-.aos-left { opacity:0; transform: translateX(-52px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
-.aos-left.visible { opacity:1; transform: translateX(0); }
-.aos-right { opacity:0; transform: translateX(52px); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
-.aos-right.visible { opacity:1; transform: translateX(0); }
-.aos-scale { opacity:0; transform: scale(0.88); transition: all 0.85s cubic-bezier(0.16,1,0.3,1); }
-.aos-scale.visible { opacity:1; transform: scale(1); }
-.d1 { transition-delay: 0.1s !important; } .d2 { transition-delay: 0.2s !important; }
-.d3 { transition-delay: 0.3s !important; } .d4 { transition-delay: 0.4s !important; }
-.d5 { transition-delay: 0.5s !important; } .d6 { transition-delay: 0.6s !important; }
-
-/* SECTION */
-.section { padding: 100px clamp(16px,3vw,48px); max-width: 1380px; margin: 0 auto; }
-.section-header { text-align: center; margin-bottom: 64px; }
-.section-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(99,102,241,0.09); border: 1px solid rgba(99,102,241,0.15); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent-light); margin-bottom: 20px; letter-spacing: 0.02em; }
-.section-title { font-size: clamp(28px,4vw,46px); font-weight: 800; line-height: 1.12; margin-bottom: 16px; letter-spacing: -0.025em; }
-.section-subtitle { font-size: 17px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.72; }
-
-/* SEARCH */
-.help-search-container { max-width: 700px; margin: -30px auto 60px; padding: 0 clamp(16px,3vw,48px); position: relative; z-index: 2; opacity: 0; animation: fadeUp 0.8s 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
-.help-search { position: relative; }
-.help-search input {
-  width: 100%; padding: 18px 24px 18px 56px;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-  color: var(--text-primary); font-size: 16px; font-family: var(--font-body);
-  outline: none; transition: all 0.3s ease;
-}
-.help-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.15), 0 10px 40px rgba(0,0,0,0.3); }
-.help-search input::placeholder { color: var(--text-muted); }
-.help-search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
-.help-search-hint { text-align: center; margin-top: 12px; font-size: 13px; color: var(--text-muted); }
-
-/* CATEGORIES */
-.categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 80px; }
-.category-card {
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl);
-  padding: 36px; text-align: center; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  cursor: pointer; position: relative; overflow: hidden;
-}
-.category-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s ease; }
-.category-card:nth-child(1)::before { background: var(--gradient-1); }
-.category-card:nth-child(2)::before { background: var(--gradient-2); }
-.category-card:nth-child(3)::before { background: var(--gradient-3); }
-.category-card:nth-child(4)::before { background: var(--gradient-4); }
-.category-card:nth-child(5)::before { background: linear-gradient(135deg, #10b981, #06b6d4); }
-.category-card:nth-child(6)::before { background: linear-gradient(135deg, #ec4899, #f59e0b); }
-.category-card:hover { border-color: var(--border-light); transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.3), var(--shadow-glow); }
-.category-card:hover::before { opacity: 1; }
-.category-icon { font-size: 44px; margin-bottom: 16px; display: block; transition: transform 0.3s ease; }
-.category-card:hover .category-icon { transform: scale(1.2); }
-.category-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; font-family: var(--font-display); }
-.category-card p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
-.category-count { display: inline-block; margin-top: 12px; padding: 4px 10px; background: rgba(99,102,241,0.1); color: var(--accent-light); font-size: 12px; font-weight: 600; border-radius: 6px; font-family: var(--font-display); }
-
-/* POPULAR ARTICLES */
-.popular-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 1000px; margin: 0 auto; }
-.popular-article {
-  display: flex; align-items: center; gap: 16px; padding: 20px;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-  transition: all 0.3s ease; cursor: pointer;
-}
-.popular-article:hover { border-color: var(--accent); transform: translateX(6px); box-shadow: var(--shadow-glow); }
-.popular-article-icon { font-size: 24px; flex-shrink: 0; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: rgba(99,102,241,0.1); border-radius: 10px; }
-.popular-article h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; font-family: var(--font-display); }
-.popular-article p { font-size: 13px; color: var(--text-muted); }
-
-/* FAQ */
-.faq-section { padding: 100px clamp(16px,3vw,48px); max-width: 900px; margin: 0 auto; }
-.faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; transition: all 0.3s ease; }
-.faq-item:hover { border-color: var(--border-light); }
-.faq-question { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; cursor: pointer; font-size: 15px; font-weight: 600; background: var(--bg-card); transition: all 0.2s ease; font-family: var(--font-display); }
-.faq-question:hover { background: var(--bg-card-hover); }
-.faq-toggle { font-size: 20px; color: var(--accent-light); transition: transform 0.3s ease; font-weight: 300; }
-.faq-item.open .faq-toggle { transform: rotate(45deg); color: var(--green); }
-.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
-.faq-answer-content { padding: 0 24px 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
-.faq-item.open .faq-answer { max-height: 400px; }
-
-/* ARTICLE DETAIL */
-.article-detail { padding: 100px clamp(16px,3vw,48px); max-width: 900px; margin: 0 auto; display: none; }
-.article-detail.active { display: block; animation: fadeInArt 0.5s ease; }
-@keyframes fadeInArt { from { opacity:0; } to { opacity:1; } }
-.article-back { display: inline-flex; align-items: center; gap: 6px; color: var(--accent-light); font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 24px; transition: gap 0.3s ease; font-family: var(--font-display); }
-.article-back:hover { gap: 10px; }
-.article-detail h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; line-height: 1.3; font-family: var(--font-display); }
-.article-meta { display: flex; gap: 16px; margin-bottom: 32px; font-size: 14px; color: var(--text-muted); }
-.article-content { font-size: 16px; line-height: 1.8; color: var(--text-secondary); }
-.article-content h2 { font-size: 24px; font-weight: 700; color: var(--text-primary); margin: 32px 0 16px; font-family: var(--font-display); }
-.article-content p { margin-bottom: 16px; }
-.article-content ul, .article-content ol { margin: 16px 0; padding-left: 24px; }
-.article-content li { margin-bottom: 8px; }
-.article-content .note { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 16px 20px; margin: 20px 0; font-size: 14px; }
-.article-content code { background: var(--bg-card); padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--cyan); }
-
-/* CTA */
-.cta-section { padding: 100px clamp(16px,3vw,48px); text-align: center; }
-.cta-box { max-width: 850px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 72px 48px; position: relative; overflow: hidden; }
-.cta-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-1); }
-.cta-box::after { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 400px; height: 200px; background: radial-gradient(ellipse, rgba(99,102,241,0.08) 0%, transparent 70%); pointer-events: none; }
-.cta-box h2 { font-size: clamp(32px, 3.5vw, 42px); font-weight: 800; margin-bottom: 16px; position: relative; z-index: 1; letter-spacing: -0.02em; }
-.cta-box p { font-size: 16px; color: var(--text-secondary); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
-.cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; z-index: 1; flex-wrap: wrap; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); border: none; font-family: var(--font-body); position: relative; overflow: hidden; }
-.btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 22px rgba(99,102,241,0.35); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(99,102,241,0.5); }
-.btn-primary::before { content:''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.18), transparent); transform: translateX(-110%); transition: transform 0.6s ease; }
-.btn-primary:hover::before { transform: translateX(110%); }
-.btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
-.btn-secondary:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateY(-2px); }
-
-/* RIPPLE */
-.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.18); animation: rippleA 0.65s ease-out; pointer-events: none; }
-@keyframes rippleA { 0%{transform:scale(0);opacity:1} 100%{transform:scale(4.5);opacity:0} }
-
-/* TOAST */
-.toast { position: fixed; bottom: 30px; right: 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 24px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 9999; animation: toastIn 0.5s cubic-bezier(0.16,1,0.3,1); font-size: 14px; font-weight: 500; font-family: var(--font-body); }
-@keyframes toastIn { from { opacity:0; transform: translateY(30px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
-.toast.success { border-left: 3px solid var(--green); }
-.toast.error { border-left: 3px solid var(--red); }
-
-/* FOOTER */
-.footer { border-top: 1px solid var(--border); padding: 64px clamp(16px,3vw,48px) 32px; max-width: 1380px; margin: 0 auto; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-.footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.72; margin-top: 12px; max-width: 300px; }
-.footer-col h4 { font-family: var(--font-display); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px; }
-.footer-col a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 14px; padding: 6px 0; transition: all 0.2s ease; }
-.footer-col a:hover { color: var(--accent-light); transform: translateX(4px); }
-.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); flex-wrap: wrap; gap: 16px; }
-.footer-social { display: flex; gap: 12px; }
-.footer-social a { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all 0.3s ease; }
-.footer-social a:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-glow); }
-.footer-social a svg { width: 16px; height: 16px; }
-
-/* RESPONSIVE */
-@media (max-width: 1024px) {
-  .categories-grid { grid-template-columns: repeat(2, 1fr); }
-  .popular-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 768px) {
-  .navbar-links, .nav-btn-ghost { display: none; }
-  .mobile-menu-btn { display: flex; }
-  .categories-grid { grid-template-columns: 1fr; }
-  .cta-actions { flex-direction: column; align-items: center; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .section { padding: 60px 16px; }
-  .faq-section { padding: 60px 16px; }
-  .cta-section { padding: 60px 16px; }
-  .article-detail { padding: 60px 16px; }
-}
-</style>
+<link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
 
@@ -290,9 +30,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
   <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
-    <div class="navbar-logo-icon" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
-    </div>
+    <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
 
@@ -307,8 +45,8 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
   </div>
   <div class="navbar-actions">
     <div class="lang-switch" role="group" aria-label="Language selector">
-      <button class="lang-btn active" id="langEn" onclick="switchLang('en')" aria-pressed="true">EN</button>
-      <button class="lang-btn" id="langRu" onclick="switchLang('ru')" aria-pressed="false">RU</button>
+      <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
+      <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
     <a href="#" class="nav-btn nav-btn-ghost">Sign In</a>
     <a href="contact.html" class="nav-btn nav-btn-primary">
@@ -316,7 +54,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
       Get Started
     </a>
   </div>
-  <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+  <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -371,37 +109,37 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
   </div>
 
   <div class="categories-grid">
-    <div class="category-card aos d1" onclick="showToast('Opening Getting Started guide...', 'success')" role="button" tabindex="0">
+    <div class="category-card aos d1" data-toast="Opening Getting Started guide..." data-toast-type="success" role="button" tabindex="0">
       <span class="category-icon" aria-hidden="true">🚀</span>
       <h3 data-i18n="cat1_title">Getting Started</h3>
       <p data-i18n="cat1_desc">Learn the basics and set up your account in minutes</p>
       <span class="category-count" data-i18n="cat1_count">8 articles</span>
     </div>
-    <div class="category-card aos d2" onclick="showToast('Opening Account & Settings...', 'success')" role="button" tabindex="0">
+    <div class="category-card aos d2" data-toast="Opening Account & Settings..." data-toast-type="success" role="button" tabindex="0">
       <span class="category-icon" aria-hidden="true">⚙️</span>
       <h3 data-i18n="cat2_title">Account &amp; Settings</h3>
       <p data-i18n="cat2_desc">Manage your profile, preferences, and security settings</p>
       <span class="category-count" data-i18n="cat2_count">12 articles</span>
     </div>
-    <div class="category-card aos d3" onclick="showToast('Opening Security & Privacy...', 'success')" role="button" tabindex="0">
+    <div class="category-card aos d3" data-toast="Opening Security & Privacy..." data-toast-type="success" role="button" tabindex="0">
       <span class="category-icon" aria-hidden="true">🔒</span>
       <h3 data-i18n="cat3_title">Security &amp; Privacy</h3>
       <p data-i18n="cat3_desc">Protect your account and understand our privacy features</p>
       <span class="category-count" data-i18n="cat3_count">10 articles</span>
     </div>
-    <div class="category-card aos d4" onclick="showToast('Opening Billing & Plans...', 'success')" role="button" tabindex="0">
+    <div class="category-card aos d4" data-toast="Opening Billing & Plans..." data-toast-type="success" role="button" tabindex="0">
       <span class="category-icon" aria-hidden="true">💳</span>
       <h3 data-i18n="cat4_title">Billing &amp; Plans</h3>
       <p data-i18n="cat4_desc">Manage subscriptions, payments, and upgrade your plan</p>
       <span class="category-count" data-i18n="cat4_count">9 articles</span>
     </div>
-    <div class="category-card aos d5" onclick="showToast('Opening Integrations...', 'success')" role="button" tabindex="0">
+    <div class="category-card aos d5" data-toast="Opening Integrations..." data-toast-type="success" role="button" tabindex="0">
       <span class="category-icon" aria-hidden="true">🔗</span>
       <h3 data-i18n="cat5_title">Integrations</h3>
       <p data-i18n="cat5_desc">Connect ThePost with your favorite tools and services</p>
       <span class="category-count" data-i18n="cat5_count">15 articles</span>
     </div>
-    <div class="category-card aos d6" onclick="showToast('Opening Troubleshooting...', 'success')" role="button" tabindex="0">
+    <div class="category-card aos d6" data-toast="Opening Troubleshooting..." data-toast-type="success" role="button" tabindex="0">
       <span class="category-icon" aria-hidden="true">🐛</span>
       <h3 data-i18n="cat6_title">Troubleshooting</h3>
       <p data-i18n="cat6_desc">Fix common issues, errors, and get technical help</p>
@@ -416,42 +154,42 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
   </div>
 
   <div class="popular-grid">
-    <div class="popular-article aos d1" onclick="showArticle('setup-domain')" role="button" tabindex="0">
+    <div class="popular-article aos d1" data-article="setup-domain" role="button" tabindex="0">
       <div class="popular-article-icon" aria-hidden="true">📧</div>
       <div>
         <h4 data-i18n="pop1_title">How to set up a custom domain</h4>
         <p data-i18n="pop1_desc">Step-by-step guide to connect your domain</p>
       </div>
     </div>
-    <div class="popular-article aos d2" onclick="showArticle('reset-password')" role="button" tabindex="0">
+    <div class="popular-article aos d2" data-article="reset-password" role="button" tabindex="0">
       <div class="popular-article-icon" aria-hidden="true">🔑</div>
       <div>
         <h4 data-i18n="pop2_title">How to reset your password</h4>
         <p data-i18n="pop2_desc">Quick guide to account recovery</p>
       </div>
     </div>
-    <div class="popular-article aos d3" onclick="showArticle('migrate-emails')" role="button" tabindex="0">
+    <div class="popular-article aos d3" data-article="migrate-emails" role="button" tabindex="0">
       <div class="popular-article-icon" aria-hidden="true">📦</div>
       <div>
         <h4 data-i18n="pop3_title">Migrate from Gmail or Outlook</h4>
         <p data-i18n="pop3_desc">One-click migration guide</p>
       </div>
     </div>
-    <div class="popular-article aos d4" onclick="showArticle('enable-2fa')" role="button" tabindex="0">
+    <div class="popular-article aos d4" data-article="enable-2fa" role="button" tabindex="0">
       <div class="popular-article-icon" aria-hidden="true">🛡️</div>
       <div>
         <h4 data-i18n="pop4_title">Enable two-factor authentication</h4>
         <p data-i18n="pop4_desc">Secure your account with 2FA</p>
       </div>
     </div>
-    <div class="popular-article aos d5" onclick="showArticle('setup-signature')" role="button" tabindex="0">
+    <div class="popular-article aos d5" data-article="setup-signature" role="button" tabindex="0">
       <div class="popular-article-icon" aria-hidden="true">✍️</div>
       <div>
         <h4 data-i18n="pop5_title">Create an email signature</h4>
         <p data-i18n="pop5_desc">Customize your professional signature</p>
       </div>
     </div>
-    <div class="popular-article aos d6" onclick="showArticle('shared-mailbox')" role="button" tabindex="0">
+    <div class="popular-article aos d6" data-article="shared-mailbox" role="button" tabindex="0">
       <div class="popular-article-icon" aria-hidden="true">👥</div>
       <div>
         <h4 data-i18n="pop6_title">Set up a shared mailbox</h4>
@@ -469,42 +207,42 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
   </div>
 
   <div class="faq-item aos d1">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq1_q">How do I set up a custom domain?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq1_q">How do I set up a custom domain?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq1_a">Go to Settings → Domains → Add Domain. Enter your domain name and follow the DNS configuration instructions. You'll need to add MX, SPF, and DKIM records. Setup typically takes 5-10 minutes.</div></div>
   </div>
   <div class="faq-item aos d2">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq2_q">Can I migrate from Gmail or Outlook?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq2_q">Can I migrate from Gmail or Outlook?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq2_a">Yes! We offer one-click migration from Gmail, Outlook, Yahoo, and any IMAP-compatible provider. Go to Settings → Import → Select Provider and follow the wizard. Your folder structure, labels, and attachments are preserved.</div></div>
   </div>
   <div class="faq-item aos d3">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq3_q">Is my email really encrypted?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq3_q">Is my email really encrypted?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq3_a">Absolutely. We use end-to-end encryption (E2EE) based on the OpenPGP standard. Your emails are encrypted on your device and can only be decrypted by the intended recipient. We never have access to your encryption keys.</div></div>
   </div>
   <div class="faq-item aos d4">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq4_q">Can I cancel my subscription anytime?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq4_q">Can I cancel my subscription anytime?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq4_a">Yes, you can cancel at any time with no penalties. Your account remains active until the end of your current billing period. You can also downgrade to our free plan at any time.</div></div>
   </div>
   <div class="faq-item aos d1">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq5_q">Do you offer discounts for nonprofits?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq5_q">Do you offer discounts for nonprofits?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq5_a">Yes! We offer 50% off all paid plans for verified nonprofit organizations and educational institutions. Contact our sales team with your organization details to apply.</div></div>
   </div>
   <div class="faq-item aos d2">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq6_q">What happens to my data if I delete my account?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq6_q">What happens to my data if I delete my account?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq6_a">When you delete your account, all your data is permanently removed from our servers within 30 days. We provide a 30-day grace period during which you can recover your account. After 30 days, data cannot be recovered.</div></div>
   </div>
   <div class="faq-item aos d3">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq7_q">How do I enable two-factor authentication?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq7_q">How do I enable two-factor authentication?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq7_a">Go to Settings → Security → Two-Factor Authentication. You can choose between TOTP (authenticator app), SMS, or hardware security keys (YubiKey). We recommend using an authenticator app or hardware key for the best security.</div></div>
   </div>
   <div class="faq-item aos d4">
-    <div class="faq-question" onclick="toggleFaq(this)" role="button" aria-expanded="false"><span data-i18n="faq8_q">Can I use ThePost with my existing email client?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
+    <div class="faq-question" role="button" aria-expanded="false"><span data-i18n="faq8_q">Can I use ThePost with my existing email client?</span><span class="faq-toggle" aria-hidden="true">+</span></div>
     <div class="faq-answer"><div class="faq-answer-content" data-i18n="faq8_a">Yes! ThePost supports IMAP and SMTP protocols, so you can use it with Thunderbird, Apple Mail, Outlook, and other email clients. Go to Settings → Email Client Setup to get your IMAP/SMTP credentials.</div></div>
   </div>
 </section>
 
 <!-- ARTICLE DETAIL (hidden by default) -->
 <section class="article-detail" id="articleDetail" aria-live="polite">
-  <div class="article-back" onclick="hideArticle()" role="button" tabindex="0">
+  <div class="article-back" id="articleBack" role="button" tabindex="0">
     ←&nbsp;<span data-i18n="article_back">Back to Help Center</span>
   </div>
   <h1 id="articleTitle">How to set up a custom domain</h1>
@@ -549,9 +287,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
   <div class="footer-grid">
     <div class="footer-brand">
       <a class="navbar-logo" href="index.html" style="display:inline-flex;" aria-label="ThePost.Space homepage">
-        <div class="navbar-logo-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
-        </div>
+        <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
         <span>thepost.space</span>
       </a>
       <p data-i18n="foot_desc">Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.</p>
@@ -559,7 +295,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
     <div class="footer-col">
       <h4 data-i18n="foot_prod">Product</h4>
       <a href="solutions.html" data-i18n="foot_solutions">Solutions</a>
-      <a href="solutions.html" data-i18n="foot_security">Security</a>
+      <a href="security.html" data-i18n="foot_security">Security</a>
       <a href="pricing.html" data-i18n="foot_pricing">Pricing</a>
       <a href="integrations.html" data-i18n="foot_integrations">Integrations</a>
     </div>
@@ -707,6 +443,7 @@ const translations = {
 };
 
 let currentLang = 'en';
+  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}
 
 /* CURSOR GLOW */
 const cg = document.getElementById('cursorGlow');
@@ -779,6 +516,8 @@ function toggleFaq(el) {
 /* ARTICLE DETAIL */
 function showArticle(id) {
   document.getElementById('categoriesSection').style.display = 'none';
+  const faqSect = document.querySelector('.faq-section');
+  if (faqSect) faqSect.style.display = 'none';
   const detail = document.getElementById('articleDetail');
   detail.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -786,12 +525,32 @@ function showArticle(id) {
 function hideArticle() {
   document.getElementById('articleDetail').classList.remove('active');
   document.getElementById('categoriesSection').style.display = '';
+  const faqSect = document.querySelector('.faq-section');
+  if (faqSect) faqSect.style.display = '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* LANG SWITCH */
-function switchLang(lang) {
+/* ===== EVENT DELEGATION ===== */
+    document.addEventListener('click', e => {
+        const langBtn = e.target.closest('[data-lang]');
+        if (langBtn) { switchLang(langBtn.dataset.lang); return; }
+        const menuBtn = e.target.closest('#mobileMenuBtn');
+        if (menuBtn) { toggleMobileMenu(); return; }
+        const toastEl = e.target.closest('[data-toast]');
+        if (toastEl) { showToast(toastEl.dataset.toast, toastEl.dataset.toastType || 'success'); return; }
+        const articleEl = e.target.closest('[data-article]');
+        if (articleEl) { showArticle(articleEl.dataset.article); return; }
+        const faqQ = e.target.closest('.faq-question');
+        if (faqQ) { toggleFaq(faqQ); return; }
+        const backBtn = e.target.closest('#articleBack');
+        if (backBtn) { hideArticle(); }
+    });
+
+    function switchLang(lang) {
   currentLang = lang;
+  try { localStorage.setItem('lang', lang); } catch(e) {}
+  document.documentElement.lang = lang;
   document.getElementById('langEn').classList.toggle('active', lang === 'en');
   document.getElementById('langEn').setAttribute('aria-pressed', lang === 'en');
   document.getElementById('langRu').classList.toggle('active', lang === 'ru');
@@ -836,8 +595,9 @@ function showToast(msg, type = 'success') {
 }
 
 /* INIT */
+(function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loadingScreen').classList.add('hidden'), 1800);
+  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
   initAOS();
 }, { once: true });
 </script>

@@ -3,804 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sign in to your Moonwalker account.">
+    <meta name="description" content="Sign in to your ThePost.Space account.">
     <meta name="theme-color" content="#05050e">
-    <title>Sign In · Moonwalker</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366f1'/><circle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='2'/><circle cx='16' cy='16' r='3' fill='white'/></svg>">
+    <title>Sign In · ThePost.Space</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-    /* ===================== DESIGN TOKENS (from ThePost.Space) ===================== */
     :root {
-      --bg-primary: #05050e;
-      --bg-secondary: #08081a;
-      --bg-card: #0d0d20;
-      --bg-card-hover: #131328;
-      --border: #1a1a32;
-      --border-light: #252540;
-      --text-primary: #eeeef5;
-      --text-secondary: #7878a0;
-      --text-muted: #4a4a6a;
-      --accent: #6366f1;
-      --accent-light: #818cf8;
-      --accent-dark: #4f46e5;
-      --cyan: #06b6d4;
-      --green: #10b981;
-      --orange: #f59e0b;
-      --pink: #ec4899;
-      --red: #ef4444;
-      --gradient-1: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
-      --gradient-2: linear-gradient(135deg, #ec4899 0%, #6366f1 100%);
-      --radius: 12px;
-      --radius-lg: 20px;
-      --shadow: 0 4px 30px rgba(0,0,0,0.5);
-      --shadow-glow: 0 0 50px rgba(99,102,241,0.18);
-      --font-display: 'Unbounded', -apple-system, sans-serif;
-      --font-body: 'Inter', -apple-system, sans-serif;
-      --transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+      --bg: #05050e; --bg-card: #0d0d20; --bg-hover: #131328;
+      --border: #1a1a32; --border-l: #252540;
+      --text: #eeeef5; --text-2: #7878a0; --text-3: #4a4a6a;
+      --accent: #6366f1; --accent-l: #818cf8;
+      --cyan: #06b6d4; --green: #10b981;
+      --grad: linear-gradient(135deg,#6366f1 0%,#06b6d4 100%);
+      --r: 12px; --font: 'Inter',-apple-system,sans-serif;
+      --font-d: 'Unbounded',-apple-system,sans-serif;
+      --t: all .25s cubic-bezier(.16,1,.3,1);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      overflow-x: hidden;
-      line-height: 1.65;
-    }
-    h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
-    a { text-decoration: none; }
-
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg-primary); }
-    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-    /* ===================== CURSOR GLOW ===================== */
-    .cursor-glow {
-      position: fixed; width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%);
-      pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
-      transition: left 0.4s ease, top 0.4s ease; will-change: left, top;
-    }
-
-    /* ===================== BACKGROUND BLOBS ===================== */
-    .auth-bg {
-      position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
-    }
-    .blob {
-      position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.09;
-    }
-    .blob-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -80px; animation: blobMorph1 22s ease-in-out infinite; }
-    .blob-2 { width: 450px; height: 450px; background: var(--cyan); bottom: -120px; left: -100px; animation: blobMorph2 18s ease-in-out infinite; }
-    .blob-3 { width: 300px; height: 300px; background: var(--pink); top: 45%; left: 42%; animation: blobMorph3 14s ease-in-out infinite; }
-    @keyframes blobMorph1 { 0%,100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; } 33% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; transform: translate(25px,-18px); } 66% { border-radius: 50% 60% 30% 60%/30% 60% 70% 40%; transform: translate(-15px,25px); } }
-    @keyframes blobMorph2 { 0%,100% { border-radius: 40% 60% 70% 30%/40% 50% 50% 60%; } 50% { border-radius: 70% 30% 40% 60%/60% 40% 60% 30%; transform: translate(-25px,-20px); } }
-    @keyframes blobMorph3 { 0%,100% { border-radius: 50% 50% 40% 60%/50% 40% 60% 50%; transform: scale(1); } 50% { border-radius: 40% 60% 60% 40%/60% 50% 40% 60%; transform: scale(1.18); } }
-
-    /* Grid overlay */
-    .auth-grid-overlay {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image: linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse at center, black 20%, transparent 65%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 65%);
-    }
-
-    /* ===================== AUTH LAYOUT ===================== */
-    .auth-page {
-      position: relative; z-index: 2;
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    /* ===================== LEFT SIDE PANEL ===================== */
-    .auth-side {
-      position: relative;
-      padding: 60px 56px;
-      display: flex; flex-direction: column;
-      background:
-        linear-gradient(180deg, rgba(5,5,14,0.45) 0%, rgba(5,5,14,0.82) 100%),
-        radial-gradient(circle at 20% 30%, rgba(99,102,241,0.22), transparent 55%),
-        radial-gradient(circle at 80% 70%, rgba(6,182,212,0.14), transparent 55%);
-      border-right: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    /* Decorative rings on left panel */
-    .auth-side__rings {
-      position: absolute; bottom: -80px; right: -80px;
-      width: 400px; height: 400px; pointer-events: none;
-    }
-    .ring {
-      position: absolute; border-radius: 50%;
-      border: 1px solid rgba(99,102,241,0.1);
-    }
-    .ring:nth-child(1) { inset: 0; animation: ringRot 24s linear infinite; }
-    .ring:nth-child(1)::before { content:''; position: absolute; top:-4px; left:50%; transform:translateX(-50%); width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow: 0 0 14px var(--accent); }
-    .ring:nth-child(2) { inset: 40px; animation: ringRot 16s linear infinite reverse; border-color: rgba(6,182,212,0.1); }
-    .ring:nth-child(2)::before { content:''; position: absolute; top:-4px; left:50%; transform:translateX(-50%); width:8px; height:8px; background:var(--cyan); border-radius:50%; box-shadow: 0 0 14px var(--cyan); }
-    .ring:nth-child(3) { inset: 80px; animation: ringRot 11s linear infinite; border-color: rgba(236,72,153,0.08); }
-    @keyframes ringRot { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    .auth-side .logo {
-      position: relative; z-index: 2;
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display);
-      font-size: 1.25rem; font-weight: 700;
-      color: var(--text-primary);
-    }
-    .logo__icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: var(--gradient-1);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .logo__icon svg { width: 18px; height: 18px; color: white; }
-    .logo__text {
-      background: var(--gradient-1);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .auth-side__content {
-      position: relative; z-index: 2;
-      margin: auto 0;
-      max-width: 420px;
-    }
-
-    .auth-side__badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 5px 16px 5px 7px;
-      background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2);
-      border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-light);
-      margin-bottom: 24px;
-    }
-    .badge-dot {
-      width: 8px; height: 8px; background: var(--green); border-radius: 50%;
-      animation: dotPulse 2s infinite;
-    }
-    @keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 7px rgba(16,185,129,0); } }
-
-    .auth-side__title {
-      font-size: clamp(2rem, 3vw, 2.6rem);
-      font-weight: 800; line-height: 1.1;
-      margin-bottom: 20px; letter-spacing: -0.03em;
-    }
-    .auth-side__title .gradient-text {
-      background: var(--gradient-1);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .auth-side__desc {
-      color: var(--text-secondary);
-      font-size: 1rem; line-height: 1.75;
-      margin-bottom: 36px;
-    }
-
-    .auth-perks { display: flex; flex-direction: column; gap: 14px; }
-    .auth-perk {
-      display: flex; gap: 14px; align-items: flex-start;
-      padding: 14px 18px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius);
-      transition: var(--transition); cursor: default;
-    }
-    .auth-perk:hover { border-color: var(--accent); transform: translateX(6px); box-shadow: var(--shadow-glow); }
-    .auth-perk__icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.2);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent-light); flex-shrink: 0;
-    }
-    .auth-perk__icon svg { width: 18px; height: 18px; }
-    .auth-perk__title { font-weight: 600; color: var(--text-primary); margin-bottom: 2px; font-size: 0.9rem; }
-    .auth-perk__sub { color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; }
-
-    .auth-side__back {
-      position: relative; z-index: 2;
-      color: var(--text-secondary); font-size: 0.88rem;
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 32px; transition: var(--transition);
-    }
-    .auth-side__back:hover { color: var(--text-primary); gap: 10px; }
-
-    /* ===================== RIGHT FORM PANEL ===================== */
-    .auth-form {
-      padding: 60px 56px;
-      display: flex; flex-direction: column;
-      justify-content: center;
-      min-height: 100vh;
-      position: relative;
-    }
-    .auth-form__inner {
-      width: 100%; max-width: 420px; margin: 0 auto;
-    }
-
-    /* Language switcher */
-    .auth-form__lang {
-      position: absolute; top: 28px; right: 32px;
-    }
-    .lang-switch {
-      display: flex; align-items: center;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 9px; padding: 3px; gap: 2px;
-    }
-    .lang-btn {
-      padding: 5px 13px; border: none; background: transparent;
-      color: var(--text-muted); font-size: 12px; font-weight: 700;
-      border-radius: 6px; cursor: pointer; transition: var(--transition);
-      font-family: var(--font-display); letter-spacing: 0.05em;
-    }
-    .lang-btn.active { background: var(--accent); color: white; }
-
-    /* ===================== TABS ===================== */
-    .auth-tabs {
-      display: flex;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 4px;
-      margin-bottom: 36px; position: relative;
-    }
-    .auth-tab {
-      flex: 1; padding: 11px 16px;
-      text-align: center; font-weight: 600; font-size: 0.92rem;
-      color: var(--text-muted);
-      background: none; border: none; border-radius: 9px;
-      transition: color 0.3s ease; position: relative; z-index: 2;
-      cursor: pointer; font-family: var(--font-body);
-    }
-    .auth-tab.active { color: var(--text-primary); }
-    .auth-tabs__indicator {
-      position: absolute; top: 4px; bottom: 4px; left: 4px;
-      width: calc(50% - 4px);
-      background: var(--gradient-1);
-      border-radius: 9px;
-      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
-      box-shadow: 0 4px 16px rgba(99,102,241,0.3);
-      z-index: 1;
-    }
-
-    /* ===================== FORM CONTENT ===================== */
-    .auth-form__title {
-      font-size: 1.7rem; font-weight: 800;
-      margin-bottom: 8px; letter-spacing: -0.025em;
-    }
-    .auth-form__sub {
-      color: var(--text-muted); margin-bottom: 28px; font-size: 0.94rem;
-    }
-
-    .form-pane { display: none; animation: fadeSlide 0.4s ease; }
-    .form-pane.active { display: block; }
-    @keyframes fadeSlide {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===================== FIELDS ===================== */
-    .field { margin-bottom: 16px; position: relative; }
-    .field label {
-      display: block; font-size: 0.84rem;
-      font-weight: 500; color: var(--text-secondary);
-      margin-bottom: 7px;
-    }
-    .field input {
-      width: 100%;
-      padding: 13px 16px 13px 42px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--text-primary);
-      font-size: 0.95rem; font-family: var(--font-body);
-      transition: var(--transition); outline: none;
-    }
-    .field input::placeholder { color: var(--text-muted); }
-    .field input:focus {
-      border-color: var(--accent);
-      background: var(--bg-card-hover);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
-    }
-    .field__icon {
-      position: absolute; left: 14px; top: 38px;
-      color: var(--text-muted); pointer-events: none;
-    }
-    .field__icon svg { width: 17px; height: 17px; }
-    .field--password input { padding-right: 44px; }
-    .password-toggle {
-      position: absolute; right: 12px; top: 34px;
-      background: none; border: none;
-      color: var(--text-muted); padding: 6px; cursor: pointer;
-      transition: color 0.2s ease;
-    }
-    .password-toggle:hover { color: var(--text-primary); }
-
-    /* ===================== FORM OPTIONS ===================== */
-    .form-options {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 22px; font-size: 0.86rem;
-      flex-wrap: wrap; gap: 8px;
-    }
-    .checkbox {
-      display: inline-flex; align-items: center; gap: 8px;
-      cursor: pointer; color: var(--text-secondary);
-    }
-    .checkbox input { display: none; }
-    .checkbox__box {
-      width: 17px; height: 17px;
-      border: 1.5px solid var(--border-light); border-radius: 5px;
-      background: var(--bg-card);
-      display: inline-flex; align-items: center; justify-content: center;
-      transition: var(--transition);
-    }
-    .checkbox input:checked + .checkbox__box {
-      background: var(--accent); border-color: var(--accent);
-    }
-    .checkbox input:checked + .checkbox__box::after {
-      content: '';
-      width: 9px; height: 5px;
-      border-left: 2px solid #fff; border-bottom: 2px solid #fff;
-      transform: rotate(-45deg) translate(1px, -1px);
-    }
-    .forgot-link {
-      color: var(--accent-light); font-size: 0.86rem; font-weight: 500;
-    }
-    .forgot-link:hover { color: var(--text-primary); }
-
-    /* ===================== SUBMIT BUTTON ===================== */
-    .auth-submit {
-      width: 100%; margin-bottom: 22px;
-      padding: 14px 28px; border-radius: var(--radius);
-      background: var(--gradient-1); color: white; border: none;
-      font-size: 15px; font-weight: 600; font-family: var(--font-body);
-      cursor: pointer; position: relative; overflow: hidden;
-      box-shadow: 0 4px 22px rgba(99,102,241,0.35);
-      transition: var(--transition);
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .auth-submit::before {
-      content:''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
-      transform: translateX(-110%); transition: transform 0.6s ease;
-    }
-    .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(99,102,241,0.52); }
-    .auth-submit:hover::before { transform: translateX(110%); }
-    .auth-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-
-    /* ===================== MESSAGES ===================== */
-    .form-msg {
-      padding: 12px 14px; border-radius: var(--radius);
-      font-size: 0.88rem; margin-bottom: 18px;
-      display: none; border: 1px solid;
-    }
-    .form-msg.show { display: block; }
-    .form-msg.error {
-      background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); color: #fca5a5;
-    }
-    .form-msg.success {
-      background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); color: #6ee7b7;
-    }
-
-    /* ===================== SPINNER ===================== */
-    .spinner {
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
-      border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
-    }
-    .auth-submit.loading .spinner { display: inline-block; }
-    .auth-submit.loading .btn__label { opacity: 0.7; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ===================== DIVIDER ===================== */
-    .divider {
-      display: flex; align-items: center; gap: 14px;
-      margin: 24px 0; color: var(--text-muted);
-      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .divider::before, .divider::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
-    }
-
-    /* ===================== FORM FOOTER ===================== */
-    .form-foot {
-      text-align: center; color: var(--text-muted);
-      font-size: 0.92rem; margin-top: 8px;
-    }
-    .form-foot a {
-      color: var(--accent-light); font-weight: 600; margin-left: 4px;
-    }
-    .form-foot a:hover { color: var(--text-primary); }
-
-    /* ===================== RIPPLE ===================== */
-    .ripple {
-      position: absolute; border-radius: 50%;
-      background: rgba(255,255,255,0.25);
-      transform: scale(0); pointer-events: none;
-      animation: rippleAnim 0.65s ease-out forwards;
-    }
-    @keyframes rippleAnim { to { transform: scale(2.5); opacity: 0; } }
-
-    /* ===================== RESPONSIVE ===================== */
-    @media (max-width: 960px) {
-      .auth-page { grid-template-columns: 1fr; }
-      .auth-side { display: none; }
-      .auth-form { padding: 40px 24px; }
-      .auth-form__lang { top: 20px; right: 20px; }
-    }
-    @media (max-width: 480px) {
-      .auth-form { padding: 32px 16px; }
-      .auth-form__title { font-size: 1.45rem; }
-    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      overflow-x:hidden;line-height:1.6}
+    /* Background */
+    .bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:.07}
+    .blob-1{width:500px;height:500px;background:var(--accent);top:-150px;right:-100px;animation:bp1 20s ease-in-out infinite}
+    .blob-2{width:380px;height:380px;background:var(--cyan);bottom:-100px;left:-80px;animation:bp2 16s ease-in-out infinite}
+    @keyframes bp1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,20px)}}
+    @keyframes bp2{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,-30px)}}
+    .cursor-glow{position:fixed;width:400px;height:400px;border-radius:50%;
+      background:radial-gradient(circle,rgba(99,102,241,.06) 0%,transparent 70%);
+      pointer-events:none;z-index:1;top:0;left:0;will-change:transform}
+    /* Card */
+    .card{position:relative;z-index:2;width:100%;max-width:420px;margin:24px;
+      padding:40px 36px;background:var(--bg-card);border:1px solid var(--border);
+      border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+    /* Header */
+    .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+    .logo{display:flex;align-items:center;gap:9px;text-decoration:none;
+      font-family:var(--font-d);font-size:1rem;font-weight:700}
+    .logo-icon{width:32px;height:32px;border-radius:9px;background:var(--grad);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .logo-icon svg{width:16px;height:16px;color:#fff}
+    .logo-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .lang-switch{display:flex;align-items:center;background:var(--bg);
+      border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px}
+    .lang-btn{padding:4px 12px;border:none;background:transparent;color:var(--text-3);
+      font-size:11px;font-weight:700;border-radius:5px;cursor:pointer;transition:var(--t);
+      font-family:var(--font-d);letter-spacing:.05em}
+    .lang-btn.active{background:var(--accent);color:#fff}
+    /* Title */
+    .card-title{font-family:var(--font-d);font-size:1.45rem;font-weight:700;
+      letter-spacing:-.02em;margin-bottom:6px}
+    .card-sub{color:var(--text-2);font-size:.9rem;margin-bottom:28px}
+    /* Fields */
+    .field{margin-bottom:16px;position:relative}
+    .field label{display:block;font-size:.82rem;font-weight:500;color:var(--text-2);margin-bottom:6px}
+    .field input{width:100%;padding:12px 14px 12px 40px;background:var(--bg);
+      border:1px solid var(--border);border-radius:var(--r);color:var(--text);
+      font-size:.94rem;font-family:var(--font);transition:var(--t);outline:none}
+    .field input::placeholder{color:var(--text-3)}
+    .field input:focus{border-color:var(--accent);background:var(--bg-hover);
+      box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+    .field-icon{position:absolute;left:13px;top:37px;color:var(--text-3);pointer-events:none}
+    .field-icon svg{width:15px;height:15px}
+    .field--pw input{padding-right:42px}
+    .pw-toggle{position:absolute;right:11px;top:33px;background:none;border:none;
+      color:var(--text-3);padding:5px;cursor:pointer;transition:color .2s}
+    .pw-toggle:hover{color:var(--text)}
+    .pw-toggle svg{width:15px;height:15px}
+    /* Row */
+    .form-row{display:flex;justify-content:space-between;align-items:center;
+      margin-bottom:22px;font-size:.85rem;gap:8px;flex-wrap:wrap}
+    .check-label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;color:var(--text-2)}
+    .check-label input{display:none}
+    .check-box{width:16px;height:16px;border:1.5px solid var(--border-l);border-radius:4px;
+      background:var(--bg);display:inline-flex;align-items:center;justify-content:center;
+      flex-shrink:0;transition:var(--t)}
+    .check-label input:checked+.check-box{background:var(--accent);border-color:var(--accent)}
+    .check-label input:checked+.check-box::after{content:'';width:8px;height:5px;
+      border-left:2px solid #fff;border-bottom:2px solid #fff;
+      transform:rotate(-45deg) translate(1px,-1px);display:block}
+    .forgot-link{color:var(--accent-l);font-size:.85rem;font-weight:500;
+      text-decoration:none;transition:color .2s}
+    .forgot-link:hover{color:var(--text)}
+    /* Submit */
+    .btn-submit{width:100%;margin-bottom:20px;padding:13px 24px;border-radius:var(--r);
+      background:var(--grad);color:#fff;border:none;font-size:.95rem;font-weight:600;
+      font-family:var(--font);cursor:pointer;position:relative;overflow:hidden;
+      box-shadow:0 4px 20px rgba(99,102,241,.32);transition:var(--t);
+      display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-submit:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(99,102,241,.48)}
+    .btn-submit:active{transform:translateY(0)}
+    .btn-submit:disabled{opacity:.65;cursor:not-allowed;transform:none}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.22);
+      transform:scale(0);pointer-events:none;animation:rippleA .6s ease-out forwards}
+    @keyframes rippleA{to{transform:scale(3);opacity:0}}
+    .spinner{width:15px;height:15px;border:2px solid rgba(255,255,255,.3);
+      border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+    .btn-submit.loading .spinner{display:inline-block}
+    .btn-submit.loading .btn-label{opacity:.7}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* Message */
+    .msg{padding:11px 14px;border-radius:var(--r);font-size:.86rem;
+      margin-bottom:16px;display:none;border:1px solid}
+    .msg.show{display:block}
+    .msg.error{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:#fca5a5}
+    .msg.success{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25);color:#6ee7b7}
+    /* Footer */
+    .card-foot{text-align:center;color:var(--text-3);font-size:.88rem;margin-top:4px}
+    .card-foot a{color:var(--accent-l);font-weight:600;margin-left:4px;text-decoration:none}
+    .card-foot a:hover{color:var(--text)}
+    .back-link{position:absolute;bottom:-36px;left:0;right:0;text-align:center;
+      font-size:.84rem;color:var(--text-3);text-decoration:none;transition:color .2s;
+      display:flex;align-items:center;justify-content:center;gap:5px}
+    .back-link:hover{color:var(--text-2)}
+    @media(max-width:480px){.card{padding:28px 20px;margin:16px}.card-title{font-size:1.25rem}}
     </style>
 </head>
 <body>
 
-    <!-- Background -->
-    <div class="auth-bg" aria-hidden="true">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-    <div class="auth-grid-overlay" aria-hidden="true"></div>
-    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+<div class="bg" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+</div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-    <div class="auth-page">
-
-        <!-- ===== LEFT SIDE ===== -->
-        <aside class="auth-side">
-            <!-- Decorative rings -->
-            <div class="auth-side__rings" aria-hidden="true">
-                <div class="ring"></div>
-                <div class="ring"></div>
-                <div class="ring"></div>
+<div class="card">
+    <div class="card-header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
-
-            <a href="index.html" class="logo">
-                <div class="logo__icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-                </div>
-                <span class="logo__text">Moonwalker</span>
-            </a>
-
-            <div class="auth-side__content">
-                <div class="auth-side__badge">
-                    <span class="badge-dot"></span>
-                    <span class="lang-en">Trusted by 200,000+ users</span>
-                    <span class="lang-ru">Доверяют 200 000+ пользователей</span>
-                </div>
-
-                <h1 class="auth-side__title">
-                    <span class="lang-en">Take your finance <span class="gradient-text">beyond boundaries</span></span>
-                    <span class="lang-ru">Финансы <span class="gradient-text">без границ</span></span>
-                </h1>
-                <p class="auth-side__desc">
-                    <span class="lang-en">Join the next generation of global payments. Fast, secure, and built for the world ahead.</span>
-                    <span class="lang-ru">Присоединяйтесь к новому поколению глобальных платежей. Быстро, безопасно и для будущего.</span>
-                </p>
-
-                <div class="auth-perks">
-                    <div class="auth-perk">
-                        <div class="auth-perk__icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        </div>
-                        <div>
-                            <div class="auth-perk__title"><span class="lang-en">Setup in 2 minutes</span><span class="lang-ru">Настройка за 2 минуты</span></div>
-                            <div class="auth-perk__sub"><span class="lang-en">AI-powered KYC, no paperwork.</span><span class="lang-ru">KYC на ИИ, без бумаг.</span></div>
-                        </div>
-                    </div>
-                    <div class="auth-perk">
-                        <div class="auth-perk__icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
-                        <div>
-                            <div class="auth-perk__title"><span class="lang-en">Bank-grade security</span><span class="lang-ru">Банковская безопасность</span></div>
-                            <div class="auth-perk__sub"><span class="lang-en">PCI DSS Level 1 · SOC 2 · ISO 27001</span><span class="lang-ru">PCI DSS Level 1 · SOC 2 · ISO 27001</span></div>
-                        </div>
-                    </div>
-                    <div class="auth-perk">
-                        <div class="auth-perk__icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        </div>
-                        <div>
-                            <div class="auth-perk__title"><span class="lang-en">150+ currencies, 200+ countries</span><span class="lang-ru">150+ валют, 200+ стран</span></div>
-                            <div class="auth-perk__sub"><span class="lang-en">Real-time FX with no hidden markups.</span><span class="lang-ru">Реальные курсы без скрытых наценок.</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="index.html" class="auth-side__back">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                <span class="lang-en">Back to homepage</span>
-                <span class="lang-ru">На главную</span>
-            </a>
-        </aside>
-
-        <!-- ===== RIGHT FORM ===== -->
-        <main class="auth-form">
-            <!-- Language switcher -->
-            <div class="auth-form__lang">
-                <div class="lang-switch">
-                    <button class="lang-btn active" id="langEn" onclick="setLang('en')">EN</button>
-                    <button class="lang-btn" id="langRu" onclick="setLang('ru')">RU</button>
-                </div>
-            </div>
-
-            <div class="auth-form__inner">
-                <!-- TABS -->
-                <div class="auth-tabs" id="authTabs">
-                    <div class="auth-tabs__indicator" id="tabIndicator"></div>
-                    <button class="auth-tab active" data-target="login" id="signinTabBtn">
-                        <span class="lang-en">Sign in</span><span class="lang-ru">Вход</span>
-                    </button>
-                    <button class="auth-tab" data-target="register" id="signupTabBtn">
-                        <span class="lang-en">Sign up</span><span class="lang-ru">Регистрация</span>
-                    </button>
-                </div>
-
-                <div id="formMessage" class="form-msg"></div>
-
-                <!-- SIGN IN PANE -->
-                <div class="form-pane active" id="pane-login">
-                    <h2 class="auth-form__title">
-                        <span class="lang-en">Welcome back</span>
-                        <span class="lang-ru">С возвращением</span>
-                    </h2>
-                    <p class="auth-form__sub">
-                        <span class="lang-en">Sign in to your Moonwalker account.</span>
-                        <span class="lang-ru">Войдите в ваш аккаунт Moonwalker.</span>
-                    </p>
-
-                    <form id="loginForm" novalidate>
-                        <div class="field">
-                            <label for="loginEmail">
-                                <span class="lang-en">Email</span><span class="lang-ru">Email</span>
-                            </label>
-                            <input type="email" id="loginEmail" name="email" required autocomplete="email"
-                                   data-placeholder-en="you@example.com"
-                                   data-placeholder-ru="ваш@example.com"
-                                   placeholder="you@example.com">
-                            <span class="field__icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                            </span>
-                        </div>
-
-                        <div class="field field--password">
-                            <label for="loginPassword">
-                                <span class="lang-en">Password</span><span class="lang-ru">Пароль</span>
-                            </label>
-                            <input type="password" id="loginPassword" name="password" required autocomplete="current-password"
-                                   data-placeholder-en="Enter your password"
-                                   data-placeholder-ru="Введите пароль"
-                                   placeholder="Enter your password">
-                            <span class="field__icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                            </span>
-                            <button type="button" class="password-toggle" id="pwToggle" aria-label="Toggle password">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                            </button>
-                        </div>
-
-                        <div class="form-options">
-                            <label class="checkbox">
-                                <input type="checkbox" id="rememberMe" checked>
-                                <span class="checkbox__box"></span>
-                                <span>
-                                    <span class="lang-en">Remember me</span>
-                                    <span class="lang-ru">Запомнить меня</span>
-                                </span>
-                            </label>
-                            <a href="#" id="forgotLink" class="forgot-link">
-                                <span class="lang-en">Forgot password?</span>
-                                <span class="lang-ru">Забыли пароль?</span>
-                            </a>
-                        </div>
-
-                        <button type="submit" class="auth-submit" id="loginBtn">
-                            <span class="btn__label">
-                                <span class="lang-en">Sign in</span>
-                                <span class="lang-ru">Войти</span>
-                            </span>
-                            <span class="spinner"></span>
-                        </button>
-                    </form>
-
-                    <div class="form-foot">
-                        <span>
-                            <span class="lang-en">Don't have an account?</span>
-                            <span class="lang-ru">Нет аккаунта?</span>
-                        </span>
-                        <a href="contact.html" id="applyLink">
-                            <span class="lang-en">Submit an application</span>
-                            <span class="lang-ru">Подать заявку</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- SIGN UP PANE (hidden — redirects) -->
-                <div class="form-pane" id="pane-register" style="display:none;"></div>
-            </div>
-        </main>
+            <span class="logo-text">ThePost.Space</span>
+        </a>
+        <div class="lang-switch">
+            <button class="lang-btn active" id="langEn" data-lang="en">EN</button>
+            <button class="lang-btn" id="langRu" data-lang="ru">RU</button>
+        </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-    <script>
-    /* ===== LANGUAGE ===== */
-    let currentLang = 'en';
-    function setLang(l) {
-        currentLang = l;
-        document.getElementById('langEn').classList.toggle('active', l === 'en');
-        document.getElementById('langRu').classList.toggle('active', l === 'ru');
-        updatePlaceholders();
-    }
-    function updatePlaceholders() {
-        document.querySelectorAll('[data-placeholder-en][data-placeholder-ru]').forEach(el => {
-            el.placeholder = el.getAttribute(`data-placeholder-${currentLang}`);
-        });
-    }
-    // Show only the correct lang spans
-    document.querySelectorAll('.lang-en, .lang-ru').forEach(el => {
-        el.style.display = '';
-    });
-    // Handle visibility via CSS instead
-    const langStyle = document.createElement('style');
-    langStyle.id = 'langStyle';
-    document.head.appendChild(langStyle);
-    function applyLangStyle(l) {
-        langStyle.textContent = l === 'en'
-            ? '.lang-ru { display: none !important; } .lang-en { display: inline; }'
-            : '.lang-en { display: none !important; } .lang-ru { display: inline; }';
-    }
-    applyLangStyle('en');
-    function setLang(l) {
-        currentLang = l;
-        document.getElementById('langEn').classList.toggle('active', l === 'en');
-        document.getElementById('langRu').classList.toggle('active', l === 'ru');
-        applyLangStyle(l);
-        updatePlaceholders();
-    }
+    <h1 class="card-title" data-i18n="title">Welcome back</h1>
+    <p class="card-sub" data-i18n="sub">Sign in to your ThePost.Space account.</p>
 
-    /* ===== CURSOR GLOW ===== */
-    const cg = document.getElementById('cursorGlow');
-    if (window.matchMedia('(hover: hover)').matches) {
-        document.addEventListener('mousemove', e => {
-            cg.style.left = e.clientX + 'px';
-            cg.style.top = e.clientY + 'px';
-        }, { passive: true });
-    }
+    <div class="msg" id="formMsg"></div>
 
-    /* ===== RIPPLE ===== */
-    document.addEventListener('click', e => {
-        const btn = e.target.closest('.auth-submit');
-        if (!btn) return;
-        const r = btn.getBoundingClientRect();
-        const rip = document.createElement('span');
-        rip.className = 'ripple';
-        const size = Math.max(r.width, r.height);
-        rip.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;`;
-        btn.appendChild(rip);
-        setTimeout(() => rip.remove(), 700);
-    }, { passive: true });
+    <form id="loginForm" novalidate>
+        <div class="field">
+            <label for="loginEmail" data-i18n="label_email">Email</label>
+            <input type="email" id="loginEmail" name="email" required
+                   autocomplete="email" data-i18n-ph="ph_email" placeholder="you@example.com">
+            <span class="field-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+        </div>
+        <div class="field field--pw">
+            <label for="loginPw" data-i18n="label_pw">Password</label>
+            <input type="password" id="loginPw" name="password" required
+                   autocomplete="current-password" data-i18n-ph="ph_pw" placeholder="Enter your password">
+            <span class="field-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            </span>
+            <button type="button" class="pw-toggle" id="pwToggle" aria-label="Toggle password visibility">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <div class="form-row">
+            <label class="check-label">
+                <input type="checkbox" id="rememberMe" checked>
+                <span class="check-box"></span>
+                <span data-i18n="remember">Remember me</span>
+            </label>
+            <a href="#" id="forgotLink" class="forgot-link" data-i18n="forgot">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn-submit" id="loginBtn">
+            <span class="btn-label" data-i18n="btn_signin">Sign in</span>
+            <span class="spinner"></span>
+        </button>
+    </form>
 
-    /* ===== TABS ===== */
-    const signupTab = document.getElementById('signupTabBtn');
-    const signinTab = document.getElementById('signinTabBtn');
-    const indicator = document.getElementById('tabIndicator');
-    const loginPane = document.getElementById('pane-login');
+    <p class="card-foot">
+        <span data-i18n="no_account">Don't have an account?</span>
+        <a href="contact.html" data-i18n="apply">Submit an application</a>
+    </p>
 
-    if (signupTab) {
-        signupTab.addEventListener('click', () => {
-            window.location.href = 'contact.html';
-        });
-    }
-    if (signinTab) {
-        signinTab.addEventListener('click', () => {
-            signinTab.classList.add('active');
-            signupTab.classList.remove('active');
-            if (indicator) indicator.style.transform = 'translateX(0)';
-            if (loginPane) loginPane.classList.add('active');
-        });
-    }
+    <a href="index.html" class="back-link">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span data-i18n="back_home">Back to homepage</span>
+    </a>
+</div>
 
-    /* ===== PASSWORD TOGGLE ===== */
-    const pwToggle = document.getElementById('pwToggle');
-    const pwInput = document.getElementById('loginPassword');
-    if (pwToggle && pwInput) {
-        pwToggle.addEventListener('click', () => {
-            const isHidden = pwInput.type === 'password';
-            pwInput.type = isHidden ? 'text' : 'password';
-            pwToggle.style.color = isHidden ? 'var(--accent-light)' : 'var(--text-muted)';
-        });
-    }
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script>
+'use strict';
+/* ===== Unified i18n system ===== */
+const T = {
+  en: {
+    title:'Welcome back', sub:'Sign in to your ThePost.Space account.',
+    label_email:'Email', label_pw:'Password',
+    ph_email:'you@example.com', ph_pw:'Enter your password',
+    remember:'Remember me', forgot:'Forgot password?', btn_signin:'Sign in',
+    no_account:"Don't have an account?", apply:'Submit an application',
+    back_home:'Back to homepage',
+    err_fill:'Please fill in all fields.',
+    err_email:'Enter your email above first.',
+    ok_reset:'Reset link sent to', ok_signin:'Signed in! Redirecting\u2026',
+    err_invalid_email:'Invalid email address.', err_not_found:'No account found.',
+    err_wrong_pw:'Incorrect password.', err_too_many:'Too many attempts. Try again later.',
+    err_network:'Network error.', err_default:'Incorrect email or password.',
+  },
+  ru: {
+    title:'\u0421 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0435\u043d\u0438\u0435\u043c',
+    sub:'\u0412\u043e\u0439\u0434\u0438\u0442\u0435 \u0432 \u0432\u0430\u0448 \u0430\u043a\u043a\u0430\u0443\u043d\u0442 ThePost.Space.',
+    label_email:'Email', label_pw:'\u041f\u0430\u0440\u043e\u043b\u044c',
+    ph_email:'\u0432\u0430\u0448@example.com', ph_pw:'\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043f\u0430\u0440\u043e\u043b\u044c',
+    remember:'\u0417\u0430\u043f\u043e\u043c\u043d\u0438\u0442\u044c \u043c\u0435\u043d\u044f',
+    forgot:'\u0417\u0430\u0431\u044b\u043b\u0438 \u043f\u0430\u0440\u043e\u043b\u044c?',
+    btn_signin:'\u0412\u043e\u0439\u0442\u0438',
+    no_account:'\u041d\u0435\u0442 \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430?',
+    apply:'\u041f\u043e\u0434\u0430\u0442\u044c \u0437\u0430\u044f\u0432\u043a\u0443',
+    back_home:'\u041d\u0430 \u0433\u043b\u0430\u0432\u043d\u0443\u044e',
+    err_fill:'\u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u0432\u0441\u0435 \u043f\u043e\u043b\u044f.',
+    err_email:'\u0421\u043d\u0430\u0447\u0430\u043b\u0430 \u0432\u0432\u0435\u0434\u0438\u0442\u0435 email \u0432\u044b\u0448\u0435.',
+    ok_reset:'\u0421\u0441\u044b\u043b\u043a\u0430 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0430 \u043d\u0430',
+    ok_signin:'\u0412\u0445\u043e\u0434 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d! \u041f\u0435\u0440\u0435\u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435\u2026',
+    err_invalid_email:'\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 email.',
+    err_not_found:'\u0410\u043a\u043a\u0430\u0443\u043d\u0442 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d.',
+    err_wrong_pw:'\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u043f\u0430\u0440\u043e\u043b\u044c.',
+    err_too_many:'\u0421\u043b\u0438\u0448\u043a\u043e\u043c \u043c\u043d\u043e\u0433\u043e \u043f\u043e\u043f\u044b\u0442\u043e\u043a.',
+    err_network:'\u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u0435\u0442\u0438.',
+    err_default:'\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u043b\u043e\u0433\u0438\u043d \u0438\u043b\u0438 \u043f\u0430\u0440\u043e\u043b\u044c.',
+  }
+};
 
-    /* ===== FIREBASE ===== */
-    const firebaseConfig = {
-        apiKey: "AIzaSyDt5Yuc48wceVPHU_2fR56qFHDpVrhPCuQ",
-        authDomain: "moonwalker-57c96.firebaseapp.com",
-        projectId: "moonwalker-57c96",
-        storageBucket: "moonwalker-57c96.firebasestorage.app",
-        messagingSenderId: "33382180229",
-        appId: "1:33382180229:web:752d4e014c69f4eab390ec"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+let lang = 'en';
+try { const s = localStorage.getItem('lang'); if (s === 'ru') lang = 'ru'; } catch(e) {}
 
-    const formMsg = document.getElementById('formMessage');
-    function showMsg(text, type) {
-        formMsg.textContent = text;
-        formMsg.className = 'form-msg show ' + type;
-        setTimeout(() => formMsg.classList.remove('show'), 5000);
-    }
-    function setLoading(btn, loading) {
-        btn.classList.toggle('loading', loading);
-        btn.disabled = loading;
-    }
-    function getErrMsg(code) {
-        const ru = currentLang === 'ru';
-        const map = {
-            'auth/invalid-email':          ru ? 'Введите корректный email.' : 'Invalid email address.',
-            'auth/user-not-found':         ru ? 'Аккаунт не найден.' : 'No account found.',
-            'auth/wrong-password':         ru ? 'Неверный пароль.' : 'Incorrect password.',
-            'auth/too-many-requests':      ru ? 'Слишком много попыток. Попробуйте позже.' : 'Too many attempts. Try again later.',
-            'auth/network-request-failed': ru ? 'Ошибка сети.' : 'Network error.'
-        };
-        return map[code] || (ru ? 'Неправильный логин или пароль.' : 'Incorrect email or password.');
-    }
+function applyLang(l) {
+  lang = l;
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.documentElement.lang = l;
+  document.getElementById('langEn').classList.toggle('active', l === 'en');
+  document.getElementById('langRu').classList.toggle('active', l === 'ru');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[l][key] !== undefined) el.textContent = T[l][key];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (T[l][key] !== undefined) el.placeholder = T[l][key];
+  });
+}
 
-    /* Login form */
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn  = document.getElementById('loginBtn');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async e => {
-            e.preventDefault();
-            const email    = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const remember = document.getElementById('rememberMe').checked;
-            if (!email || !password) {
-                showMsg(currentLang === 'ru' ? 'Заполните все поля.' : 'Please fill in all fields.', 'error');
-                return;
-            }
-            setLoading(loginBtn, true);
-            try {
-                await auth.setPersistence(remember
-                    ? firebase.auth.Auth.Persistence.LOCAL
-                    : firebase.auth.Auth.Persistence.SESSION);
-                await auth.signInWithEmailAndPassword(email, password);
-                showMsg(currentLang === 'ru' ? 'Вход выполнен! Перенаправление...' : 'Signed in! Redirecting...', 'success');
-                setTimeout(() => { window.location.href = 'index.html'; }, 1200);
-            } catch (err) {
-                showMsg(getErrMsg(err.code), 'error');
-                setLoading(loginBtn, false);
-            }
-        });
-    }
+/* ===== Cursor glow — GPU-accelerated ===== */
+const cg = document.getElementById('cursorGlow');
+if (window.matchMedia('(hover: hover)').matches) {
+  document.addEventListener('mousemove', e => {
+    cg.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+  }, { passive: true });
+}
 
-    /* Forgot password */
-    const forgotLink = document.getElementById('forgotLink');
-    if (forgotLink) {
-        forgotLink.addEventListener('click', async e => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            if (!email) {
-                showMsg(currentLang === 'ru' ? 'Введите email в поле выше.' : 'Enter your email above.', 'error');
-                return;
-            }
-            try {
-                await auth.sendPasswordResetEmail(email);
-                showMsg(currentLang === 'ru'
-                    ? `Ссылка для сброса отправлена на ${email}.`
-                    : `Reset link sent to ${email}.`, 'success');
-            } catch (err) {
-                showMsg(getErrMsg(err.code), 'error');
-            }
-        });
-    }
+/* ===== Event delegation — zero inline onclick ===== */
+document.addEventListener('click', e => {
+  const langBtn = e.target.closest('[data-lang]');
+  if (langBtn) { applyLang(langBtn.dataset.lang); return; }
+  const submitBtn = e.target.closest('.btn-submit');
+  if (submitBtn && !submitBtn.disabled) {
+    const r = submitBtn.getBoundingClientRect();
+    const rip = document.createElement('span');
+    rip.className = 'ripple';
+    const sz = Math.max(r.width, r.height);
+    rip.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-r.left-sz/2}px;top:${e.clientY-r.top-sz/2}px`;
+    submitBtn.appendChild(rip);
+    setTimeout(() => rip.remove(), 650);
+  }
+});
 
-    /* Init placeholders */
-    updatePlaceholders();
-    </script>
+/* ===== Password toggle ===== */
+document.getElementById('pwToggle').addEventListener('click', function() {
+  const inp = document.getElementById('loginPw');
+  const hide = inp.type === 'password';
+  inp.type = hide ? 'text' : 'password';
+  this.style.color = hide ? 'var(--accent-l)' : 'var(--text-3)';
+});
+
+/* ===== Firebase ===== */
+firebase.initializeApp({
+  apiKey:"AIzaSyD65Tb0PBeX8qyskDV360eTp_Ovkg5UCIU",
+  authDomain:"thepostspace.firebaseapp.com",
+  projectId:"thepostspace",
+  storageBucket:"thepostspace.firebasestorage.app",
+  messagingSenderId:"930121073201",
+  appId:"1:930121073201:web:984283f9819e65c2674b10"
+});
+const auth = firebase.auth();
+
+const formMsg = document.getElementById('formMsg');
+function showMsg(text, type) {
+  formMsg.textContent = text;
+  formMsg.className = 'msg show ' + type;
+  setTimeout(() => formMsg.classList.remove('show'), 5000);
+}
+function setLoading(on) {
+  const btn = document.getElementById('loginBtn');
+  btn.classList.toggle('loading', on);
+  btn.disabled = on;
+}
+const ERR_MAP = {
+  'auth/invalid-email':'err_invalid_email','auth/user-not-found':'err_not_found',
+  'auth/wrong-password':'err_wrong_pw','auth/too-many-requests':'err_too_many',
+  'auth/network-request-failed':'err_network'
+};
+function getErr(code) { return T[lang][ERR_MAP[code] || 'err_default']; }
+
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPw').value;
+  const rem   = document.getElementById('rememberMe').checked;
+  if (!email || !pw) { showMsg(T[lang].err_fill, 'error'); return; }
+  setLoading(true);
+  try {
+    await auth.setPersistence(rem ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION);
+    await auth.signInWithEmailAndPassword(email, pw);
+    showMsg(T[lang].ok_signin, 'success');
+    setTimeout(() => window.location.href = 'index.html', 1200);
+  } catch(err) {
+    showMsg(getErr(err.code), 'error');
+    setLoading(false);
+  }
+});
+
+document.getElementById('forgotLink').addEventListener('click', async e => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  if (!email) { showMsg(T[lang].err_email, 'error'); return; }
+  try {
+    await auth.sendPasswordResetEmail(email);
+    showMsg(`${T[lang].ok_reset} ${email}.`, 'success');
+  } catch(err) { showMsg(getErr(err.code), 'error'); }
+});
+
+applyLang(lang);
+</script>
 </body>
 </html>
