@@ -664,8 +664,8 @@
 /* ===== TRANSLATIONS ===== */
 // T loaded from assets/i18n.js
 
-let lang = 'en';
-  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
+let currentLang = 'en';
+  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}
 
 /* ===== LANGUAGE SWITCH ===== */
 /* ===== BUTTON EVENT DELEGATION (replaces inline onclick) ===== */
@@ -676,9 +676,9 @@ document.addEventListener('click', e => {
   if (menuBtn) { toggleMobileMenu(); return; }
 }, { passive: true });
 
-function switchLang(l) {
-  try { localStorage.setItem('lang', l); } catch(e) {}
-  document.documentElement.lang = l;
+function switchLang(lang) {
+  try { localStorage.setItem('lang', lang); } catch(e) {}
+  document.documentElement.lang = lang;
   document.getElementById('langEn').classList.toggle('active', l === 'en');
   document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
   document.getElementById('langRu').classList.toggle('active', l === 'ru');
@@ -798,7 +798,7 @@ function showToast(msg, type = 'success') {
 /* ===== INIT ===== */
 (function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  if (typeof lang !== 'undefined' && lang !== 'en') switchLang(lang);
+  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
   createParticles();
   initAOS();
 }, { once: true });

@@ -341,7 +341,6 @@
 /* =====================
    TRANSLATIONS
    ===================== */
-const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}
@@ -357,10 +356,10 @@ let currentLang = 'en';
         if (menuBtn) { toggleMobileMenu(); }
     });
 
-    function switchLang(l) {
-  currentLang = l;
-  try { localStorage.setItem('lang', l); } catch(e) {}
-  document.documentElement.lang = l;
+    function switchLang(lang) {
+  currentLang = lang;
+  try { localStorage.setItem('lang', lang); } catch(e) {}
+  document.documentElement.lang = lang;
   document.getElementById('langEn').classList.toggle('active', l === 'en');
   document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
   document.getElementById('langRu').classList.toggle('active', l === 'ru');
@@ -374,7 +373,7 @@ let currentLang = 'en';
     }
   });
 
-  document.documentElement.lang = l;
+  document.documentElement.lang = lang;
 }
 
 /* CURSOR GLOW */
