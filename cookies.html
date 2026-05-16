@@ -30,12 +30,13 @@
 <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
 <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
-  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space home">
+  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
   <div class="navbar-links">
     <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" data-i18n="nav_security">Security</a>
     <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
     <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
     <a href="about.html" data-i18n="nav_about">About</a>
@@ -43,17 +44,19 @@
     <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
   <div class="navbar-actions">
-    <div class="lang-switch" role="group" aria-label="Language">
-      <button class="lang-btn active" id="btnEn" data-lang="en" aria-pressed="true">EN</button>
-      <button class="lang-btn" id="btnRu" data-lang="ru" aria-pressed="false">RU</button>
+    <div class="lang-switch" role="group" aria-label="Language selector">
+      <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
+      <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-expanded="false" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="contact.html" class="nav-btn nav-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <span data-i18n="nav_getstarted">Get Started</span>
+    </a>
   </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
@@ -295,92 +298,7 @@
 <script>
 'use strict';
 
-const T = {
-  en: {
-    badge: 'Transparency Report',
-    hero_title: 'Cookie <span class="gradient-text">Policy</span>',
-    hero_desc: 'Clear, honest information about how and why we use cookies at ThePost.Space — your international mail service.',
-    last_updated: 'Last Updated: May 1, 2026',
-    toc_title: 'Contents', toc1: 'What Are Cookies?', toc2: 'How We Use Them',
-    toc3: 'Types of Cookies', toc4: 'Third-Party Cookies', toc5: 'Managing Cookies',
-    toc6: 'Do Not Track', toc7: 'Policy Changes', toc8: 'Contact Us',
-    h1: '1. What Are Cookies?',
-    p1: 'Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences, understand usage patterns, and deliver a more consistent experience. Technologies like local storage and session tokens serve similar purposes.',
-    h2: '2. How We Use Cookies',
-    p2: 'We use cookies for essential functionality, security, performance analytics, and experience improvements. We <strong>do not</strong> sell your data or use tracking cookies for third-party advertising.',
-    note1: 'ThePost.Space protects your shipment and account data end-to-end. No cookies contain tracking identifiers, delivery contents, or payment credentials.',
-    h3: '3. Types of Cookies We Use',
-    ct1_title: 'Essential', ct1_desc: 'Session tokens, CSRF protection, and infrastructure routing. Required for the service to function.', ct1_tag: 'Required',
-    ct2_title: 'Performance & Analytics', ct2_desc: 'Anonymised load times, error rates, and feature adoption — processed in aggregate, never individually.', ct2_tag: 'Optional',
-    ct3_title: 'Preferences', ct3_desc: 'Language selection, theme choice, notification settings, and layout customisations.', ct3_tag: 'Optional',
-    p3_note: 'Essential cookies cannot be disabled without breaking core features. Performance and preference cookies can be managed through your browser or our in-app privacy controls.',
-    h4: '4. Third-Party Cookies',
-    p4: 'We minimise third-party cookies to the absolute essentials. Payment processors (Stripe) and support tools may set their own cookies governed by their respective privacy policies. We do not embed advertising tracking pixels or data-broker scripts.',
-    h5: '5. Managing Cookies', p5_intro: 'You have full control. Most browsers let you:',
-    li5_1: 'View and delete existing cookies at any time',
-    li5_2: 'Block third-party cookies by default',
-    li5_3: 'Automatically clear cookies when you close the browser',
-    li5_4: 'Set per-site cookie permissions',
-    p5_note: 'Disabling essential cookies will affect login, security, and core functionality. You can also adjust preferences through our cookie consent banner.',
-    h6: '6. Do Not Track (DNT)',
-    p6: 'We honour DNT browser signals wherever technically feasible. Our analytics infrastructure is privacy-by-design and does not fingerprint or track users across sites.',
-    h7: '7. Changes to This Policy',
-    p7: 'We will update this policy whenever our cookie practices change. Material changes will be communicated via email or a prominent website notice at least 14 days before taking effect.',
-    h8: '8. Contact',
-    p8: 'Questions about our cookie practices? Reach our Privacy Team at <a href="mailto:privacy@thepost.space">privacy@thepost.space</a>',
-    cta_title: 'Have a question about privacy?',
-    cta_desc: 'Our team is committed to full transparency. Reach out any time — we respond within one business day.',
-    cta_btn1: 'Contact Privacy Team', cta_btn2: 'Privacy Policy',
-    footer_desc: 'International mail service for the modern world. Fast, secure, and beautifully simple.',
-    footer_product: 'Product', footer_company: 'Company', footer_support: 'Support', footer_legal: 'Legal',
-    footer_careers: 'Careers', footer_status: 'System Status',
-    footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service', footer_cookies: 'Cookie Policy',
-    nav_solutions: 'Solutions', nav_pricing: 'Pricing', nav_integrations: 'Integrations',
-    nav_about: 'About', nav_blog: 'Blog', nav_contact: 'Contact', nav_help: 'Help Center', nav_started: 'Get Started'
-  },
-  ru: {
-    badge: 'Отчёт о прозрачности',
-    hero_title: 'Политика <span class="gradient-text">cookies</span>',
-    hero_desc: 'Чёткая и честная информация о том, как и зачем ThePost.Space использует cookies — ваш международный почтовый сервис.',
-    last_updated: 'Обновлено: 1 мая 2026',
-    toc_title: 'Содержание', toc1: 'Что такое cookies?', toc2: 'Как мы используем',
-    toc3: 'Типы cookies', toc4: 'Сторонние cookies', toc5: 'Управление cookies',
-    toc6: 'Do Not Track', toc7: 'Изменения политики', toc8: 'Контакты',
-    h1: '1. Что такое cookies?',
-    p1: 'Cookies — небольшие текстовые файлы, размещаемые на вашем устройстве при посещении сайта. Они помогают запоминать предпочтения, анализировать использование и обеспечивать стабильный опыт. Технологии local storage и session token работают аналогично.',
-    h2: '2. Как мы используем cookies',
-    p2: 'Мы используем cookies для функционала, безопасности, аналитики и улучшения опыта. Мы <strong>не продаём</strong> ваши данные и не используем трекеры для рекламы.',
-    note1: 'ThePost.Space защищает данные ваших посылок и аккаунта. Cookies не содержат идентификаторов отслеживания, содержимого отправлений или платёжных данных.',
-    h3: '3. Типы используемых cookies',
-    ct1_title: 'Необходимые', ct1_desc: 'Сессионные токены, CSRF-защита, балансировка нагрузки. Обязательны для работы сервиса.', ct1_tag: 'Обязательные',
-    ct2_title: 'Аналитика', ct2_desc: 'Анонимизированные данные о производительности и использовании функций — только в агрегированном виде.', ct2_tag: 'Необязательные',
-    ct3_title: 'Предпочтения', ct3_desc: 'Язык, тема, настройки уведомлений и макета интерфейса.', ct3_tag: 'Необязательные',
-    p3_note: 'Необходимые cookies нельзя отключить без нарушения работы сервиса. Аналитику и предпочтения можно настроить через браузер или баннер конфиденциальности.',
-    h4: '4. Сторонние cookies',
-    p4: 'Мы минимизируем сторонние cookies. Платёжные процессоры (Stripe) и инструменты поддержки могут устанавливать свои cookies согласно их политикам. Мы не встраиваем рекламные пиксели или скрипты брокеров данных.',
-    h5: '5. Управление cookies', p5_intro: 'У вас полный контроль. Большинство браузеров позволяет:',
-    li5_1: 'Просматривать и удалять существующие cookies',
-    li5_2: 'Блокировать сторонние cookies по умолчанию',
-    li5_3: 'Автоматически очищать cookies при закрытии браузера',
-    li5_4: 'Настраивать разрешения для каждого сайта',
-    p5_note: 'Отключение необходимых cookies нарушит вход, безопасность и основные функции. Настройки доступны через баннер cookies на сайте.',
-    h6: '6. Do Not Track (DNT)',
-    p6: 'Мы уважаем сигналы DNT браузера там, где это технически возможно. Наша аналитика построена по принципу privacy-by-design и не отслеживает пользователей между сайтами.',
-    h7: '7. Изменения политики',
-    p7: 'Мы обновляем политику при изменении практик использования cookies. О существенных изменениях сообщим по email или на сайте не менее чем за 14 дней.',
-    h8: '8. Контакты',
-    p8: 'Вопросы по cookies? Напишите в отдел конфиденциальности: <a href="mailto:privacy@thepost.space">privacy@thepost.space</a>',
-    cta_title: 'Есть вопрос о конфиденциальности?',
-    cta_desc: 'Наша команда открыта к диалогу. Напишите нам — мы ответим в течение одного рабочего дня.',
-    cta_btn1: 'Написать в отдел приватности', cta_btn2: 'Политика конфиденциальности',
-    footer_desc: 'Международный почтовый сервис нового поколения. Быстрый, безопасный и красивый.',
-    footer_product: 'Продукт', footer_company: 'Компания', footer_support: 'Поддержка', footer_legal: 'Правовая информация',
-    footer_careers: 'Карьера', footer_status: 'Статус системы',
-    footer_privacy: 'Политика конфиденциальности', footer_terms: 'Условия использования', footer_cookies: 'Политика cookies',
-    nav_solutions: 'Решения', nav_pricing: 'Тарифы', nav_integrations: 'Интеграции',
-    nav_about: 'О нас', nav_blog: 'Блог', nav_contact: 'Контакты', nav_help: 'Центр помощи', nav_started: 'Начать'
-  }
-};
+// T loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}

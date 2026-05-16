@@ -33,28 +33,27 @@
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
-
   <div class="navbar-links">
-    <a href="solutions.html">Solutions</a>
-    <a href="security.html">Security</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="integrations.html">Integrations</a>
-    <a href="about.html">About</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html">Contact</a>
+    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
   <div class="navbar-actions">
     <div class="lang-switch" role="group" aria-label="Language selector">
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a href="#" class="nav-btn nav-btn-ghost">Sign In</a>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
     <a href="contact.html" class="nav-btn nav-btn-primary">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      Get Started
+      <span data-i18n="nav_getstarted">Get Started</span>
     </a>
   </div>
-  <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -335,112 +334,14 @@
   </div>
 </footer>
 
-<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
 
+
+<script src="assets/i18n.js"></script>
 <script>
 'use strict';
 
 /* TRANSLATIONS */
-const translations = {
-  en: {
-    ph_badge: "We're here to help",
-    ph_title: 'How can we <span class="gradient-text">help?</span>',
-    ph_desc: "Search our knowledge base, browse categories, or find answers to frequently asked questions.",
-    search_placeholder: "Search for articles, guides, and FAQs...",
-    search_hint: 'Try: "How to set up custom domain" or "Reset password"',
-    cat_label: "📚 Categories", cat_title: "Browse by topic",
-    cat1_title: "Getting Started", cat1_desc: "Learn the basics and set up your account in minutes", cat1_count: "8 articles",
-    cat2_title: "Account & Settings", cat2_desc: "Manage your profile, preferences, and security settings", cat2_count: "12 articles",
-    cat3_title: "Security & Privacy", cat3_desc: "Protect your account and understand our privacy features", cat3_count: "10 articles",
-    cat4_title: "Billing & Plans", cat4_desc: "Manage subscriptions, payments, and upgrade your plan", cat4_count: "9 articles",
-    cat5_title: "Integrations", cat5_desc: "Connect ThePost with your favorite tools and services", cat5_count: "15 articles",
-    cat6_title: "Troubleshooting", cat6_desc: "Fix common issues, errors, and get technical help", cat6_count: "14 articles",
-    popular_label: "🔥 Popular", popular_title: "Popular articles",
-    pop1_title: "How to set up a custom domain", pop1_desc: "Step-by-step guide to connect your domain",
-    pop2_title: "How to reset your password", pop2_desc: "Quick guide to account recovery",
-    pop3_title: "Migrate from Gmail or Outlook", pop3_desc: "One-click migration guide",
-    pop4_title: "Enable two-factor authentication", pop4_desc: "Secure your account with 2FA",
-    pop5_title: "Create an email signature", pop5_desc: "Customize your professional signature",
-    pop6_title: "Set up a shared mailbox", pop6_desc: "Team collaboration with shared inboxes",
-    faq_label: "❓ FAQ", faq_title: "Frequently asked questions",
-    faq1_q: "How do I set up a custom domain?", faq1_a: "Go to Settings → Domains → Add Domain. Enter your domain name and follow the DNS configuration instructions. You'll need to add MX, SPF, and DKIM records. Setup typically takes 5-10 minutes.",
-    faq2_q: "Can I migrate from Gmail or Outlook?", faq2_a: "Yes! We offer one-click migration from Gmail, Outlook, Yahoo, and any IMAP-compatible provider. Go to Settings → Import → Select Provider and follow the wizard. Your folder structure, labels, and attachments are preserved.",
-    faq3_q: "Is my email really encrypted?", faq3_a: "Absolutely. We use end-to-end encryption (E2EE) based on the OpenPGP standard. Your emails are encrypted on your device and can only be decrypted by the intended recipient. We never have access to your encryption keys.",
-    faq4_q: "Can I cancel my subscription anytime?", faq4_a: "Yes, you can cancel at any time with no penalties. Your account remains active until the end of your current billing period. You can also downgrade to our free plan at any time.",
-    faq5_q: "Do you offer discounts for nonprofits?", faq5_a: "Yes! We offer 50% off all paid plans for verified nonprofit organizations and educational institutions. Contact our sales team with your organization details to apply.",
-    faq6_q: "What happens to my data if I delete my account?", faq6_a: "When you delete your account, all your data is permanently removed from our servers within 30 days. We provide a 30-day grace period during which you can recover your account. After 30 days, data cannot be recovered.",
-    faq7_q: "How do I enable two-factor authentication?", faq7_a: "Go to Settings → Security → Two-Factor Authentication. You can choose between TOTP (authenticator app), SMS, or hardware security keys (YubiKey). We recommend using an authenticator app or hardware key for the best security.",
-    faq8_q: "Can I use ThePost with my existing email client?", faq8_a: "Yes! ThePost supports IMAP and SMTP protocols, so you can use it with Thunderbird, Apple Mail, Outlook, and other email clients. Go to Settings → Email Client Setup to get your IMAP/SMTP credentials.",
-    article_back: "Back to Help Center", article_updated: "Updated: May 1, 2026", article_read: "5 min read",
-    article_p1: "Setting up a custom domain with ThePost is straightforward and takes just a few minutes. Follow these steps to connect your domain and start sending emails from your own address.",
-    article_h1: "Step 1: Add your domain",
-    article_p2: 'Log in to your ThePost account and navigate to Settings → Domains → Add Domain. Enter your domain name (e.g., company.com) and click "Add Domain".',
-    article_h2: "Step 2: Configure DNS records",
-    article_p3: "You'll need to add three DNS records to your domain registrar:",
-    article_li1: "MX Record: Points to mx.thepost.space with priority 10",
-    article_li2: "SPF Record: v=spf1 include:thepost.space ~all",
-    article_li3: "DKIM Record: Provided in your domain settings page",
-    article_note: "DNS propagation can take up to 24 hours, but typically completes within 5-10 minutes. You can check the status in your domain settings.",
-    article_h3: "Step 3: Verify and activate",
-    article_p4: 'Once your DNS records are configured, click "Verify" in the domain settings. ThePost will automatically check your records and activate your domain. You\'ll receive a confirmation email once the domain is ready.',
-    cta_title: "Still need help?", cta_desc: "Can't find what you're looking for? Our support team is here for you.",
-    cta_contact: "Contact Support", cta_login: "Go to Dashboard",
-    foot_desc: "Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.",
-    foot_prod: "Product", foot_sup: "Support", foot_legal: "Legal",
-    foot_solutions: "Solutions", foot_security: "Security", foot_pricing: "Pricing", foot_integrations: "Integrations",
-    foot_help: "Help Center", foot_api: "API Docs", foot_contact: "Contact",
-    foot_priv: "Privacy Policy", foot_terms: "Terms of Service", foot_cookies: "Cookie Policy"
-  },
-  ru: {
-    ph_badge: "Мы здесь, чтобы помочь",
-    ph_title: 'Чем мы можем <span class="gradient-text">помочь?</span>',
-    ph_desc: "Ищите в нашей базе знаний, просматривайте категории или найдите ответы на часто задаваемые вопросы.",
-    search_placeholder: "Поиск статей, руководств и FAQ...",
-    search_hint: 'Попробуйте: "Как настроить домен" или "Сбросить пароль"',
-    cat_label: "📚 Категории", cat_title: "Просмотр по темам",
-    cat1_title: "Начало работы", cat1_desc: "Изучите основы и настройте аккаунт за минуты", cat1_count: "8 статей",
-    cat2_title: "Аккаунт и настройки", cat2_desc: "Управление профилем, предпочтениями и настройками безопасности", cat2_count: "12 статей",
-    cat3_title: "Безопасность и приватность", cat3_desc: "Защитите аккаунт и узнайте о функциях приватности", cat3_count: "10 статей",
-    cat4_title: "Оплата и тарифы", cat4_desc: "Управление подписками, платежами и обновление плана", cat4_count: "9 статей",
-    cat5_title: "Интеграции", cat5_desc: "Подключайте ThePost к любимым инструментам и сервисам", cat5_count: "15 статей",
-    cat6_title: "Устранение проблем", cat6_desc: "Решение общих проблем, ошибок и техническая помощь", cat6_count: "14 статей",
-    popular_label: "🔥 Популярное", popular_title: "Популярные статьи",
-    pop1_title: "Как настроить собственный домен", pop1_desc: "Пошаговое руководство по подключению домена",
-    pop2_title: "Как сбросить пароль", pop2_desc: "Быстрое руководство по восстановлению аккаунта",
-    pop3_title: "Миграция из Gmail или Outlook", pop3_desc: "Руководство по миграции в один клик",
-    pop4_title: "Включить двухфакторную аутентификацию", pop4_desc: "Защитите аккаунт с помощью 2FA",
-    pop5_title: "Создать подпись для email", pop5_desc: "Настройте профессиональную подпись",
-    pop6_title: "Настроить общий ящик", pop6_desc: "Командная коллаборация с общими ящиками",
-    faq_label: "❓ FAQ", faq_title: "Часто задаваемые вопросы",
-    faq1_q: "Как настроить собственный домен?", faq1_a: "Перейдите в Настройки → Домены → Добавить домен. Введите имя домена и следуйте инструкциям DNS-настройки. Нужно добавить MX, SPF и DKIM записи. Настройка обычно занимает 5-10 минут.",
-    faq2_q: "Можно ли перенести почту из Gmail или Outlook?", faq2_a: "Да! Мы предлагаем перенос в один клик из Gmail, Outlook, Yahoo и любого IMAP-провайдера. Перейдите в Настройки → Импорт → Выберите провайдера. Структура папок, метки и вложения сохраняются.",
-    faq3_q: "Действительно ли моя почта зашифрована?", faq3_a: "Абсолютно. Мы используем сквозное шифрование (E2EE) на базе стандарта OpenPGP. Ваши письма шифруются на устройстве и могут быть расшифрованы только получателем. У нас нет доступа к вашим ключам.",
-    faq4_q: "Можно ли отменить подписку в любое время?", faq4_a: "Да, вы можете отменить подписку в любое время без штрафов. Ваш аккаунт останется активным до конца текущего периода. Вы также можете перейти на бесплатный план.",
-    faq5_q: "Есть ли скидки для НКО?", faq5_a: "Да! Скидка 50% на все платные планы для verified НКО и образовательных учреждений. Свяжитесь с отделом продаж.",
-    faq6_q: "Что произойдёт с данными при удалении аккаунта?", faq6_a: "При удалении аккаунта все данные удаляются с наших серверов в течение 30 дней. Мы предоставляем 30-дневный grace period для восстановления. После 30 дней данные невозможно восстановить.",
-    faq7_q: "Как включить двухфакторную аутентификацию?", faq7_a: "Перейдите в Настройки → Безопасность → Двухфакторная аутентификация. Вы можете выбрать TOTP, SMS или аппаратные ключи (YubiKey). Мы рекомендуем аутентификатор или аппаратный ключ.",
-    faq8_q: "Можно ли использовать ThePost с другим почтовым клиентом?", faq8_a: "Да! ThePost поддерживает протоколы IMAP и SMTP, поэтому вы можете использовать его с Thunderbird, Apple Mail, Outlook и другими клиентами.",
-    article_back: "Назад в Центр помощи", article_updated: "Обновлено: 1 мая 2026", article_read: "5 мин чтения",
-    article_p1: "Настройка собственного домена в ThePost проста и занимает всего несколько минут. Следуйте этим шагам для подключения домена.",
-    article_h1: "Шаг 1: Добавьте домен",
-    article_p2: 'Войдите в аккаунт ThePost и перейдите в Настройки → Домены → Добавить домен. Введите имя домена и нажмите "Добавить домен".',
-    article_h2: "Шаг 2: Настройте DNS-записи",
-    article_p3: "Вам нужно добавить три DNS-записи у вашего регистратора доменов:",
-    article_li1: "MX-запись: Указывает на mx.thepost.space с приоритетом 10",
-    article_li2: "SPF-запись: v=spf1 include:thepost.space ~all",
-    article_li3: "DKIM-запись: Предоставлена на странице настроек домена",
-    article_note: "DNS-пропагация может занять до 24 часов, но обычно завершается за 5-10 минут. Вы можете проверить статус в настройках домена.",
-    article_h3: "Шаг 3: Проверка и активация",
-    article_p4: 'После настройки DNS-записей нажмите «Проверить» в настройках домена. ThePost автоматически проверит записи и активирует домен.',
-    cta_title: "Всё ещё нужна помощь?", cta_desc: "Не нашли нужное? Наша команда поддержки здесь для вас.",
-    cta_contact: "Связаться с поддержкой", cta_login: "Перейти в дашборд",
-    foot_desc: "Современная почта для современных людей. Безопасная, быстрая и красиво оформленная.",
-    foot_prod: "Продукт", foot_sup: "Поддержка", foot_legal: "Правовая информация",
-    foot_solutions: "Решения", foot_security: "Безопасность", foot_pricing: "Тарифы", foot_integrations: "Интеграции",
-    foot_help: "Центр помощи", foot_api: "API документация", foot_contact: "Контакты",
-    foot_priv: "Политика конфиденциальности", foot_terms: "Условия использования", foot_cookies: "Политика cookies"
-  }
-};
+const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}

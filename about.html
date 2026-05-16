@@ -37,27 +37,29 @@
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
-  <div class="navbar-links" role="menubar">
-    <a href="solutions.html" role="menuitem" data-i18n="nav_solutions">Solutions</a>
-    <a href="security.html" role="menuitem" data-i18n="nav_security">Security</a>
-    <a href="pricing.html" role="menuitem" data-i18n="nav_pricing">Pricing</a>
-    <a href="integrations.html" role="menuitem" data-i18n="nav_integrations">Integrations</a>
-    <a href="about.html" class="active" role="menuitem" data-i18n="nav_about">About</a>
-    <a href="blog.html" role="menuitem" data-i18n="nav_blog">Blog</a>
-    <a href="contact.html" role="menuitem" data-i18n="nav_contact">Contact</a>
+  <div class="navbar-links">
+    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" class="active" data-i18n="nav_about">About</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
   <div class="navbar-actions">
-    <div class="lang-switch" role="group" aria-label="Language">
+    <div class="lang-switch" role="group" aria-label="Language selector">
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="contact.html" class="nav-btn nav-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <span data-i18n="nav_getstarted">Get Started</span>
+    </a>
   </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -332,192 +334,14 @@
   </div>
 </footer>
 
+<script src="assets/i18n.js"></script>
 <script>
 'use strict';
 
 /* =====================
    TRANSLATIONS
    ===================== */
-const translations = {
-  en: {
-    /* Navbar */
-    nav_solutions: 'Solutions',
-    nav_security: 'Security',
-    nav_pricing: 'Pricing',
-    nav_integrations: 'Integrations',
-    nav_about: 'About',
-    nav_blog: 'Blog',
-    nav_contact: 'Contact',
-    nav_login: 'Sign In',
-    nav_register: 'Sign Up',
-    /* Hero */
-    hero_badge: 'Launching Soon',
-    hero_h1: 'International mail',
-    hero_h1_accent: 'reimagined.',
-    hero_desc: "ThePost.Space is a new-generation postal service built for today's world — fast, secure, and radically simple. We're on a mission to make sending things anywhere on Earth feel effortless.",
-    /* Stats */
-    stat_founded: 'Year Founded',
-    stat_countries: 'Countries Covered',
-    stat_delivery: 'Express Delivery',
-    stat_uptime: 'Uptime SLA',
-    /* Mission */
-    mission_label: 'Our Mission',
-    mission_h2: "Built to fix what's",
-    mission_h2_accent: 'been broken.',
-    mission_p1: "International shipping is broken. It's slow, opaque, and unpredictable — and nobody has truly fixed it. We built ThePost.Space because we believe you deserve to know exactly where your mail is, every step of the way.",
-    mission_p2: 'We unite logistics expertise, software engineering, and product thinking around a single obsession: making the movement of physical things as seamless and trackable as sending an email.',
-    mission_quote: '"We didn\'t set out to compete with postal services. We set out to reinvent them for a world that expects Amazon-speed and Apple-simplicity."',
-    mission_p3: 'From a distributed network spanning 150+ countries, we\'re building the infrastructure for the next generation of international mail — available to everyone, everywhere.',
-    mp1_title: 'Global by design',
-    mp1_desc: 'Every route, every hub, every integration — engineered to work seamlessly across borders without compromise.',
-    mp2_title: 'Privacy & security first',
-    mp2_desc: 'Your shipment data belongs to you. End-to-end encryption and strict data governance — no exceptions.',
-    mp3_title: 'Radical transparency',
-    mp3_desc: 'Real-time tracking, honest ETAs, and proactive updates at every stage. No black boxes, ever.',
-    /* What Drives Us */
-    drives_label: 'What Drives Us',
-    drives_title: 'The principles behind everything we build',
-    drives_subtitle: 'From our routing algorithms to our customer support — these values guide every decision we make.',
-    v1_title: 'Speed First',
-    v1_desc: 'Every delay costs trust. We obsess over transit times, cutting unnecessary handoffs and routing inefficiencies out of the system.',
-    v2_title: 'Secure by Design',
-    v2_desc: 'Your shipment data is yours. We use end-to-end encryption for tracking data and never share your information with third parties.',
-    v3_title: 'Truly Global',
-    v3_desc: 'We build for every country equally. No second-class destinations — 150+ countries with the same quality of service and tracking.',
-    v4_title: 'Full Transparency',
-    v4_desc: 'Know where your mail is at every moment. Real-time tracking, proactive notifications, and honest ETAs — no guessing games.',
-    v5_title: 'Human Support',
-    v5_desc: 'Real people, not bots. Every support request reaches a trained specialist who knows our network and can actually solve your problem.',
-    v6_title: 'Sustainable Shipping',
-    v6_desc: 'We carbon-offset every shipment by default and partner exclusively with carriers committed to reducing their environmental impact.',
-    /* Our Approach */
-    approach_label: 'Our Approach',
-    approach_title: 'How we think and build',
-    approach_subtitle: 'The philosophy behind our product decisions and the way we operate as a company.',
-    ap1_title: 'Customer-Obsessed',
-    ap1_desc: "Every feature, every update, every decision starts with one question: does this make life easier for the people sending and receiving mail? If not, we don't ship it.",
-    ap2_title: 'Built to Scale',
-    ap2_desc: 'Our infrastructure is designed from day one to handle millions of parcels without degradation. Reliability isn\'t a feature — it\'s the foundation.',
-    ap3_title: 'Privacy by Default',
-    ap3_desc: "We collect only what's necessary, store it securely, and never monetise your data. Privacy isn't a policy document — it's baked into how we build.",
-    ap4_title: 'Always Improving',
-    ap4_desc: 'We ship, listen, and iterate continuously. Feedback from every user interaction shapes our roadmap. There\'s no final version — only a better next one.',
-    /* CTA */
-    cta_h2: 'Experience the future of mail —',
-    cta_h2_accent: 'starting today.',
-    cta_desc: 'Join thousands of users who are already discovering a smarter, simpler way to send mail anywhere in the world.',
-    cta_btn_register: 'Create Free Account',
-    cta_btn_contact: 'Contact Us',
-    /* Footer */
-    foot_desc: 'Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.',
-    foot_prod: 'Product',
-    foot_solutions: 'Solutions',
-    foot_security: 'Security',
-    foot_pricing: 'Pricing',
-    foot_integrations: 'Integrations',
-    foot_comp: 'Company',
-    foot_about: 'About',
-    foot_blog: 'Blog',
-    foot_contact: 'Contact',
-    foot_sup: 'Support',
-    foot_help: 'Help Center',
-    foot_api: 'API Docs',
-    foot_legal: 'Legal',
-    foot_priv: 'Privacy Policy',
-    foot_terms: 'Terms of Service',
-    foot_cookies: 'Cookie Policy',
-    foot_copy: '© 2026 ThePost.Space. All rights reserved.',
-  },
-  ru: {
-    /* Navbar */
-    nav_solutions: 'Решения',
-    nav_security: 'Безопасность',
-    nav_pricing: 'Цены',
-    nav_integrations: 'Интеграции',
-    nav_about: 'О нас',
-    nav_blog: 'Блог',
-    nav_contact: 'Контакты',
-    nav_login: 'Войти',
-    nav_register: 'Зарегистрироваться',
-    /* Hero */
-    hero_badge: 'Скоро запуск',
-    hero_h1: 'Международная почта',
-    hero_h1_accent: 'переосмыслена.',
-    hero_desc: 'ThePost.Space — это почтовый сервис нового поколения, созданный для современного мира: быстрый, защищённый и максимально простой. Наша миссия — сделать отправку посылок в любую точку земного шара по-настоящему лёгкой.',
-    /* Stats */
-    stat_founded: 'Год основания',
-    stat_countries: 'Стран охвата',
-    stat_delivery: 'Экспресс-доставка',
-    stat_uptime: 'Гарантия работы',
-    /* Mission */
-    mission_label: 'Наша миссия',
-    mission_h2: 'Создан чтобы исправить',
-    mission_h2_accent: 'сломанное.',
-    mission_p1: 'Международная доставка сломана. Она медленная, непрозрачная и непредсказуемая — и никто по-настоящему не исправил это. Мы создали ThePost.Space, потому что убеждены: вы заслуживаете знать, где находится ваша посылка, на каждом этапе пути.',
-    mission_p2: 'Мы объединяем экспертизу в логистике, программную инженерию и продуктовое мышление вокруг одной идеи: сделать перемещение физических объектов таким же плавным и отслеживаемым, как отправка электронного письма.',
-    mission_quote: '«Мы не ставили целью конкурировать с почтовыми службами. Мы ставили целью переосмыслить их — для мира, который ожидает скорости Amazon и простоты Apple.»',
-    mission_p3: 'Опираясь на распределённую сеть в 150+ странах, мы строим инфраструктуру для следующего поколения международной почты — доступной для всех и везде.',
-    mp1_title: 'Глобальность в основе',
-    mp1_desc: 'Каждый маршрут, каждый узел, каждая интеграция — спроектированы для работы без компромиссов через любые границы.',
-    mp2_title: 'Конфиденциальность и безопасность',
-    mp2_desc: 'Данные о ваших отправлениях принадлежат вам. Сквозное шифрование и строгое управление данными — без исключений.',
-    mp3_title: 'Полная прозрачность',
-    mp3_desc: 'Отслеживание в реальном времени, честные сроки доставки и проактивные уведомления на каждом этапе. Никаких чёрных ящиков.',
-    /* What Drives Us */
-    drives_label: 'Что нас движет',
-    drives_title: 'Принципы, лежащие в основе всего, что мы создаём',
-    drives_subtitle: 'От алгоритмов маршрутизации до поддержки клиентов — эти ценности определяют каждое наше решение.',
-    v1_title: 'Скорость прежде всего',
-    v1_desc: 'Каждая задержка обходится потерей доверия. Мы неустанно работаем над сокращением транзитного времени, устраняя лишние передачи и неэффективность маршрутов.',
-    v2_title: 'Безопасность в архитектуре',
-    v2_desc: 'Данные о ваших отправлениях — ваши. Мы используем сквозное шифрование и никогда не передаём вашу информацию третьим сторонам.',
-    v3_title: 'По-настоящему глобально',
-    v3_desc: 'Мы строим для каждой страны одинаково. Без второстепенных направлений — 150+ стран с единым качеством сервиса и отслеживания.',
-    v4_title: 'Полная прозрачность',
-    v4_desc: 'Знайте, где ваша посылка, в каждый момент. Отслеживание в реальном времени, проактивные уведомления и честные сроки — никаких догадок.',
-    v5_title: 'Живая поддержка',
-    v5_desc: 'Живые люди, не боты. Каждый запрос в поддержку попадает к специалисту, который знает нашу сеть и может реально решить вашу проблему.',
-    v6_title: 'Экологичная доставка',
-    v6_desc: 'Мы по умолчанию компенсируем углеродный след каждого отправления и работаем только с перевозчиками, приверженными снижению воздействия на окружающую среду.',
-    /* Our Approach */
-    approach_label: 'Наш подход',
-    approach_title: 'Как мы думаем и создаём продукт',
-    approach_subtitle: 'Философия, стоящая за нашими продуктовыми решениями и принципами работы как компании.',
-    ap1_title: 'Ориентация на клиента',
-    ap1_desc: 'Каждая функция, каждое обновление, каждое решение начинается с одного вопроса: делает ли это жизнь отправителей и получателей проще? Если нет — мы не выпускаем.',
-    ap2_title: 'Создан для масштаба',
-    ap2_desc: 'Наша инфраструктура с первого дня спроектирована для обработки миллионов посылок без деградации. Надёжность — не функция, а фундамент.',
-    ap3_title: 'Конфиденциальность по умолчанию',
-    ap3_desc: 'Мы собираем только необходимые данные, храним их надёжно и никогда не монетизируем. Конфиденциальность — не политика на бумаге, а принцип разработки.',
-    ap4_title: 'Постоянное совершенствование',
-    ap4_desc: 'Мы выпускаем, слушаем и итерируем непрерывно. Обратная связь от каждого взаимодействия формирует нашу дорожную карту. Нет финальной версии — только лучшая следующая.',
-    /* CTA */
-    cta_h2: 'Откройте для себя почту будущего —',
-    cta_h2_accent: 'уже сегодня.',
-    cta_desc: 'Присоединяйтесь к тысячам пользователей, которые уже открыли более умный и простой способ отправлять почту в любую точку мира.',
-    cta_btn_register: 'Создать бесплатный аккаунт',
-    cta_btn_contact: 'Связаться с нами',
-    /* Footer */
-    foot_desc: 'Современная почта для современных людей. Безопасная, быстрая и красиво спроектированная.',
-    foot_prod: 'Продукт',
-    foot_solutions: 'Решения',
-    foot_security: 'Безопасность',
-    foot_pricing: 'Цены',
-    foot_integrations: 'Интеграции',
-    foot_comp: 'Компания',
-    foot_about: 'О нас',
-    foot_blog: 'Блог',
-    foot_contact: 'Контакты',
-    foot_sup: 'Поддержка',
-    foot_help: 'Справочный центр',
-    foot_api: 'Документация API',
-    foot_legal: 'Правовая информация',
-    foot_priv: 'Политика конфиденциальности',
-    foot_terms: 'Условия использования',
-    foot_cookies: 'Политика cookie',
-    foot_copy: '© 2026 ThePost.Space. Все права защищены.',
-  }
-};
+const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}

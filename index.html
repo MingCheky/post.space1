@@ -37,29 +37,29 @@
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
-
-  <div class="navbar-links" role="menubar">
-    <a href="solutions.html" role="menuitem">Solutions</a>
-    <a href="security.html" role="menuitem">Security</a>
-    <a href="pricing.html" role="menuitem">Pricing</a>
-    <a href="integrations.html" role="menuitem">Integrations</a>
-    <a href="about.html" role="menuitem">About</a>
-    <a href="blog.html" role="menuitem">Blog</a>
-    <a href="contact.html" role="menuitem">Contact</a>
+  <div class="navbar-links">
+    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
-
   <div class="navbar-actions">
-    <div class="lang-switch" role="group" aria-label="Language selection">
+    <div class="lang-switch" role="group" aria-label="Language selector">
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="contact.html" class="nav-btn nav-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <span data-i18n="nav_getstarted">Get Started</span>
+    </a>
   </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -662,152 +662,7 @@
 'use strict';
 
 /* ===== TRANSLATIONS ===== */
-const T = {
-  en: {
-    nav_cta: 'Early Access',
-    hero_badge: 'Now accepting early access requests',
-    hero_h1_1: 'Mail that reaches',
-    hero_h1_2: 'anywhere on Earth.',
-    hero_desc: 'ThePost.Space is a new-generation international postal service — secure, fast, and delightfully simple. Send letters and parcels to 150+ countries with full tracking and end-to-end transparency.',
-    hero_cta_primary: 'Apply for registration',
-    hero_cta_secondary: 'Explore Features',
-    stat_countries: 'Countries Covered', stat_uptime: 'Uptime SLA', stat_speed: 'Express Delivery',
-    sb_inbox: 'Inbox', sb_starred: 'Starred', sb_sent: 'Sent', sb_drafts: 'Drafts', sb_trash: 'Trash', sb_archive: 'Archive',
-    em1: 'Package update: Q4 delivery confirmed', em2: 'Tracking #TP2026-0042 is out for delivery',
-    em3: 'International shipping quote ready', em4: 'Welcome! Your account is ready to use',
-    em5: 'Invoice #2026-0892 — Payment confirmed',
-    feat_label: 'Features', feat_title: 'Everything you need,<br>nothing you don\'t',
-    feat_sub: 'Built from the ground up for the modern era of communication. Powerful, private, and polished.',
-    f1_t: 'AI Smart Sorting', f1_d: 'Automatically categorize and prioritize your messages with machine learning. What matters always rises to the top.',
-    f2_t: 'Instant Delivery', f2_d: 'Messages reach your inbox in under 50ms globally. Our distributed infrastructure eliminates delays entirely.',
-    f3_t: 'End-to-End Encryption', f3_d: 'Military-grade encryption protects every message. Only you and your recipient can ever read your mail.',
-    f4_t: 'Cross-Platform Sync', f4_d: 'Start on desktop, continue on your phone — perfectly synced across all your devices without a beat missed.',
-    f5_t: 'Custom Themes', f5_d: 'Personalize your inbox with stunning themes. Dark mode, custom colors, and brand-aligned designs.',
-    f6_t: 'Smart Analytics', f6_d: 'Understand your communication habits with detailed insights — response times, engagement, and productivity data.',
-    hiw_label: 'How It Works', hiw_title: 'Get started in minutes', hiw_sub: 'Four simple steps to a better communication experience.',
-    s1_t: 'Create Account', s1_d: 'Sign up for free in under 30 seconds. No credit card required to get started.',
-    s2_t: 'Connect Domain', s2_d: 'Add your custom domain or use our default @thepost.space address instantly.',
-    s3_t: 'Migrate Easily', s3_d: 'One-click migration from Gmail, Outlook, or any IMAP provider — all your data preserved.',
-    s4_t: 'Enjoy', s4_d: 'Experience AI-powered communication unlike anything you\'ve used before.',
-    ai_label: 'AI-Powered', ai_title_hl: 'intelligently organized',
-    ai_desc: 'Our AI learns from your behavior to automatically sort, prioritize, and even draft responses. It\'s like having a personal assistant dedicated to your inbox — one that never sleeps.',
-    ai_f1: 'Automatic priority scoring based on sender and content',
-    ai_f2: 'Smart categorization into Work, Personal, Finance, Social',
-    ai_f3: 'AI-generated draft replies and smart compose suggestions',
-    ai_f4: 'Spam and phishing detection with 99.7% accuracy',
-    sec_label: 'Security', sec_title: 'Your privacy is non-negotiable',
-    sec_sub: 'We built ThePost.Space with a security-first mindset. Your data belongs to you — always and without exception.',
-    sec1_t: 'End-to-End Encryption', sec1_d: 'Every message is encrypted before it leaves your device. We physically cannot read your mail — by design.',
-    sec2_t: 'Zero-Knowledge Architecture', sec2_d: 'We never store your encryption keys. Even in the unlikely event of a breach, your data remains completely unreadable.',
-    sec3_t: 'SOC 2 Type II Certified', sec3_d: 'Independently audited and certified. We uphold the highest standards of data security and operational privacy.',
-    sec4_t: 'GDPR & CCPA Compliant', sec4_d: 'Full compliance with global privacy regulations. Your data never leaves the EU without your explicit consent.',
-    price_label: 'Pricing', price_title: 'Simple, transparent pricing', price_sub: 'No hidden fees. No surprises. Cancel anytime you want.',
-    p_free: 'Free', p_free_d: 'For personal use', p_pro: 'Pro', p_pro_d: 'For professionals', p_biz: 'Business', p_biz_d: 'For growing teams', p_ent: 'Enterprise', p_ent_d: 'For large organizations',
-    p_mo: '/month', p_user_mo: '/user/month', p_custom: 'Custom', p_popular: 'Most Popular',
-    pf1: '5 GB storage', pf2: 'Basic AI sorting', pf3: '1 custom domain', pf4: 'End-to-end encryption', pf5: 'Web & mobile access',
-    pp1: '50 GB storage', pp2: 'Advanced AI features', pp3: '5 custom domains', pp4: 'Priority support', pp5: 'Custom themes', pp6: 'Email scheduling',
-    pb1: '500 GB storage', pb2: 'Shared team mailboxes', pb3: 'Unlimited domains', pb4: 'Admin dashboard', pb5: 'SSO / SAML', pb6: 'Audit logs',
-    pe1: 'Unlimited storage', pe2: 'Dedicated account manager', pe3: 'Custom SLA', pe4: 'On-premise option', pe5: 'Advanced compliance', pe6: '24/7 phone support',
-    p_btn_free: 'Get Started', p_btn_pro: 'Start Free Trial', p_btn_biz: 'Contact Sales', p_btn_ent: 'Contact Us',
-    comp_label: 'Compare', comp_title: 'ThePost vs others', comp_sub: 'See how we compare to the alternatives.',
-    ct_feat: 'Feature', ct_e2e: 'End-to-End Encryption', ct_ai: 'AI Smart Sorting', ct_zk: 'Zero-Knowledge', ct_theme: 'Custom Themes', ct_team: 'Team Mailboxes', ct_speed: 'Avg. Load Speed', ct_partial: 'Partial', ct_limited: 'Limited',
-    test_label: 'Beta Feedback', test_title: 'Loved by our early users',
-    t1: '"ThePost changed how our team communicates. The AI sorting alone saves us hours every week. Can\'t imagine going back."',
-    t1_role: 'CTO, TechFlow — Beta Tester',
-    t2: '"Finally a service that takes privacy seriously. The encryption is seamless, and the interface is absolutely gorgeous."',
-    t2_role: 'Product Lead, DesignCo — Beta Tester',
-    t3: '"We migrated our entire team during the beta. Zero downtime, zero complaints. The team is building something truly special."',
-    t3_role: 'IT Director, ScaleUp Inc — Beta Tester',
-    st1: 'Countries Supported', st2: 'Uptime SLA', st3: 'Avg. Delivery Time', st4: 'AES Encryption',
-    int_label: 'Integrations', int_title: 'Connects with your workflow', int_sub: 'Seamlessly integrates with the tools you already use every day.',
-    int_more: '50+ More', int_grow: '& growing',
-    blog_label: 'Blog', blog_title: 'Latest from ThePost', blog_sub: 'News, insights, and guides about email, productivity, and security.',
-    b1_tag: 'AI & Machine Learning', b1_t: 'How Our AI Sorts Your Inbox in Real-Time', b1_d: 'A deep dive into the ML models powering our smart email categorization system.',
-    b2_tag: 'Security', b2_t: 'Zero-Knowledge: What It Means for Your Email', b2_d: 'Understanding zero-knowledge architecture and why it\'s the gold standard for privacy.',
-    b3_tag: 'Productivity', b3_t: '10 Habits That Save You 5 Hours a Week', b3_d: 'Practical tips from productivity experts on managing your inbox more effectively.',
-    b_read: 'min read',
-    cta_t: 'Ready when you are', cta_d: 'Your account is just a step away. Set it up and pick up right where you left off.',
-    cta_btn1: 'Apply for registration', cta_btn2: 'View Pricing',
-    foot_desc: 'Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.',
-    foot_prod: 'Product', foot_comp: 'Company', foot_sup: 'Support', foot_legal: 'Legal',
-    foot_solutions: 'Solutions', foot_security: 'Security', foot_pricing: 'Pricing', foot_integrations: 'Integrations',
-    foot_about: 'About', foot_blog: 'Blog', foot_contact: 'Contact', foot_careers: 'Careers',
-    foot_help: 'Help Center', foot_status: 'System Status', foot_api: 'API Docs',
-    foot_priv: 'Privacy Policy', foot_terms: 'Terms of Service', foot_cookies: 'Cookie Policy',
-  },
-  ru: {
-    nav_cta: 'Ранний доступ',
-    hero_badge: 'Подать заявку на регистрацию',
-    hero_h1_1: 'Почта, которая доставит',
-    hero_h1_2: 'куда угодно.',
-    hero_desc: 'ThePost.Space — почтовый сервис нового поколения. Безопасный, быстрый и невероятно простой. Отправляйте письма и посылки в 150+ стран с полным отслеживанием.',
-    hero_cta_primary: 'Подать заявку на регистрацию',
-    hero_cta_secondary: 'Узнать больше',
-    stat_countries: 'Стран покрытия', stat_uptime: 'SLA доступности', stat_speed: 'Экспресс-доставка',
-    sb_inbox: 'Входящие', sb_starred: 'Избранные', sb_sent: 'Отправленные', sb_drafts: 'Черновики', sb_trash: 'Корзина', sb_archive: 'Архив',
-    em1: 'Обновление посылки: доставка Q4 подтверждена', em2: 'Трек #TP2026-0042 передан курьеру',
-    em3: 'Расчёт международной доставки готов', em4: 'Добро пожаловать! Ваш аккаунт готов',
-    em5: 'Счёт #2026-0892 — оплата подтверждена',
-    feat_label: 'Возможности', feat_title: 'Всё необходимое,<br>ничего лишнего',
-    feat_sub: 'Создан с нуля для современной эпохи коммуникации. Мощный, приватный и отполированный.',
-    f1_t: 'ИИ-сортировка', f1_d: 'Автоматическая категоризация писем с помощью машинного обучения. Важное всегда на первом месте.',
-    f2_t: 'Мгновенная доставка', f2_d: 'Письма приходят за менее чем 50мс по всему миру. Нулевые задержки.',
-    f3_t: 'Сквозное шифрование', f3_d: 'Шифрование военного уровня защищает каждое сообщение. Только вы и ваш получатель могут его прочитать.',
-    f4_t: 'Синхронизация', f4_d: 'Начните на компьютере, продолжите на телефоне — идеальная синхронизация на всех устройствах.',
-    f5_t: 'Собственные темы', f5_d: 'Персонализируйте ящик красивыми темами. Тёмный режим, свои цвета и дизайн бренда.',
-    f6_t: 'Умная аналитика', f6_d: 'Понимайте свои привычки с помощью детальной аналитики по времени ответа, вовлечённости и продуктивности.',
-    hiw_label: 'Как это работает', hiw_title: 'Начните за минуты', hiw_sub: 'Четыре простых шага к лучшему общению.',
-    s1_t: 'Создайте аккаунт', s1_d: 'Бесплатная регистрация за 30 секунд. Кредитная карта не нужна.',
-    s2_t: 'Подключите домен', s2_d: 'Добавьте свой домен или используйте наш @thepost.space.',
-    s3_t: 'Перенесите почту', s3_d: 'Перенос в один клик из Gmail, Outlook или любого IMAP-провайдера.',
-    s4_t: 'Наслаждайтесь', s4_d: 'Ощутите ИИ-коммуникацию, которую вы никогда раньше не пробовали.',
-    ai_label: 'ИИ-технологии', ai_title_hl: 'умно организованный',
-    ai_desc: 'Наш ИИ учится на вашем поведении — автоматически сортирует, расставляет приоритеты и даже пишет черновики ответов. Как личный ассистент для вашего ящика, который никогда не устаёт.',
-    ai_f1: 'Автоматическое определение приоритета по отправителю и содержанию',
-    ai_f2: 'Умная категоризация: Работа, Личное, Финансы, Соцсети',
-    ai_f3: 'ИИ-черновики ответов и умный набор текста',
-    ai_f4: 'Обнаружение спама и фишинга с точностью 99.7%',
-    sec_label: 'Безопасность', sec_title: 'Ваша приватность — не предмет торга',
-    sec_sub: 'Мы создали ThePost.Space с приоритетом безопасности. Ваши данные принадлежат только вам — всегда и без исключений.',
-    sec1_t: 'Сквозное шифрование', sec1_d: 'Каждое сообщение шифруется до отправки с вашего устройства. Мы физически не можем читать вашу почту — это часть дизайна.',
-    sec2_t: 'Zero-Knowledge архитектура', sec2_d: 'Мы никогда не храним ваши ключи шифрования. Даже при взломе ваши данные останутся нечитаемыми.',
-    sec3_t: 'Сертификация SOC 2 Type II', sec3_d: 'Независимый аудит и сертификация. Мы поддерживаем высочайшие стандарты безопасности.',
-    sec4_t: 'Соответствие GDPR и CCPA', sec4_d: 'Полное соответствие мировым нормам приватности. Ваши данные не покидают ЕС без вашего явного согласия.',
-    price_label: 'Тарифы', price_title: 'Простые, прозрачные тарифы', price_sub: 'Без скрытых платежей. Без сюрпризов. Отмена в любое время.',
-    p_free: 'Бесплатный', p_free_d: 'Для личного использования', p_pro: 'Pro', p_pro_d: 'Для профессионалов', p_biz: 'Бизнес', p_biz_d: 'Для растущих команд', p_ent: 'Корпоративный', p_ent_d: 'Для крупных организаций',
-    p_mo: '/мес', p_user_mo: '/пользователь/мес', p_custom: 'Индивидуально', p_popular: 'Популярный',
-    pf1: '5 ГБ хранилище', pf2: 'Базовая ИИ-сортировка', pf3: '1 домен', pf4: 'Сквозное шифрование', pf5: 'Веб и мобильный доступ',
-    pp1: '50 ГБ хранилище', pp2: 'Продвинутые ИИ-функции', pp3: '5 доменов', pp4: 'Приоритетная поддержка', pp5: 'Собственные темы', pp6: 'Отложенная отправка',
-    pb1: '500 ГБ хранилище', pb2: 'Общие командные ящики', pb3: 'Безлимитные домены', pb4: 'Админ-панель', pb5: 'SSO / SAML', pb6: 'Аудит-логи',
-    pe1: 'Безлимитное хранилище', pe2: 'Выделенный менеджер', pe3: 'Индивидуальный SLA', pe4: 'On-premise вариант', pe5: 'Продвинутое соответствие', pe6: 'Поддержка 24/7',
-    p_btn_free: 'Начать бесплатно', p_btn_pro: 'Бесплатный триал', p_btn_biz: 'Связаться с продажами', p_btn_ent: 'Связаться с нами',
-    comp_label: 'Сравнение', comp_title: 'ThePost vs конкуренты', comp_sub: 'Как мы сравниваемся с альтернативами.',
-    ct_feat: 'Функция', ct_e2e: 'Сквозное шифрование', ct_ai: 'ИИ-сортировка', ct_zk: 'Zero-Knowledge', ct_theme: 'Собственные темы', ct_team: 'Командные ящики', ct_speed: 'Средняя скорость', ct_partial: 'Частично', ct_limited: 'Ограниченно',
-    test_label: 'Отзывы бета', test_title: 'Любим ранними пользователями',
-    t1: '«ThePost изменил общение нашей команды. Одна только ИИ-сортировка экономит часы каждую неделю. Не могу представить возврата назад.»',
-    t1_role: 'CTO, TechFlow — Бета-тестер',
-    t2: '«Наконец-то сервис, который серьёзно относится к приватности. Шифрование безупречное, интерфейс потрясающий.»',
-    t2_role: 'Product Lead, DesignCo — Бета-тестер',
-    t3: '«Мы перевели всю команду во время бета-теста. Нулевой простой, ноль жалоб. Команда создаёт что-то по-настоящему особенное.»',
-    t3_role: 'IT Director, ScaleUp Inc — Бета-тестер',
-    st1: 'Стран покрытия', st2: 'SLA доступности', st3: 'Среднее время доставки', st4: 'Шифрование AES',
-    int_label: 'Интеграции', int_title: 'Интегрируется с вашим workflow', int_sub: 'Бесшовная интеграция с инструментами, которые вы уже используете каждый день.',
-    int_more: '50+ ещё', int_grow: 'и растёт',
-    blog_label: 'Блог', blog_title: 'Последнее от ThePost', blog_sub: 'Новости, инсайты и руководства о почте, продуктивности и безопасности.',
-    b1_tag: 'ИИ и машинное обучение', b1_t: 'Как наш ИИ сортирует ящик в реальном времени', b1_d: 'Глубокое погружение в ML-модели нашей системы умной категоризации.',
-    b2_tag: 'Безопасность', b2_t: 'Zero-Knowledge: что это значит для вашей почты', b2_d: 'Zero-knowledge архитектура и почему это золотой стандарт приватности.',
-    b3_tag: 'Продуктивность', b3_t: '10 привычек, экономящих 5 часов в неделю', b3_d: 'Практические советы экспертов для эффективного управления ящиком.',
-    b_read: 'мин чтения',
-    cta_t: 'Всё готово, когда готов ты', cta_d: 'Твой аккаунт — в одном шаге. Создай его и продолжай с того места, где остановился.',
-    cta_btn1: 'Подать заявку на регистрацию', cta_btn2: 'Смотреть тарифы',
-    foot_desc: 'Современная почта для современных людей. Безопасная, быстрая и красиво спроектированная.',
-    foot_prod: 'Продукт', foot_comp: 'Компания', foot_sup: 'Поддержка', foot_legal: 'Правовая информация',
-    foot_solutions: 'Решения', foot_security: 'Безопасность', foot_pricing: 'Тарифы', foot_integrations: 'Интеграции',
-    foot_about: 'О нас', foot_blog: 'Блог', foot_contact: 'Контакты', foot_careers: 'Карьера',
-    foot_help: 'Центр помощи', foot_status: 'Статус системы', foot_api: 'API документация',
-    foot_priv: 'Политика конфиденциальности', foot_terms: 'Условия использования', foot_cookies: 'Политика cookies',
-  }
-};
+// T loaded from assets/i18n.js
 
 let lang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
@@ -943,7 +798,7 @@ function showToast(msg, type = 'success') {
 /* ===== INIT ===== */
 (function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
+  if (typeof lang !== 'undefined' && lang !== 'en') switchLang(lang);
   createParticles();
   initAOS();
 }, { once: true });

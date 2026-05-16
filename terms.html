@@ -33,29 +33,29 @@
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
-
-  <div class="navbar-links" role="menubar">
-    <a href="solutions.html" role="menuitem">Solutions</a>
-    <a href="security.html" role="menuitem">Security</a>
-    <a href="pricing.html" role="menuitem">Pricing</a>
-    <a href="integrations.html" role="menuitem">Integrations</a>
-    <a href="about.html" role="menuitem">About</a>
-    <a href="blog.html" role="menuitem">Blog</a>
-    <a href="contact.html" role="menuitem">Contact</a>
+  <div class="navbar-links">
+    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
-
   <div class="navbar-actions">
-    <div class="lang-switch" role="group" aria-label="Language selection">
+    <div class="lang-switch" role="group" aria-label="Language selector">
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-label="Toggle mobile menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="contact.html" class="nav-btn nav-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <span data-i18n="nav_getstarted">Get Started</span>
+    </a>
   </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -154,44 +154,7 @@
 </footer>
 
 <script>
-const T = {
-  en: {
-    nav_cta: 'Early Access',
-    phb: "Legal Agreement", title: 'Terms of <span class="gt">Service</span>',
-    desc: "The rules governing your use of ThePost. By using our service, you agree to these terms.",
-    updated: "Last Updated: May 1, 2026",
-    h1:"1. Acceptance of Terms", p1_1:"By creating an account, accessing, or using ThePost (\"Service\"), you agree to be bound by these Terms of Service (\"Terms\"). If you are using the Service on behalf of an organization, you represent that you have authority to bind that organization.",
-    h2:"2. Account Registration & Security", p2_1:"You must provide accurate, complete information during registration. You are responsible for maintaining the confidentiality of your credentials and for all activity under your account.", li2_1:"Use strong, unique passwords and enable 2FA", li2_2:"Notify us immediately of unauthorized access", li2_3:"We may suspend accounts violating these Terms",
-    h3:"3. Acceptable Use", p3:"You agree not to use the Service to:", li3_1:"Send spam, malware, phishing, or unsolicited bulk emails", li3_2:"Violate intellectual property or privacy rights", li3_3:"Engage in illegal, harmful, or fraudulent activities", li3_4:"Reverse engineer, scrape, or overload our infrastructure",
-    note1:"Violations may result in immediate suspension or termination of your account, and may be reported to law enforcement.",
-    h4:"4. Intellectual Property", p4_1:"ThePost and its content, features, and functionality are owned by us and protected by international copyright, trademark, and other laws. You retain ownership of your email content, but grant us a limited license to host, process, and transmit it solely to provide the Service.",
-    h5:"5. Payment & Billing", p5:"Paid plans are billed monthly or annually in advance. All fees are non-refundable except as required by law or under our 30-day money-back guarantee. Prices may change with 30 days notice; continued use constitutes acceptance.",
-    h6:"6. Limitation of Liability", p6:"To the maximum extent permitted by law, ThePost shall not be liable for indirect, incidental, or consequential damages arising from your use or inability to use the Service. Our total liability shall not exceed the amount you paid in the 12 months preceding the claim.",
-    h7:"7. Termination", p7:"We may terminate or suspend access immediately, without prior notice, for conduct that violates these Terms or harms other users, our systems, or third parties. Upon termination, your right to use the Service ceases immediately.",
-    h8:"8. Dispute Resolution", p8:"These Terms are governed by the laws of Germany. Any disputes shall be resolved exclusively in the courts of Berlin. We encourage good-faith negotiation before formal proceedings.",
-    h9:"9. Changes to Terms", p9:"We reserve the right to modify these Terms at any time. Material changes will be communicated via email or website notice at least 15 days before they take effect.",
-    h10:"10. Contact", p10:"Questions about these Terms? Contact us at legal@thepost.space",
-    fdesc:"Modern email for modern teams. Secure, fast, and beautifully designed.", fp:"Product", fc:"Company", fs:"Support", fl:"Legal", ns:"Solutions", nse:"Security", np:"Pricing", ni:"Integrations", na:"About", nb:"Blog", nc:"Contact", fcar:"Careers", nh:"Help Center", fstat:"System Status", fapi:"API Docs", fpriv:"Privacy Policy", fterms:"Terms of Service", fcook:"Cookie Policy"
-  },
-  ru: {
-    nav_cta: 'Ранний доступ',
-    phb: "Юридическое соглашение", title: 'Условия <span class="gt">использования</span>',
-    desc: "Правила использования ThePost. Используя наш сервис, вы соглашаетесь с этими условиями.",
-    updated: "Обновлено: 1 мая 2026",
-    h1:"1. Принятие условий", p1_1:"Создавая аккаунт или используя ThePost (\"Сервис\"), вы соглашаетесь с данными Условиями. Если вы используете Сервис от имени организации, вы подтверждаете наличие полномочий.",
-    h2:"2. Регистрация и безопасность", p2_1:"Вы обязаны предоставлять точные данные. Вы несёте ответственность за сохранность учётных данных и все действия в аккаунте.", li2_1:"Используйте сложные пароли и 2FA", li2_2:"Немедленно сообщайте о несанкционированном доступе", li2_3:"Мы можем приостановить аккаунты, нарушающие условия",
-    h3:"3. Допустимое использование", p3:"Вы обязуетесь не использовать Сервис для:", li3_1:"Отправки спама, вредоносного ПО, фишинга или массовых рассылок", li3_2:"Нарушения прав интеллектуальной собственности или приватности", li3_3:"Незаконной, вредоносной или мошеннической деятельности", li3_4:"Обратной разработки, скрейпинга или перегрузки инфраструктуры",
-    note1:"Нарушения могут привести к немедленной блокировке и передаче данных правоохранительным органам.",
-    h4:"4. Интеллектуальная собственность", p4_1:"ThePost и его контент защищены международными законами об авторском праве. Вы сохраняете право на свои письма, но предоставляете нам лицензию на их обработку исключительно для работы Сервиса.",
-    h5:"5. Оплата и биллинг", p5:"Платные тарифы оплачиваются ежемесячно или ежегодно авансом. Возврат возможен только по закону или в рамках 30-дневной гарантии. Цены могут меняться с уведомлением за 30 дней.",
-    h6:"6. Ограничение ответственности", p6:"В максимальной степени, разрешённой законом, ThePost не несёт ответственности за косвенные убытки. Общая ответственность не превышает сумму, уплаченную вами за последние 12 месяцев.",
-    h7:"7. Расторжение", p7:"Мы можем немедленно заблокировать доступ за нарушения условий или вред другим пользователям. После расторжения право использования прекращается.",
-    h8:"8. Разрешение споров", p8:"Условия регулируются законодательством Германии. Споры разрешаются в судах Берлина. Мы рекомендуем добросовестные переговоры до судебных разбирательств.",
-    h9:"9. Изменения условий", p9:"Мы оставляем право изменять условия. О существенных изменениях сообщим за 15 дней до вступления в силу.",
-    h10:"10. Контакты", p10:"Вопросы по условиям? Напишите на legal@thepost.space",
-    fdesc:"Современная почта для современных команд. Безопасная, быстрая и красиво оформленная.", fp:"Продукт", fc:"Компания", fs:"Поддержка", fl:"Правовая информация", ns:"Решения", nse:"Безопасность", np:"Тарифы", ni:"Интеграции", na:"О нас", nb:"Блог", nc:"Контакты", fcar:"Карьера", nh:"Центр помощи", fstat:"Статус системы", fapi:"API документация", fpriv:"Политика конфиденциальности", fterms:"Условия использования", fcook:"Политика cookies"
-  }
-};
+// T loaded from assets/i18n.js
 
 let lang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
@@ -261,7 +224,7 @@ function initAOS() {
 
 (function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
+  if (typeof lang !== 'undefined' && lang !== 'en') switchLang(lang);
   initAOS();
 }, { once: true });
 </script>

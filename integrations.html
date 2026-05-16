@@ -34,31 +34,33 @@
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
-  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space home">
+  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
   <div class="navbar-links">
-    <a href="solutions.html">Solutions</a>
-    <a href="security.html">Security</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="integrations.html" class="active" aria-current="page">Integrations</a>
-    <a href="about.html">About</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html">Contact</a>
+    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" class="active" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
   <div class="navbar-actions">
     <div class="lang-switch" role="group" aria-label="Language selector">
-      <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
-      <button class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+      <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
+      <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="menuBtn"  aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="contact.html" class="nav-btn nav-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <span data-i18n="nav_getstarted">Get Started</span>
+    </a>
   </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile menu">
@@ -703,124 +705,12 @@
   </div>
 </footer>
 
+<script src="assets/i18n.js"></script>
 <script>
 'use strict';
 
 /* ===== I18N ===== */
-const translations = {
-  en: {
-    ph_badge: "50+ integrations and growing",
-    ph_title_accent: 'Connect ThePost with <span class="gradient-text">your favorite tools </span>',
-    ph_desc: "Seamlessly connect with the services you already use. Automate your shipping workflow and keep everything in sync.",
-    search_placeholder: "Search integrations…",
-    cat_all: "All", cat_ecommerce: "E-commerce", cat_logistics: "Logistics",
-    cat_crm: "CRM & Sales", cat_dev: "Development", cat_automation: "Automation", cat_accounting: "Accounting",
-    featured_label: "Featured", featured_title: "Most popular integrations",
-    featured_subtitle: "The tools our users connect most often",
-    shopify_cat: "E-commerce", shopify_desc: "Sync orders automatically, print labels in bulk, and send tracking numbers to customers without lifting a finger.",
-    shopify_t1: "Auto-labels", shopify_t2: "Order sync", shopify_t3: "Tracking",
-    woo_cat: "E-commerce", woo_desc: "Full WordPress plugin. Map shipping zones, automate label creation, and push tracking updates to order pages.",
-    woo_t1: "Plugin", woo_t2: "Zones", woo_t3: "Labels",
-    hubspot_cat: "CRM & Sales", hubspot_desc: "Log every shipment against your contacts, track delivery inside deals, and trigger follow-up emails on delivery.",
-    hubspot_t1: "CRM Sync", hubspot_t2: "Deals", hubspot_t3: "Automation",
-    zapier_cat: "Automation", zapier_desc: "Connect ThePost.Space to 5,000+ apps without code. Trigger shipments from Google Sheets, Airtable, or any webhook.",
-    zapier_t1: "No-code", zapier_t2: "Triggers", zapier_t3: "5000+ apps",
-    github_cat: "Development", github_desc: "Ship physical goods alongside code releases. Trigger shipments from CI/CD pipelines — perfect for hardware companies.",
-    github_t1: "CI/CD", github_t2: "Webhooks", github_t3: "Releases",
-    xero_cat: "Accounting", xero_desc: "Automatically create invoices for every shipment, reconcile postage costs, and export shipping expenses.",
-    xero_t1: "Invoices", xero_t2: "Expenses", xero_t3: "Reconcile",
-    featured_connect: "Connect",
-    all_label: "Directory", all_title: "All integrations", all_subtitle: "Browse the complete integration directory",
-    connect_label: "How it works", connect_title: "Connect in 3 simple steps",
-    connect_subtitle: "No coding required. Most integrations take less than 2 minutes to set up.",
-    step1_title: "Choose integration", step1_desc: "Browse our directory and find the service you want to connect to your ThePost.Space account.",
-    step2_title: "Authorize access", step2_desc: "One-click OAuth authorization. We never store your passwords — only secure access tokens.",
-    step3_title: "Configure & ship", step3_desc: "Set your preferences and you're done. Shipments start flowing automatically from your connected tools.",
-    api_label: "Developer API", api_title_accent: "REST API",
-    api_desc: "Full-featured REST API with comprehensive documentation. Automate label creation, tracking, address validation, and rate calculation from any system.",
-    api_f1: "RESTful API with OpenAPI 3.0 spec", api_f2: "Webhooks for real-time shipment events",
-    api_f3: "SDKs for JavaScript, Python, Go, and PHP", api_f4: "Rate limit: 10,000 requests / minute",
-    api_f5: "OAuth 2.0 and API key authentication",
-    api_btn_docs: "API Docs", api_btn_sandbox: "Try Sandbox",
-    stat1_label: "Integrations", stat2_label: "Countries Covered", stat3_label: "API Uptime", stat4_label: "Avg. Response Time",
-    partner_label: "Partner Program", partner_title_accent: "grow with us",
-    partner_desc: "Join our partner program and build integrations that ThePost.Space users discover every day. We provide full API access, support, and co-marketing opportunities.",
-    partner_b1: "Full API access and dedicated support", partner_b2: "Featured placement in our integration directory",
-    partner_b3: "Co-marketing and joint content opportunities", partner_b4: "Revenue sharing for premium integrations",
-    partner_btn_apply: "Apply to Program", partner_btn_docs: "Partner Docs", partner_trusted: "Trusted by leading companies",
-    testimonials_label: "Testimonials", testimonials_title: "What developers say",
-    t1_text: '"ThePost.Space\'s API is beautifully designed. We integrated our Shopify store in under 2 hours. The documentation is exceptional."',
-    t1_role: "Lead Engineer, ShipFast",
-    t2_text: '"The Zapier integration saved our ops team 12 hours a week. We automated our entire WooCommerce-to-post-office workflow without writing a single line of code."',
-    t2_role: "Operations Lead, ScaleUp",
-    t3_text: '"As a partner, getting featured on day one drove 50K installs in the first month. ThePost\'s team was incredibly supportive throughout."',
-    t3_role: "CEO, LogiFlow",
-    cta_title: "Ready to connect your tools?", cta_desc: "Start integrating in minutes. No credit card required to get started.",
-    cta_start: "Start Free", cta_contact: "Talk to Us",
-    footer_desc: "International mail for everyone. Fast, simple, and transparent delivery to 150+ countries.",
-    footer_product: "Product", footer_company: "Company", footer_support: "Support", footer_legal: "Legal",
-    footer_status: "System Status", footer_api: "API Docs",
-    footer_privacy: "Privacy Policy", footer_terms: "Terms of Service", footer_cookies: "Cookie Policy",
-    nav_solutions: "Solutions", nav_pricing: "Pricing", nav_integrations: "Integrations",
-    nav_about: "About", nav_blog: "Blog", nav_contact: "Contact", nav_help: "Help Center"
-  },
-  ru: {
-    ph_badge: "50+ интеграций и растём дальше",
-    ph_title_accent: 'Подключите ThePost к вашим <span class="gradient-text">любимым сервисам</span>',
-    ph_desc: "Подключите сервисы, которые вы уже используете. Автоматизируйте доставку и держите всё в синхронизации.",
-    search_placeholder: "Поиск интеграций…",
-    cat_all: "Все", cat_ecommerce: "Интернет-магазины", cat_logistics: "Логистика",
-    cat_crm: "CRM и продажи", cat_dev: "Разработка", cat_automation: "Автоматизация", cat_accounting: "Бухгалтерия",
-    featured_label: "Популярные", featured_title: "Самые востребованные интеграции",
-    featured_subtitle: "Сервисы, которые подключают наши пользователи чаще всего",
-    shopify_cat: "Интернет-магазины", shopify_desc: "Синхронизация заказов, пакетная печать этикеток и автоотправка трекинга клиентам без ручного труда.",
-    shopify_t1: "Авто-этикетки", shopify_t2: "Заказы", shopify_t3: "Трекинг",
-    woo_cat: "Интернет-магазины", woo_desc: "Полноценный плагин для WordPress. Зоны доставки, автоматические этикетки и обновление трекинга в заказах.",
-    woo_t1: "Плагин", woo_t2: "Зоны", woo_t3: "Этикетки",
-    hubspot_cat: "CRM и продажи", hubspot_desc: "Логируйте отправления к контактам, отслеживайте доставку в сделках, запускайте follow-up по факту вручения.",
-    hubspot_t1: "Синхронизация", hubspot_t2: "Сделки", hubspot_t3: "Автоматизация",
-    zapier_cat: "Автоматизация", zapier_desc: "Подключите ThePost.Space к 5000+ приложениям без кода. Запускайте отправки из Google Sheets, Airtable или любого вебхука.",
-    zapier_t1: "No-code", zapier_t2: "Триггеры", zapier_t3: "5000+ приложений",
-    github_cat: "Разработка", github_desc: "Отправляйте физические товары вместе с релизами кода. Запускайте доставку из CI/CD-пайплайна.",
-    github_t1: "CI/CD", github_t2: "Вебхуки", github_t3: "Релизы",
-    xero_cat: "Бухгалтерия", xero_desc: "Автоматически создавайте счета для каждого отправления, сверяйте затраты на доставку и экспортируйте расходы.",
-    xero_t1: "Счета", xero_t2: "Расходы", xero_t3: "Сверка",
-    featured_connect: "Подключить",
-    all_label: "Каталог", all_title: "Все интеграции", all_subtitle: "Полный каталог интеграций ThePost.Space",
-    connect_label: "Как это работает", connect_title: "Подключение за 3 шага",
-    connect_subtitle: "Без кода. Большинство интеграций настраиваются менее чем за 2 минуты.",
-    step1_title: "Выберите интеграцию", step1_desc: "Откройте каталог и найдите сервис, который хотите подключить к ThePost.Space.",
-    step2_title: "Авторизуйте доступ", step2_desc: "Авторизация в один клик через OAuth. Мы не храним ваши пароли — только токены доступа.",
-    step3_title: "Настройте и отправляйте", step3_desc: "Задайте параметры — и готово. Отправления начнут создаваться автоматически из ваших инструментов.",
-    api_label: "API для разработчиков", api_title_accent: "REST API",
-    api_desc: "Полнофункциональный REST API с исчерпывающей документацией. Автоматизируйте создание этикеток, трекинг и расчёт тарифов.",
-    api_f1: "RESTful API со спецификацией OpenAPI 3.0", api_f2: "Вебхуки для событий в реальном времени",
-    api_f3: "SDK для JavaScript, Python, Go и PHP", api_f4: "Лимит: 10 000 запросов в минуту",
-    api_f5: "Аутентификация через OAuth 2.0 и API-ключ",
-    api_btn_docs: "Документация API", api_btn_sandbox: "Попробовать Sandbox",
-    stat1_label: "Интеграций", stat2_label: "Стран охвата", stat3_label: "Uptime API", stat4_label: "Среднее время ответа",
-    partner_label: "Партнёрская программа", partner_title_accent: "расти вместе с нами",
-    partner_desc: "Присоединяйтесь к партнёрской программе и создавайте интеграции, которые ежедневно открывают пользователи ThePost.Space.",
-    partner_b1: "Полный доступ к API и выделенная поддержка", partner_b2: "Размещение в каталоге интеграций",
-    partner_b3: "Совместный маркетинг и контент", partner_b4: "Разделение выручки за премиум-интеграции",
-    partner_btn_apply: "Подать заявку", partner_btn_docs: "Документация партнёра", partner_trusted: "Нам доверяют ведущие компании",
-    testimonials_label: "Отзывы", testimonials_title: "Что говорят разработчики",
-    t1_text: '"API ThePost.Space отлично спроектирован. Мы интегрировали наш Shopify-магазин менее чем за 2 часа. Документация — лучшая из тех, что я видел."',
-    t1_role: "Ведущий инженер, ShipFast",
-    t2_text: '"Интеграция с Zapier сэкономила команде 12 часов в неделю. Мы автоматизировали весь поток из WooCommerce в почту без единой строки кода."',
-    t2_role: "Руководитель операций, ScaleUp",
-    t3_text: '"Как партнёр, попав в featured в первый день, мы получили 50K установок за первый месяц. Команда ThePost была невероятно отзывчивой."',
-    t3_role: "CEO, LogiFlow",
-    cta_title: "Готовы подключить ваши инструменты?", cta_desc: "Начните интеграцию за минуты. Кредитная карта не нужна.",
-    cta_start: "Начать бесплатно", cta_contact: "Поговорить с нами",
-    footer_desc: "Международная почта для всех. Быстрая, простая и прозрачная доставка в 150+ стран.",
-    footer_product: "Продукт", footer_company: "Компания", footer_support: "Поддержка", footer_legal: "Правовая информация",
-    footer_status: "Статус системы", footer_api: "API документация",
-    footer_privacy: "Политика конфиденциальности", footer_terms: "Условия использования", footer_cookies: "Политика cookies",
-    nav_solutions: "Решения", nav_pricing: "Тарифы", nav_integrations: "Интеграции",
-    nav_about: "О нас", nav_blog: "Блог", nav_contact: "Контакты", nav_help: "Центр помощи"
-  }
-};
+const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}

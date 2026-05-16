@@ -14,31 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
-<style>
-/* ===== CARD ICON BADGES (integrations-style) ===== */
-.post-thumb { position: relative; }
-.card-icon-badge {
-  position: absolute; top: 14px; left: 14px; z-index: 4;
-  width: 40px; height: 40px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-  flex-shrink: 0;
-}
-.badge-product { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
-.badge-company { background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); }
-.badge-tips    { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
-.badge-tech    { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
-.badge-news    { background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); }
 
-/* Featured post icon badge */
-.featured-image { position: relative; }
-.featured-icon-badge {
-  position: absolute; top: 20px; left: 20px; z-index: 4;
-  width: 48px; height: 48px; border-radius: 13px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-}
-</style>
 </head>
 <body>
 
@@ -62,7 +38,6 @@
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
-
   <div class="navbar-links">
     <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
     <a href="security.html" data-i18n="nav_security">Security</a>
@@ -77,13 +52,13 @@
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a href="#" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
     <a href="contact.html" class="nav-btn nav-btn-primary">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       <span data-i18n="nav_getstarted">Get Started</span>
     </a>
   </div>
-  <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -392,8 +367,9 @@
 </footer>
 
 <!-- SR-only utility -->
-<style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
 
+
+<script src="assets/i18n.js"></script>
 <script>
 'use strict';
 
@@ -483,84 +459,7 @@ document.addEventListener('click', e => {
 }, { passive: true });
 
 /* LANG SWITCH */
-const translations = {
-  en: {
-    nav_solutions: 'Solutions', nav_security: 'Security', nav_pricing: 'Pricing',
-    nav_integrations: 'Integrations', nav_about: 'About', nav_blog: 'Blog',
-    nav_contact: 'Contact', nav_signin: 'Sign In', nav_getstarted: 'Get Started',
-    hero_badge: 'Journal & Insights',
-    hero_h1: 'Stories from the ', hero_h1_grad: 'future of mail',
-    hero_p: 'Perspectives on logistics, product design, and what it means to build a postal service for the modern world.',
-    tab_all: 'All Posts', tab_product: 'Product', tab_company: 'Company',
-    tab_tips: 'Tips & Guides', tab_tech: 'Technology', tab_news: 'News',
-    cat_company: 'Company', cat_tips: 'Tips', cat_tech: 'Technology', cat_news: 'News',
-    feat_read: '8 min read',
-    feat_h2: 'Why International Mail Is Broken — And How We\'re Fixing It',
-    feat_p: 'Every year, billions of packages cross borders with tracking systems that go dark for days, customer service that speaks neither language, and fees hidden until checkout. We believe there\'s a better way — and we\'re building it.',
-    feat_readstory: 'Read story',
-    readmore: 'Read more',
-    p1_h3: 'Building Real-Time Tracking Without the Complexity',
-    p1_p: 'How we designed a tracking system that works across 150+ countries using a combination of carrier APIs and predictive intelligence.',
-    p2_h3: 'We\'re Launching Soon — Here\'s What to Expect',
-    p2_p: 'ThePost.Space is approaching its public launch. A look at the features we\'re most excited about and why we think the timing is right.',
-    p3_h3: '5 Things to Check Before Shipping Internationally',
-    p3_p: 'Avoid customs delays, surprise fees, and returned packages with this practical pre-shipping checklist for global senders.',
-    p4_h3: 'How We Use AI to Predict Delivery Windows',
-    p4_p: 'Our machine learning model analyzes historical carrier performance data to give customers honest, accurate estimates — not wishful thinking.',
-    p5_h3: 'ThePost.Space Joins the Sustainable Shipping Alliance',
-    p5_p: 'We\'ve committed to carbon-neutral delivery on all domestic routes by Q3 2026, and are partnering with certified logistics carriers globally.',
-    p6_h3: 'Understanding Customs Declarations: A Beginner\'s Guide',
-    p6_p: 'Customs forms don\'t have to be intimidating. We break down exactly what to fill in, what to avoid, and how to keep your shipment moving.',
-    nl_h2: 'Stay in the loop',
-    nl_p: 'New posts, product updates, and shipping tips — delivered to your inbox every two weeks. No spam, ever.',
-    nl_label: 'Email address', nl_placeholder: 'your@email.com', nl_btn: 'Subscribe',
-    foot_desc: 'Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.',
-    foot_prod: 'Product', foot_solutions: 'Solutions', foot_security: 'Security',
-    foot_pricing: 'Pricing', foot_integrations: 'Integrations',
-    foot_comp: 'Company', foot_about: 'About', foot_blog: 'Blog', foot_contact: 'Contact',
-    foot_sup: 'Support', foot_help: 'Help Center', foot_api: 'API Docs',
-    foot_legal: 'Legal', foot_priv: 'Privacy Policy', foot_terms: 'Terms of Service', foot_cookies: 'Cookie Policy',
-    foot_copy: '© 2026 ThePost.Space. All rights reserved.'
-  },
-  ru: {
-    nav_solutions: 'Решения', nav_security: 'Безопасность', nav_pricing: 'Цены',
-    nav_integrations: 'Интеграции', nav_about: 'О нас', nav_blog: 'Блог',
-    nav_contact: 'Контакт', nav_signin: 'Войти', nav_getstarted: 'Начать',
-    hero_badge: 'Журнал и аналитика',
-    hero_h1: 'Истории из ', hero_h1_grad: 'будущего почты',
-    hero_p: 'Взгляды на логистику, дизайн продукта и то, что значит создавать почтовый сервис для современного мира.',
-    tab_all: 'Все статьи', tab_product: 'Продукт', tab_company: 'Компания',
-    tab_tips: 'Советы и руководства', tab_tech: 'Технологии', tab_news: 'Новости',
-    cat_company: 'Компания', cat_tips: 'Советы', cat_tech: 'Технологии', cat_news: 'Новости',
-    feat_read: '8 мин чтения',
-    feat_h2: 'Почему международная почта сломана — и как мы это исправляем',
-    feat_p: 'Каждый год миллиарды посылок пересекают границы с системами отслеживания, которые пропадают на дни, службой поддержки, не знающей языка, и скрытыми сборами. Мы верим, что есть лучший путь — и мы его строим.',
-    feat_readstory: 'Читать историю',
-    readmore: 'Подробнее',
-    p1_h3: 'Отслеживание в реальном времени без лишних сложностей',
-    p1_p: 'Как мы разработали систему отслеживания, работающую в 150+ странах, используя комбинацию API перевозчиков и прогнозной аналитики.',
-    p2_h3: 'Скоро запуск — вот чего ожидать',
-    p2_p: 'ThePost.Space приближается к публичному запуску. Рассказываем о функциях, которые нас особенно радуют, и почему мы считаем момент подходящим.',
-    p3_h3: '5 вещей, которые нужно проверить перед международной отправкой',
-    p3_p: 'Избегайте задержек на таможне, неожиданных сборов и возвратов с помощью этого практического чек-листа для глобальных отправителей.',
-    p4_h3: 'Как мы используем ИИ для прогнозирования сроков доставки',
-    p4_p: 'Наша модель машинного обучения анализирует исторические данные о работе перевозчиков, чтобы давать клиентам честные и точные оценки.',
-    p5_h3: 'ThePost.Space вступает в Альянс устойчивой доставки',
-    p5_p: 'Мы взяли обязательство обеспечить углеродно-нейтральную доставку на всех внутренних маршрутах к третьему кварталу 2026 года.',
-    p6_h3: 'Понимание таможенных деклараций: руководство для начинающих',
-    p6_p: 'Таможенные формы не должны пугать. Мы подробно объясняем, что заполнять, чего избегать и как не допустить задержки вашей посылки.',
-    nl_h2: 'Будьте в курсе',
-    nl_p: 'Новые статьи, обновления продукта и советы по доставке — в вашем почтовом ящике каждые две недели. Никакого спама.',
-    nl_label: 'Адрес электронной почты', nl_placeholder: 'ваш@email.com', nl_btn: 'Подписаться',
-    foot_desc: 'Современная почта для современных людей. Безопасная, быстрая и красиво спроектированная.',
-    foot_prod: 'Продукт', foot_solutions: 'Решения', foot_security: 'Безопасность',
-    foot_pricing: 'Цены', foot_integrations: 'Интеграции',
-    foot_comp: 'Компания', foot_about: 'О нас', foot_blog: 'Блог', foot_contact: 'Контакт',
-    foot_sup: 'Поддержка', foot_help: 'Центр помощи', foot_api: 'Документация API',
-    foot_legal: 'Правовая информация', foot_priv: 'Политика конфиденциальности', foot_terms: 'Условия использования', foot_cookies: 'Политика cookies',
-    foot_copy: '© 2026 ThePost.Space. Все права защищены.'
-  }
-};
+const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}

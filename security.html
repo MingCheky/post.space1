@@ -37,29 +37,29 @@
     <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
     <span>thepost.space</span>
   </a>
-
-  <div class="navbar-links" role="menubar">
-    <a href="solutions.html" role="menuitem" data-i18n="nav_solutions">Solutions</a>
-    <a href="security.html" class="active" role="menuitem" data-i18n="nav_security">Security</a>
-    <a href="pricing.html" role="menuitem" data-i18n="nav_pricing">Pricing</a>
-    <a href="integrations.html" role="menuitem" data-i18n="nav_integrations">Integrations</a>
-    <a href="about.html" role="menuitem" data-i18n="nav_about">About</a>
-    <a href="blog.html" role="menuitem" data-i18n="nav_blog">Blog</a>
-    <a href="contact.html" role="menuitem" data-i18n="nav_contact">Contact</a>
+  <div class="navbar-links">
+    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+    <a href="security.html" class="active" data-i18n="nav_security">Security</a>
+    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
-
   <div class="navbar-actions">
-    <div class="lang-switch" role="group" aria-label="Language selection">
+    <div class="lang-switch" role="group" aria-label="Language selector">
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
     </div>
-    <a class="nav-btn nav-btn-ghost" href="help.html">Help Center</a>
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html">Get Started</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn"  aria-label="Toggle mobile menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
+    <a href="contact.html" class="nav-btn nav-btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <span data-i18n="nav_getstarted">Get Started</span>
+    </a>
   </div>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- MOBILE MENU -->
@@ -658,162 +658,7 @@
 'use strict';
 
 /* ===== TRANSLATIONS ===== */
-const T = {
-  en: {
-    loader_text: 'Loading Security',
-    nav_solutions: 'Solutions', nav_security: 'Security', nav_pricing: 'Pricing',
-    nav_integrations: 'Integrations', nav_about: 'About', nav_blog: 'Blog',
-    nav_contact: 'Contact', nav_help: 'Help', nav_cta: 'Early Access',
-
-    sec_badge: 'Security-first architecture',
-    sec_h1_1: 'Your privacy is',
-    sec_h1_2: 'non-negotiable.',
-    sec_hero_desc: 'ThePost.Space was built with security as a foundation, not an afterthought. End-to-end encryption, zero-knowledge architecture, and full regulatory compliance — so your data stays yours, always.',
-    sec_cta_primary: 'Submit Application',
-    sec_cta_secondary: 'Read the whitepaper',
-
-    pillars_label: 'Security Pillars',
-    pillars_title: 'Six layers of protection',
-    pillars_sub: 'Every aspect of ThePost.Space is engineered around your security. From the code we write to the infrastructure we run.',
-
-    p1_t: 'End-to-End Encryption', p1_d: 'Every message is encrypted on your device before transmission. We use AES-256 combined with RSA-4096 key exchange — the same standard trusted by governments and financial institutions.', p1_detail: 'AES-256 + RSA-4096',
-    p2_t: 'Zero-Knowledge Design', p2_d: 'We never have access to your encryption keys. Your private key is generated on your device and never leaves it. Even our engineers cannot read your messages — this is a technical guarantee, not a policy.', p2_detail: 'Keys never leave your device',
-    p3_t: 'Hardened Infrastructure', p3_d: 'Our servers run in ISO 27001-certified data centres with physical access controls, network segmentation, and 24/7 intrusion detection. All data is replicated across geographically separated regions.', p3_detail: 'ISO 27001-certified DCs',
-    p4_t: 'Threat Protection', p4_d: 'Our AI-powered filters block spam, phishing links, and malware attachments with 99.7% accuracy — before they ever reach your inbox. Threat models are updated continuously in real time.', p4_detail: '99.7% spam & phishing block rate',
-    p5_t: 'Access Control', p5_d: 'Multi-factor authentication, hardware security key support (FIDO2/WebAuthn), session management, and granular team permission controls. You decide exactly who sees what.', p5_detail: 'FIDO2 / WebAuthn / MFA',
-    p6_t: 'Audit Logs', p6_d: 'Every login, file access, and administrative action is recorded in tamper-proof audit logs. Exportable for compliance reviews, SIEM integration, and forensic investigations.', p6_detail: 'Tamper-proof, exportable logs',
-
-    deepdive_label: 'How encryption works',
-    deepdive_title: 'Your message, always private',
-    deepdive_desc: 'From the moment you hit send, your message is encrypted on-device. Our servers only ever see ciphertext — mathematically impossible to read without the recipient\'s private key. Not even a court order changes that.',
-    ef1_t: 'Message composed', ef2_t: 'AES-256 encryption', ef3_t: 'RSA-4096 key exchange', ef4_t: 'TLS 1.3 transit', ef5_t: 'Stored encrypted-at-rest',
-    dd1_t: 'Perfect Forward Secrecy', dd1_d: 'New encryption keys generated for every session. Past messages stay secure even if keys are ever compromised.',
-    dd2_t: 'Open Source Cryptography', dd2_d: 'We use battle-tested, open-source cryptographic primitives. No proprietary algorithms — our implementation is auditable by anyone.',
-    dd3_t: 'Independent Audits', dd3_d: 'Our cryptographic implementation is independently audited annually by third-party security firms. Full reports are publicly available.',
-
-    ss1_num: '256-bit', ss1_lbl: 'AES Encryption Standard',
-    ss2_num: '99.7%',  ss2_lbl: 'Spam & Phishing Block Rate',
-    ss3_num: '0',      ss3_lbl: 'Data Breaches Since Launch',
-    ss4_num: '24/7',   ss4_lbl: 'Security Operations Centre',
-
-    comp_label: 'Compliance & Certifications',
-    comp_title: 'Certified across every standard',
-    comp_sub: 'We don\'t just claim compliance — we prove it with independent audits and public documentation.',
-    cert1_t: 'SOC 2 Type II', cert1_d: 'Independently audited by a Big Four firm. Covers security, availability, processing integrity, confidentiality, and privacy of customer data. Re-audited annually.',
-    cert2_t: 'GDPR Compliance', cert2_d: 'Full compliance with the EU General Data Protection Regulation. Data processing agreements available. EU users\' data stays within the EU by default.',
-    cert3_t: 'CCPA Compliance', cert3_d: 'Full compliance with the California Consumer Privacy Act. California residents have the right to access, delete, and opt out of the sale of their personal information.',
-    cert4_t: 'ISO 27001', cert4_d: 'Our information security management system is certified to ISO/IEC 27001:2022 — the international gold standard for information security.',
-    cert_certified: 'Certified', cert_compliant: 'Compliant',
-
-    threat_label: 'Active Protection',
-    threat_title: 'Threats stopped before they reach you',
-    threat_desc: 'Our multi-layered threat intelligence system analyses billions of data points daily. Every suspicious pattern is blocked in real time — with zero false positive impact on legitimate mail.',
-    th1_t: 'Phishing & Spoofing Detection', th1_d: 'AI-powered analysis of sender reputation, domain age, link patterns, and content to catch even the most sophisticated phishing attempts.',
-    th2_t: 'Malware & Attachment Scanning', th2_d: 'Every attachment is scanned in a sandboxed environment using multiple antivirus engines before delivery. Macros and executables are blocked by default.',
-    th3_t: 'DDoS & Abuse Prevention', th3_d: 'Rate limiting, geo-based anomaly detection, and automatic DDoS mitigation ensure your service stays online even under heavy attack conditions.',
-
-    faq_label: 'FAQ', faq_title: 'Security questions, answered',
-    faq_sub: 'Transparency is part of our security model. Here are the questions we get asked most.',
-    faq1_q: 'Can ThePost.Space employees read my messages?',
-    faq1_a: 'No — technically impossible. Your private key never leaves your device. Our servers only store ciphertext. Even with full database access, no employee can decrypt your messages.',
-    faq2_q: 'What happens if I lose my private key?',
-    faq2_a: 'We provide secure, encrypted key backup during setup — protected by your master password. You can also store a recovery key in an external password manager. Without a backup, past messages cannot be recovered, which is intentional.',
-    faq3_q: 'Are messages encrypted when sent to non-ThePost users?',
-    faq3_a: 'Messages to external email addresses are secured with TLS in transit, but cannot use end-to-end encryption as the external server controls the destination keys. We clearly label this distinction in the interface.',
-    faq4_q: 'Has ThePost.Space ever received a government data request?',
-    faq4_a: 'We publish a transparency report. Even if we receive a legally valid request, the only data we can provide is metadata — we have no ability to hand over message content since we don\'t possess the keys.',
-    faq5_q: 'Where is my data physically stored?',
-    faq5_a: 'EU user data is stored exclusively in ISO 27001-certified data centres within the EU (Frankfurt and Amsterdam). Users can choose their preferred region. Data is never transferred outside your chosen jurisdiction without explicit consent.',
-
-    cta_t: 'Security you can verify, not just trust',
-    cta_d: 'Join ThePost.Space early access and experience email that\'s private by design. All audit reports and cryptographic specifications are publicly available.',
-    cta_btn1: 'Request Early Access', cta_btn2: 'View Security Whitepaper',
-
-    foot_desc: 'Modern mail for modern people. Secure, fast, and beautifully designed from the ground up.',
-    foot_prod: 'Product', foot_comp: 'Company', foot_sup: 'Support', foot_legal: 'Legal',
-    foot_solutions: 'Solutions', foot_security: 'Security', foot_pricing: 'Pricing', foot_integrations: 'Integrations',
-    foot_about: 'About', foot_blog: 'Blog', foot_contact: 'Contact',
-    foot_help: 'Help Center', foot_api: 'API Docs',
-    foot_priv: 'Privacy Policy', foot_terms: 'Terms of Service', foot_cookies: 'Cookie Policy',
-  },
-  ru: {
-    loader_text: 'Загрузка',
-    nav_solutions: 'Решения', nav_security: 'Безопасность', nav_pricing: 'Тарифы',
-    nav_integrations: 'Интеграции', nav_about: 'О нас', nav_blog: 'Блог',
-    nav_contact: 'Контакты', nav_help: 'Помощь', nav_cta: 'Ранний доступ',
-
-    sec_badge: 'Архитектура, ориентированная на безопасность',
-    sec_h1_1: 'Ваша приватность —',
-    sec_h1_2: 'не предмет торга.',
-    sec_hero_desc: 'ThePost.Space создан с безопасностью в основе, а не как дополнение. Сквозное шифрование, zero-knowledge архитектура и полное соответствие требованиям — ваши данные всегда принадлежат только вам.',
-    sec_cta_primary: 'Запросить ранний доступ',
-    sec_cta_secondary: 'Читать whitepaper',
-
-    pillars_label: 'Столпы безопасности',
-    pillars_title: 'Шесть уровней защиты',
-    pillars_sub: 'Каждый аспект ThePost.Space спроектирован вокруг вашей безопасности — от кода, который мы пишем, до инфраструктуры, которую мы запускаем.',
-
-    p1_t: 'Сквозное шифрование', p1_d: 'Каждое сообщение шифруется на вашем устройстве до отправки. Мы используем AES-256 в сочетании с обменом ключами RSA-4096 — тот же стандарт, которому доверяют правительства и финансовые учреждения.', p1_detail: 'AES-256 + RSA-4096',
-    p2_t: 'Zero-Knowledge архитектура', p2_d: 'Мы никогда не имеем доступа к вашим ключам шифрования. Ваш закрытый ключ генерируется на вашем устройстве и никогда его не покидает. Это техническая гарантия, а не просто политика.', p2_detail: 'Ключи остаются на вашем устройстве',
-    p3_t: 'Защищённая инфраструктура', p3_d: 'Наши серверы работают в дата-центрах с сертификатом ISO 27001 — с физическим контролем доступа, сегментацией сети и круглосуточным обнаружением вторжений.', p3_detail: 'ЦОД с сертификатом ISO 27001',
-    p4_t: 'Защита от угроз', p4_d: 'Наши ИИ-фильтры блокируют спам, фишинговые ссылки и вредоносные вложения с точностью 99,7% — до того, как они попадут в ваш ящик.', p4_detail: '99,7% блокировка спама и фишинга',
-    p5_t: 'Контроль доступа', p5_d: 'Многофакторная аутентификация, поддержка аппаратных ключей (FIDO2/WebAuthn), управление сессиями и детальный контроль прав команды. Вы решаете, кто что видит.', p5_detail: 'FIDO2 / WebAuthn / MFA',
-    p6_t: 'Журналы аудита', p6_d: 'Каждый вход, доступ к файлам и административное действие записывается в защищённые от изменений журналы. Экспорт для проверок соответствия и SIEM-систем.', p6_detail: 'Защищённые, экспортируемые журналы',
-
-    deepdive_label: 'Как работает шифрование',
-    deepdive_title: 'Ваше сообщение — всегда приватно',
-    deepdive_desc: 'С момента отправки ваше сообщение шифруется на устройстве. Наши серверы видят только зашифрованный текст — математически невозможно прочитать без закрытого ключа получателя.',
-    ef1_t: 'Сообщение написано', ef2_t: 'Шифрование AES-256', ef3_t: 'Обмен ключами RSA-4096', ef4_t: 'Передача по TLS 1.3', ef5_t: 'Хранение в зашифрованном виде',
-    dd1_t: 'Perfect Forward Secrecy', dd1_d: 'Для каждой сессии генерируются новые ключи. Прошлые сообщения остаются в безопасности, даже если ключи когда-либо будут скомпрометированы.',
-    dd2_t: 'Открытая криптография', dd2_d: 'Мы используем проверенные, открытые криптографические примитивы. Никаких проприетарных алгоритмов — реализация открыта для аудита.',
-    dd3_t: 'Независимые аудиты', dd3_d: 'Наша криптографическая реализация ежегодно проверяется независимыми компаниями по безопасности. Полные отчёты находятся в открытом доступе.',
-
-    ss1_num: '256-бит', ss1_lbl: 'Стандарт шифрования AES',
-    ss2_num: '99,7%',   ss2_lbl: 'Блокировка спама и фишинга',
-    ss3_num: '0',       ss3_lbl: 'Утечек данных с момента запуска',
-    ss4_num: '24/7',    ss4_lbl: 'Центр безопасности',
-
-    comp_label: 'Соответствие и сертификаты',
-    comp_title: 'Сертифицированы по всем стандартам',
-    comp_sub: 'Мы не просто заявляем о соответствии — мы доказываем его независимыми аудитами и открытой документацией.',
-    cert1_t: 'SOC 2 Type II', cert1_d: 'Независимо проверен компанией из Big Four. Охватывает безопасность, доступность, целостность обработки, конфиденциальность и приватность данных.',
-    cert2_t: 'Соответствие GDPR', cert2_d: 'Полное соответствие Общему регламенту ЕС о защите данных. Соглашения об обработке данных доступны. Данные пользователей ЕС хранятся только в ЕС.',
-    cert3_t: 'Соответствие CCPA', cert3_d: 'Полное соответствие Закону Калифорнии о конфиденциальности потребителей. Жители Калифорнии имеют право на доступ, удаление и отказ от продажи личных данных.',
-    cert4_t: 'ISO 27001', cert4_d: 'Наша система управления информационной безопасностью сертифицирована по ISO/IEC 27001:2022 — международному золотому стандарту информационной безопасности.',
-    cert_certified: 'Сертифицировано', cert_compliant: 'Соответствует',
-
-    threat_label: 'Активная защита',
-    threat_title: 'Угрозы остановлены до того, как достигнут вас',
-    threat_desc: 'Наша многоуровневая система анализирует миллиарды точек данных ежедневно. Каждый подозрительный паттерн блокируется в реальном времени — без ложных срабатываний на легитимную почту.',
-    th1_t: 'Обнаружение фишинга и спуфинга', th1_d: 'ИИ-анализ репутации отправителя, возраста домена, паттернов ссылок и контента для выявления даже самых сложных фишинговых атак.',
-    th2_t: 'Сканирование вложений', th2_d: 'Каждое вложение проверяется в изолированной среде несколькими антивирусными движками до доставки. Макросы и исполняемые файлы заблокированы по умолчанию.',
-    th3_t: 'Защита от DDoS и злоупотреблений', th3_d: 'Ограничение запросов, обнаружение геоаномалий и автоматическое смягчение DDoS-атак гарантируют доступность сервиса даже при тяжёлых атаках.',
-
-    faq_label: 'FAQ', faq_title: 'Ответы на вопросы безопасности',
-    faq_sub: 'Прозрачность — часть нашей модели безопасности. Вот вопросы, которые задают чаще всего.',
-    faq1_q: 'Могут ли сотрудники ThePost.Space читать мои сообщения?',
-    faq1_a: 'Нет — технически невозможно. Ваш закрытый ключ никогда не покидает ваше устройство. Наши серверы хранят только зашифрованный текст. Даже при полном доступе к базе данных ни один сотрудник не может расшифровать ваши сообщения.',
-    faq2_q: 'Что произойдёт, если я потеряю закрытый ключ?',
-    faq2_a: 'Мы предоставляем зашифрованное резервное копирование ключа при настройке — защищённое мастер-паролем. Вы также можете сохранить ключ восстановления во внешнем менеджере паролей. Без резервной копии прошлые сообщения не могут быть восстановлены — это сделано намеренно.',
-    faq3_q: 'Шифруются ли сообщения, отправленные пользователям не в ThePost?',
-    faq3_a: 'Сообщения на внешние адреса защищены TLS при передаче, но не могут использовать сквозное шифрование, так как внешний сервер контролирует ключи назначения. Мы чётко обозначаем это в интерфейсе.',
-    faq4_q: 'Получал ли ThePost.Space запросы от государственных органов?',
-    faq4_a: 'Мы публикуем отчёт о прозрачности. Даже если мы получаем юридически обоснованный запрос, единственное, что мы можем предоставить, — это метаданные. Мы физически не можем передать содержимое сообщений, так как не владеем ключами.',
-    faq5_q: 'Где физически хранятся мои данные?',
-    faq5_a: 'Данные пользователей ЕС хранятся исключительно в сертифицированных по ISO 27001 дата-центрах в ЕС (Франкфурт и Амстердам). Данные никогда не передаются за пределы выбранной юрисдикции без явного согласия.',
-
-    cta_t: 'Безопасность, которую можно проверить, а не просто принять на веру',
-    cta_d: 'Присоединяйтесь к раннему доступу ThePost.Space и испытайте почту, приватную по дизайну. Все отчёты аудита и криптографические спецификации находятся в открытом доступе.',
-    cta_btn1: 'Запросить ранний доступ', cta_btn2: 'Читать whitepaper',
-
-    foot_desc: 'Современная почта для современных людей. Безопасная, быстрая и красиво спроектированная.',
-    foot_prod: 'Продукт', foot_comp: 'Компания', foot_sup: 'Поддержка', foot_legal: 'Правовая информация',
-    foot_solutions: 'Решения', foot_security: 'Безопасность', foot_pricing: 'Тарифы', foot_integrations: 'Интеграции',
-    foot_about: 'О нас', foot_blog: 'Блог', foot_contact: 'Контакты',
-    foot_help: 'Центр помощи', foot_api: 'API документация',
-    foot_priv: 'Политика конфиденциальности', foot_terms: 'Условия использования', foot_cookies: 'Политика cookies',
-  }
-};
+// T loaded from assets/i18n.js
 
 let lang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
@@ -948,7 +793,7 @@ document.querySelectorAll('.faq-question').forEach(btn => {
 /* ===== INIT ===== */
 (function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
+  if (typeof lang !== 'undefined' && lang !== 'en') switchLang(lang);
   createParticles();
   initAOS();
 }, { once: true });
