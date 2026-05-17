@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Simple, transparent pricing for ThePost.Space. Choose a plan that fits your team — from personal to enterprise.">
 <title>Pricing — ThePost.Space</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -32,9 +32,9 @@
 
 <!-- ===== BILLING TOGGLE ===== -->
 <div class="billing-toggle aos">
-  <span class="billing-label active" id="monthlyLabel" data-billing="monthly" data-i18n="billing_monthly">Monthly</span>
-  <div class="toggle-switch" id="billingToggle" id="billingToggle"></div>
-  <span class="billing-label" id="yearlyLabel" data-billing="yearly" data-i18n="billing_yearly">Yearly</span>
+  <span class="billing-label active" id="monthlyLabel" data-billing="monthly" data-i18n="billing_monthly" onclick="setBilling('monthly')" style="cursor:pointer">Monthly</span>
+  <div class="toggle-switch" id="billingToggle" onclick="toggleBilling()"></div>
+  <span class="billing-label" id="yearlyLabel" data-billing="yearly" data-i18n="billing_yearly" onclick="setBilling('yearly')" style="cursor:pointer">Yearly</span>
   <span class="save-badge" data-i18n="billing_save">Save 20%</span>
 </div>
 
@@ -160,6 +160,7 @@
       <h2 class="section-title aos d1" data-i18n="compare_title">Feature comparison</h2>
       <p class="section-subtitle aos d2" data-i18n="compare_subtitle">See exactly what's included in each plan.</p>
     </div>
+    <div class="comp-table-wrap">
     <table class="comparison-table aos d3">
       <thead>
         <tr>
@@ -191,6 +192,7 @@
         <tr><td data-i18n="cf18">SLA</td><td><span class="partial-cell">Best effort</span></td><td class="popular-col"><span class="partial-cell">99.9%</span></td><td><span class="partial-cell">99.95%</span></td><td><span class="partial-cell">99.99% Custom</span></td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 </div>
 

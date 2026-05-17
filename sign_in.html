@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Sign in to your ThePost.Space account.">
     <meta name="theme-color" content="#05050e">
     <title>Sign In · ThePost.Space</title>
     <link rel="icon" href="assets/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
     
 <link rel="stylesheet" href="assets/styles.css">
 <style>
@@ -69,7 +69,6 @@
                 <span class="check-box"></span>
                 <span data-i18n="remember">Remember me</span>
             </label>
-            <a href="#" id="forgotLink" class="forgot-link" data-i18n="forgot">Forgot password?</a>
         </div>
         <button type="submit" class="btn-submit" id="loginBtn">
             <span class="btn-label" data-i18n="btn_signin">Sign in</span>
