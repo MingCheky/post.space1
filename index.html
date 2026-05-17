@@ -25,6 +25,10 @@
     </div>
     <div class="loader-text">Loading ThePost</div>
     <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    <div class="mobile-lang-switch" style="display:flex;justify-content:center;gap:8px;padding-top:4px;">
+      <button class="lang-btn" data-lang="en" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">EN</button>
+      <button class="lang-btn" data-lang="ru" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">RU</button>
+    </div>
   </div>
 </div>
 
@@ -73,6 +77,7 @@
   <a href="contact.html">Contact</a>
   <a href="help.html">Help Center</a>
   <div class="mobile-menu-actions">
+    <a class="btn" href="sign_in.html" style="justify-content:center;border:1px solid var(--border);color:var(--text-primary);background:transparent;" data-i18n="nav_signin">Sign In</a>
     <a class="btn btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_cta">Request Early Access</a>
   </div>
 </div>
@@ -664,8 +669,8 @@
 /* ===== TRANSLATIONS ===== */
 // T loaded from assets/i18n.js
 
-let currentLang = 'en';
-  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}
+let lang = 'en';
+  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
 
 /* ===== LANGUAGE SWITCH ===== */
 /* ===== BUTTON EVENT DELEGATION (replaces inline onclick) ===== */
@@ -676,9 +681,9 @@ document.addEventListener('click', e => {
   if (menuBtn) { toggleMobileMenu(); return; }
 }, { passive: true });
 
-function switchLang(lang) {
-  try { localStorage.setItem('lang', lang); } catch(e) {}
-  document.documentElement.lang = lang;
+function switchLang(l) {
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.documentElement.lang = l;
   document.getElementById('langEn').classList.toggle('active', l === 'en');
   document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
   document.getElementById('langRu').classList.toggle('active', l === 'ru');
@@ -798,7 +803,7 @@ function showToast(msg, type = 'success') {
 /* ===== INIT ===== */
 (function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
 window.addEventListener('load', () => {
-  if (typeof currentLang !== 'undefined' && currentLang !== 'en') switchLang(currentLang);
+  if (typeof lang !== 'undefined' && lang !== 'en') switchLang(lang);
   createParticles();
   initAOS();
 }, { once: true });

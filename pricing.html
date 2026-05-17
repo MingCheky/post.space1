@@ -67,7 +67,12 @@
   <a href="blog.html">Blog</a>
   <a href="contact.html">Contact</a>
   <a href="help.html">Help Center</a>
-  <a href="contact.html">Sign In</a>
+  <a href="sign_in.html" data-i18n="nav_signin">Sign In</a>
+
+  <div class="mobile-lang-switch" style="display:flex;justify-content:center;gap:8px;padding:16px 0 4px;">
+    <button class="lang-btn" data-lang="en" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">EN</button>
+    <button class="lang-btn" data-lang="ru" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">RU</button>
+  </div>
 </div>
 
 <!-- ===== PAGE HERO ===== -->
@@ -385,6 +390,7 @@
 
 <script src="assets/i18n.js"></script>
 <script>
+const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}

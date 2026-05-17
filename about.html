@@ -25,6 +25,10 @@
     </div>
     <div class="loader-text">Loading ThePost</div>
     <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+    <div class="mobile-lang-switch" style="display:flex;justify-content:center;gap:8px;padding-top:4px;">
+      <button class="lang-btn" data-lang="en" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">EN</button>
+      <button class="lang-btn" data-lang="ru" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">RU</button>
+    </div>
   </div>
 </div>
 
@@ -72,6 +76,7 @@
   <a href="blog.html" data-i18n="nav_blog">Blog</a>
   <a href="contact.html" data-i18n="nav_contact">Contact</a>
   <div class="mobile-menu-actions">
+    <a class="btn" href="sign_in.html" style="justify-content:center;border:1px solid var(--border);color:var(--text-primary);background:transparent;" data-i18n="nav_signin">Sign In</a>
     <a class="btn btn-secondary" href="login.html" style="justify-content:center;" data-i18n="nav_login">Sign In</a>
     <a class="btn btn-primary" href="register.html" style="justify-content:center;" data-i18n="nav_register">Sign Up</a>
   </div>
@@ -341,6 +346,7 @@
 /* =====================
    TRANSLATIONS
    ===================== */
+const translations = T; // loaded from assets/i18n.js
 
 let currentLang = 'en';
   try { const saved = localStorage.getItem('lang'); if (saved === 'ru') currentLang = 'ru'; } catch(e) {}
@@ -356,10 +362,10 @@ let currentLang = 'en';
         if (menuBtn) { toggleMobileMenu(); }
     });
 
-    function switchLang(lang) {
-  currentLang = lang;
-  try { localStorage.setItem('lang', lang); } catch(e) {}
-  document.documentElement.lang = lang;
+    function switchLang(l) {
+  currentLang = l;
+  try { localStorage.setItem('lang', l); } catch(e) {}
+  document.documentElement.lang = l;
   document.getElementById('langEn').classList.toggle('active', l === 'en');
   document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
   document.getElementById('langRu').classList.toggle('active', l === 'ru');
@@ -373,7 +379,7 @@ let currentLang = 'en';
     }
   });
 
-  document.documentElement.lang = lang;
+  document.documentElement.lang = l;
 }
 
 /* CURSOR GLOW */

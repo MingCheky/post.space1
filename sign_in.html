@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html currentLang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,9 +32,9 @@
             </div>
             <span class="logo-text">ThePost.Space</span>
         </a>
-        <div class="currentLang-switch">
-            <button class="currentLang-btn active" id="langEn" data-currentLang="en">EN</button>
-            <button class="currentLang-btn" id="langRu" data-currentLang="ru">RU</button>
+        <div class="lang-switch">
+            <button class="lang-btn active" id="langEn" data-lang="en">EN</button>
+            <button class="lang-btn" id="langRu" data-lang="ru">RU</button>
         </div>
     </div>
 
@@ -94,13 +94,13 @@
 <script>
 'use strict';
 /* ===== Unified i18n system ===== */
+// T loaded from assets/i18n.js
 
-
-let currentLang = 'en';
-try { const s = localStorage.getItem('lang'); if (s === 'ru') currentLang = 'ru'; } catch(e) {}
+let lang = 'en';
+try { const s = localStorage.getItem('lang'); if (s === 'ru') lang = 'ru'; } catch(e) {}
 
 function applyLang(l) {
-  currentLang = l;
+  lang = l;
   try { localStorage.setItem('lang', l); } catch(e) {}
   document.documentElement.lang = l;
   document.getElementById('langEn').classList.toggle('active', l === 'en');
@@ -127,7 +127,7 @@ if (window.matchMedia('(hover: hover)').matches) {
 
 /* ===== Event delegation — zero inline onclick ===== */
 document.addEventListener('click', e => {
-  const langBtn = e.target.closest('[data-currentLang]');
+  const langBtn = e.target.closest('[data-lang]');
   if (langBtn) { applyLang(langBtn.dataset.lang); return; }
   const submitBtn = e.target.closest('.btn-submit');
   if (submitBtn && !submitBtn.disabled) {
@@ -176,30 +176,30 @@ const ERR_MAP = {
   'auth/wrong-password':'err_wrong_pw','auth/too-many-requests':'err_too_many',
   'auth/network-request-failed':'err_network'
 };
-function getErr(code) { return T[currentLang][ERR_MAP[code] || 'err_default']; }
+function getErr(code) { return T[lang][ERR_MAP[code] || 'err_default']; }
 
 document.getElementById('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value.trim();
   const pw    = document.getElementById('loginPw').value;
-  if (!email || !pw) { showMsg(T[currentLang].err_fill, 'error'); return; }
+  if (!email || !pw) { showMsg(T[lang].err_fill, 'error'); return; }
   setLoading(true);
   await new Promise(r => setTimeout(r, 900));
-  showMsg(currentLang === 'ru' ? 'Неверный логин или пароль.' : 'Incorrect email or password.', 'error');
+  showMsg(lang === 'ru' ? 'Неверный логин или пароль.' : 'Incorrect email or password.', 'error');
   setLoading(false);
 });
 
 document.getElementById('forgotLink').addEventListener('click', async e => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value.trim();
-  if (!email) { showMsg(T[currentLang].err_email, 'error'); return; }
+  if (!email) { showMsg(T[lang].err_email, 'error'); return; }
   try {
     await auth.sendPasswordResetEmail(email);
-    showMsg(`${T[currentLang].ok_reset} ${email}.`, 'success');
+    showMsg(`${T[lang].ok_reset} ${email}.`, 'success');
   } catch(err) { showMsg(getErr(err.code), 'error'); }
 });
 
-applyLang(currentLang);
+applyLang(lang);
 </script>
 </body>
 </html>
