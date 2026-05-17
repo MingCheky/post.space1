@@ -25,10 +25,6 @@
     </div>
     <div class="loader-text">Loading ThePost</div>
     <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-    <div class="mobile-lang-switch" style="display:flex;justify-content:center;gap:8px;padding-top:4px;">
-      <button class="lang-btn" data-lang="en" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">EN</button>
-      <button class="lang-btn" data-lang="ru" style="padding:8px 20px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-display);">RU</button>
-    </div>
   </div>
 </div>
 
@@ -50,7 +46,7 @@
     <a href="blog.html" data-i18n="nav_blog">Blog</a>
     <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
-  <div class="navbar-actions">
+    <div class="navbar-actions">
     <div class="lang-switch" role="group" aria-label="Language selector">
       <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
       <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
@@ -68,18 +64,19 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
-  <a href="solutions.html">Solutions</a>
-  <a href="security.html">Security</a>
-  <a href="pricing.html">Pricing</a>
-  <a href="integrations.html">Integrations</a>
-  <a href="about.html">About</a>
-  <a href="blog.html">Blog</a>
-  <a href="contact.html">Contact</a>
-  <a href="help.html">Help Center</a>
+  <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
+  <a href="security.html" data-i18n="nav_security">Security</a>
+  <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+  <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
+  <a href="about.html" data-i18n="nav_about">About</a>
+  <a href="blog.html" data-i18n="nav_blog">Blog</a>
+  <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  <a href="help.html" data-i18n="nav_help">Help Center</a>
   <div class="mobile-menu-actions">
-    <a class="btn" href="sign_in.html" style="justify-content:center;border:1px solid var(--border);color:var(--text-primary);background:transparent;" data-i18n="nav_signin">Sign In</a>
-    <a class="btn btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_cta">Request Early Access</a>
+    <a class="nav-btn nav-btn-ghost" href="sign_in.html" style="justify-content:center;" data-i18n="nav_signin">Sign In</a>
+    <a class="nav-btn nav-btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_getstarted">Get Started</a>
   </div>
+</div>
 </div>
 
 <!-- ==================== HERO ==================== -->
