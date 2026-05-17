@@ -13,66 +13,8 @@
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
-<div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
-  <div class="loader">
-    <div class="loader-icon" aria-hidden="true">
-      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
-    </div>
-    <div class="loader-text">Loading ThePost</div>
-    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-  </div>
-</div>
+<div id="site-header"></div>
 
-<!-- CURSOR GLOW -->
-<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-
-<!-- NAVBAR -->
-<nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
-  <a class="navbar-logo" href="index.html" aria-label="ThePost.Space homepage">
-    <div class="navbar-logo-icon" aria-hidden="true"><img src="assets/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:contain;"></div>
-    <span>thepost.space</span>
-  </a>
-  <div class="navbar-links">
-    <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
-    <a href="security.html" data-i18n="nav_security">Security</a>
-    <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
-    <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
-    <a href="about.html" data-i18n="nav_about">About</a>
-    <a href="blog.html" data-i18n="nav_blog">Blog</a>
-    <a href="contact.html" data-i18n="nav_contact">Contact</a>
-  </div>
-    <div class="navbar-actions">
-    <div class="lang-switch" role="group" aria-label="Language selector">
-      <button class="lang-btn active" id="langEn" data-lang="en" aria-pressed="true">EN</button>
-      <button class="lang-btn" id="langRu" data-lang="ru" aria-pressed="false">RU</button>
-    </div>
-    <a href="sign_in.html" class="nav-btn nav-btn-ghost" data-i18n="nav_signin">Sign In</a>
-    <a href="contact.html" class="nav-btn nav-btn-primary">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      <span data-i18n="nav_getstarted">Get Started</span>
-    </a>
-  </div>
-  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
-  <a href="solutions.html" data-i18n="nav_solutions">Solutions</a>
-  <a href="security.html" data-i18n="nav_security">Security</a>
-  <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
-  <a href="integrations.html" data-i18n="nav_integrations">Integrations</a>
-  <a href="about.html" data-i18n="nav_about">About</a>
-  <a href="blog.html" data-i18n="nav_blog">Blog</a>
-  <a href="contact.html" data-i18n="nav_contact">Contact</a>
-  <a href="help.html" data-i18n="nav_help">Help Center</a>
-  <div class="mobile-menu-actions">
-    <a class="nav-btn nav-btn-ghost" href="sign_in.html" style="justify-content:center;" data-i18n="nav_signin">Sign In</a>
-    <a class="nav-btn nav-btn-primary" href="contact.html" style="justify-content:center;" data-i18n="nav_getstarted">Get Started</a>
-  </div>
-</div>
 </div>
 
 <!-- PAGE HERO -->
@@ -156,104 +98,19 @@
   <p data-i18n="p11">Questions or concerns about this Privacy Policy? Reach out to our Data Protection Officer: <a href="mailto:privacy@thepost.space">privacy@thepost.space</a> | ThePost Space GmbH, Friedrichstraße 123, 10117 Berlin, Germany</p>
 </article>
 
-<footer>
-  <div class="ft">
-    <div class="fg">
-      <div class="fb">
-        <a class="fb-logo" href="index.html">
-          <div class="fb-logo-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
-          </div>
-          <span>thepost.space</span>
-        </a>
-        <p data-i18n="fdesc">Modern email for modern teams. Secure, fast, and beautifully designed.</p>
-      </div>
-      <div class="fc"><h4 data-i18n="fp">Product</h4><a href="solutions.html" data-i18n="ns">Solutions</a><a href="security.html" data-i18n="nse">Security</a><a href="pricing.html" data-i18n="np">Pricing</a><a href="integrations.html" data-i18n="ni">Integrations</a></div>
-      <div class="fc"><h4 data-i18n="fc">Company</h4><a href="about.html" data-i18n="na">About</a><a href="blog.html" data-i18n="nb">Blog</a><a href="contact.html" data-i18n="nc">Contact</a></div>
-      <div class="fc"><h4 data-i18n="fs">Support</h4><a href="help.html" data-i18n="nh">Help Center</a></div>
-      <div class="fc"><h4 data-i18n="fl">Legal</h4><a href="privacy.html" data-i18n="fpriv">Privacy Policy</a><a href="terms.html" data-i18n="fterms">Terms of Service</a><a href="cookies.html" data-i18n="fcook">Cookie Policy</a></div>
-    </div>
-    <div class="fbt">
-      <span>© 2024 - 2026 ThePost.Space. All rights reserved.</span>
-      <div class="fsoc"><a href="#">𝕏</a><a href="#">in</a><a href="#">GH</a><a href="#">▶</a></div>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
 <script>
-// T loaded from assets/i18n.js
-
-let lang = 'en';
-  try { const saved = localStorage.getItem('lang'); if (saved === 'ru') lang = 'ru'; } catch(e) {}
-
-/* ===== BUTTON EVENT DELEGATION (replaces inline onclick) ===== */
-    document.addEventListener('click', e => {
-        const langBtn = e.target.closest('[data-lang]');
-        if (langBtn) { switchLang(langBtn.dataset.lang); return; }
-        const menuBtn = e.target.closest('#mobileMenuBtn');
-        if (menuBtn) { toggleMobileMenu(); }
-    });
-
-    function switchLang(l) {
-  try { localStorage.setItem('lang', l); } catch(e) {}
-  document.documentElement.lang = l;
-  document.getElementById('langEn').classList.toggle('active', l === 'en');
-  document.getElementById('langEn').setAttribute('aria-pressed', l === 'en');
-  document.getElementById('langRu').classList.toggle('active', l === 'ru');
-  document.getElementById('langRu').setAttribute('aria-pressed', l === 'ru');
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (T[l][key] !== undefined) el.innerHTML = T[l][key];
-  });
-}
-
-const cg = document.getElementById('cursorGlow');
-if (window.matchMedia('(hover: hover)').matches) {
-  document.addEventListener('mousemove', e => {
-    cg.style.left = e.clientX + 'px';
-    cg.style.top = e.clientY + 'px';
-  }, { passive: true });
-}
-
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 20);
-}, { passive: true });
-
-function toggleMobileMenu() {
-  const btn = document.getElementById('mobileMenuBtn');
-  const menu = document.getElementById('mobileMenu');
-  const isOpen = menu.classList.toggle('active');
-  btn.classList.toggle('open', isOpen);
-  btn.setAttribute('aria-expanded', isOpen);
-  menu.setAttribute('aria-hidden', !isOpen);
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-}
-
-document.querySelectorAll('.mobile-menu a').forEach(a => {
-  a.addEventListener('click', () => {
-    const menu = document.getElementById('mobileMenu');
-    const btn = document.getElementById('mobileMenuBtn');
-    menu.classList.remove('active');
-    btn.classList.remove('open');
-    btn.setAttribute('aria-expanded', 'false');
-    menu.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  });
-});
-
-function initAOS() {
+/* Page-specific AOS variant (uses .vis and .aos-l) */
+window.addEventListener('load', () => {
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.aos, .aos-l').forEach(el => obs.observe(el));
-}
-
-(function(){ var ls=document.getElementById('loadingScreen'); if(ls) ls.classList.add('hidden'); })();
-window.addEventListener('load', () => {
-  if (typeof lang !== 'undefined' && lang !== 'en') switchLang(lang);
-  initAOS();
+  document.querySelectorAll('.aos-l').forEach(el => obs.observe(el));
 }, { once: true });
 </script>
+<script src="assets/i18n.js"></script>
+<script src="assets/components.js"></script>
+
 </body>
 </html>
