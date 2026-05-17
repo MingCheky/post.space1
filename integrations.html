@@ -35,23 +35,9 @@
       <span data-i18n="ph_badge">50+ integrations and growing</span>
     </div>
     <h1 data-i18n="ph_title_accent">Connect ThePost with <span class="gradient-text">your favorite tools</span></h1>
-    <p data-i18n="ph_desc">Seamlessly connect with the services you already use. Automate your shipping workflow and keep everything in sync.</p>
+    <p data-i18n="ph_desc">Seamlessly connect with the services you already use. Automate your email workflow and keep everything in sync.</p>
   </div>
 </section>
-
-<!-- SEARCH + TABS -->
-<div class="integration-search-wrap">
-  <div class="integration-search" role="search">
-    <div class="integration-search-icon" aria-hidden="true">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/>
-        <path d="M13.5 13.5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <input type="search" id="integrationSearch" oninput="filterIntegrations()" data-i18n-placeholder="search_placeholder"
-           placeholder="Search integrations…" aria-label="Search integrations">
-  </div>
-</div>
 
 <section class="section" style="padding-top: 0;">
   <!-- FEATURED -->
@@ -75,9 +61,9 @@
           <span data-i18n="shopify_cat">E-commerce</span>
         </div>
       </div>
-      <p class="featured-desc" data-i18n="shopify_desc">Sync orders automatically, print shipping labels in bulk, and send tracking numbers to customers without lifting a finger.</p>
+      <p class="featured-desc" data-i18n="shopify_desc">Sync orders automatically, send transactional emails from your custom domain, and notify customers from a single inbox.</p>
       <div class="featured-tags">
-        <span class="featured-tag" data-i18n="shopify_t1">Auto-labels</span>
+        <span class="featured-tag" data-i18n="shopify_t1">Auto-notify</span>
         <span class="featured-tag" data-i18n="shopify_t2">Order sync</span>
         <span class="featured-tag" data-i18n="shopify_t3">Tracking</span>
       </div>
@@ -94,11 +80,11 @@
           <span data-i18n="woo_cat">E-commerce</span>
         </div>
       </div>
-      <p class="featured-desc" data-i18n="woo_desc">Full WordPress plugin. Map shipping zones, automate label creation, and push tracking updates directly to order pages.</p>
+      <p class="featured-desc" data-i18n="woo_desc">Full WordPress plugin. Send order confirmations, receipts, and customer messages directly from your ThePost.Space inbox.</p>
       <div class="featured-tags">
         <span class="featured-tag" data-i18n="woo_t1">Plugin</span>
-        <span class="featured-tag" data-i18n="woo_t2">Zones</span>
-        <span class="featured-tag" data-i18n="woo_t3">Labels</span>
+        <span class="featured-tag" data-i18n="woo_t2">Templates</span>
+        <span class="featured-tag" data-i18n="woo_t3">Inbox</span>
       </div>
       <button class="featured-btn" data-toast="WooCommerce connected!" data-toast-type="success" data-i18n="featured_connect">Connect
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -113,7 +99,7 @@
           <span data-i18n="hubspot_cat">CRM &amp; Sales</span>
         </div>
       </div>
-      <p class="featured-desc" data-i18n="hubspot_desc">Log every shipment against your contacts, track delivery status inside deals, and trigger follow-up emails on delivery.</p>
+      <p class="featured-desc" data-i18n="hubspot_desc">Log every email thread against your contacts, track conversations inside deals, and trigger follow-up sequences automatically.</p>
       <div class="featured-tags">
         <span class="featured-tag" data-i18n="hubspot_t1">CRM Sync</span>
         <span class="featured-tag" data-i18n="hubspot_t2">Deals</span>
@@ -132,7 +118,7 @@
           <span data-i18n="zapier_cat">Automation</span>
         </div>
       </div>
-      <p class="featured-desc" data-i18n="zapier_desc">Connect ThePost.Space to 5,000+ apps without code. Trigger shipments from Google Sheets, Airtable, Notion, or any webhook.</p>
+      <p class="featured-desc" data-i18n="zapier_desc">Connect ThePost.Space to 5,000+ apps without code. Trigger emails from Google Sheets, Airtable, Notion, or any webhook.</p>
       <div class="featured-tags">
         <span class="featured-tag" data-i18n="zapier_t1">No-code</span>
         <span class="featured-tag" data-i18n="zapier_t2">Triggers</span>
@@ -151,7 +137,7 @@
           <span data-i18n="github_cat">Development</span>
         </div>
       </div>
-      <p class="featured-desc" data-i18n="github_desc">Ship physical goods alongside code releases. Trigger shipments from CI/CD pipelines — perfect for hardware companies.</p>
+      <p class="featured-desc" data-i18n="github_desc">Send release notifications, incident alerts, and deployment updates directly from CI/CD pipelines to your team's inbox.</p>
       <div class="featured-tags">
         <span class="featured-tag" data-i18n="github_t1">CI/CD</span>
         <span class="featured-tag" data-i18n="github_t2">Webhooks</span>
@@ -170,7 +156,7 @@
           <span data-i18n="xero_cat">Accounting</span>
         </div>
       </div>
-      <p class="featured-desc" data-i18n="xero_desc">Automatically create invoices for every shipment, reconcile postage costs, and export shipping expenses to your accounts.</p>
+      <p class="featured-desc" data-i18n="xero_desc">Automatically send invoices, payment reminders, and receipts from your ThePost.Space address and keep your accounts in sync.</p>
       <div class="featured-tags">
         <span class="featured-tag" data-i18n="xero_t1">Invoices</span>
         <span class="featured-tag" data-i18n="xero_t2">Expenses</span>
@@ -276,25 +262,25 @@
       <div class="integration-item-icon" style="background:rgba(43,163,255,0.15);color:#2BA3FF;">QB</div>
       <h4>QuickBooks</h4><p>Accounting</p>
     </div>
-    <div class="integration-item aos d3" data-category="logistics" data-name="DHL" data-toast="DHL Express connected!" data-toast-type="success" role="button" tabindex="0">
+    <div class="integration-item aos d3" data-category="productivity" data-name="Google Workspace" data-toast="Google Workspace connected!" data-toast-type="success" role="button" tabindex="0">
       <span class="status-dot status-active" title="Live"></span>
-      <div class="integration-item-icon" style="background:rgba(255,204,0,0.15);color:#FFCC00;">DHL</div>
-      <h4>DHL</h4><p>Carrier</p>
+      <div class="integration-item-icon" style="background:rgba(66,133,244,0.15);color:#4285F4;">GW</div>
+      <h4>Google Workspace</h4><p>Productivity</p>
     </div>
-    <div class="integration-item aos d4" data-category="logistics" data-name="FedEx" data-toast="FedEx connected!" data-toast-type="success" role="button" tabindex="0">
+    <div class="integration-item aos d4" data-category="productivity" data-name="Microsoft 365" data-toast="Microsoft 365 connected!" data-toast-type="success" role="button" tabindex="0">
       <span class="status-dot status-active" title="Live"></span>
-      <div class="integration-item-icon" style="background:rgba(70,0,132,0.15);color:#460084;font-size:11px;">FX</div>
-      <h4>FedEx</h4><p>Carrier</p>
+      <div class="integration-item-icon" style="background:rgba(0,120,212,0.15);color:#0078D4;font-size:11px;">M365</div>
+      <h4>Microsoft 365</h4><p>Productivity</p>
     </div>
-    <div class="integration-item aos d4" data-category="logistics" data-name="UPS" data-toast="UPS connected!" data-toast-type="success" role="button" tabindex="0">
+    <div class="integration-item aos d4" data-category="productivity" data-name="Outlook" data-toast="Outlook connected!" data-toast-type="success" role="button" tabindex="0">
       <span class="status-dot status-active" title="Live"></span>
-      <div class="integration-item-icon" style="background:rgba(90,50,10,0.15);color:#5A2E0F;">UPS</div>
-      <h4>UPS</h4><p>Carrier</p>
+      <div class="integration-item-icon" style="background:rgba(0,120,212,0.15);color:#0078D4;">OL</div>
+      <h4>Outlook</h4><p>Email</p>
     </div>
-    <div class="integration-item aos d5" data-category="logistics" data-name="Aftership" data-toast="AfterShip connected!" data-toast-type="success" role="button" tabindex="0">
-      <span class="status-dot status-beta" title="Beta"></span>
-      <div class="integration-item-icon" style="background:rgba(99,102,241,0.15);color:#6366f1;">AS</div>
-      <h4>AfterShip</h4><p>Tracking</p>
+    <div class="integration-item aos d5" data-category="productivity" data-name="Gmail" data-toast="Gmail migration ready!" data-toast-type="success" role="button" tabindex="0">
+      <span class="status-dot status-active" title="Live"></span>
+      <div class="integration-item-icon" style="background:rgba(234,67,53,0.15);color:#EA4335;">GM</div>
+      <h4>Gmail</h4><p>Migration</p>
     </div>
     <div class="integration-item aos d5" data-category="ecommerce" data-name="Prestashop" data-toast="PrestaShop coming soon" data-toast-type="success" role="button" tabindex="0">
       <span class="status-dot status-soon" title="Coming soon"></span>
@@ -356,8 +342,8 @@
       </div>
       <div class="step-card aos d3">
         <div class="step-number">3</div>
-        <h3 data-i18n="step3_title">Configure &amp; ship</h3>
-        <p data-i18n="step3_desc">Set your preferences and you're done. Shipments start flowing automatically from your connected tools.</p>
+        <h3 data-i18n="step3_title">Start sending</h3>
+        <p data-i18n="step3_desc">Set your preferences and you're done. Emails start flowing automatically between your connected tools.</p>
       </div>
     </div>
   </div>
@@ -375,7 +361,7 @@
         <span data-i18n="api_label">Developer API</span>
       </div>
       <h2>Build custom integrations with our <span class="gradient-text" data-i18n="api_title_accent">REST API</span></h2>
-      <p data-i18n="api_desc">Full-featured REST API with comprehensive documentation. Automate label creation, tracking, address validation, and rate calculation from any system.</p>
+      <p data-i18n="api_desc">Full-featured REST API with comprehensive documentation. Automate sending, inbox management, alias creation, and webhook notifications from any system.</p>
       <div class="api-features">
         <div class="api-feature">
           <div class="api-feature-check">
@@ -387,7 +373,7 @@
           <div class="api-feature-check">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <span data-i18n="api_f2">Webhooks for real-time shipment events</span>
+          <span data-i18n="api_f2">Webhooks for real-time email events</span>
         </div>
         <div class="api-feature">
           <div class="api-feature-check">
@@ -419,17 +405,16 @@
           <div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div>
           <span class="code-lang">curl</span>
         </div>
-        <div class="code-body" aria-label="Create shipment API example">
-<span class="code-line"><span class="code-comment"># Create a shipment via API</span></span>
-<span class="code-line"><span class="code-func">curl</span> -X POST <span class="code-string">https://api.thepost.space/v1/shipments</span> \</span>
+        <div class="code-body" aria-label="Send email via API example">
+<span class="code-line"><span class="code-comment"># Send an email via API</span></span>
+<span class="code-line"><span class="code-func">curl</span> -X POST <span class="code-string">https://api.thepost.space/v1/messages</span> \</span>
 <span class="code-line">  -H <span class="code-string">"Authorization: Bearer YOUR_API_KEY"</span> \</span>
 <span class="code-line">  -H <span class="code-string">"Content-Type: application/json"</span> \</span>
 <span class="code-line">  -d '{</span>
-<span class="code-line">    <span class="code-property">"sender"</span>: { <span class="code-property">"country"</span>: <span class="code-string">"DE"</span> },</span>
-<span class="code-line">    <span class="code-property">"recipient"</span>: { <span class="code-property">"country"</span>: <span class="code-string">"JP"</span> },</span>
-<span class="code-line">    <span class="code-property">"weight_g"</span>: <span class="code-value">850</span>,</span>
-<span class="code-line">    <span class="code-property">"service"</span>: <span class="code-string">"express"</span>,</span>
-<span class="code-line">    <span class="code-property">"label_format"</span>: <span class="code-string">"PDF"</span></span>
+<span class="code-line">    <span class="code-property">"from"</span>: <span class="code-string">"hello@yourdomain.thepost.space"</span>,</span>
+<span class="code-line">    <span class="code-property">"to"</span>: <span class="code-string">"recipient@example.com"</span>,</span>
+<span class="code-line">    <span class="code-property">"subject"</span>: <span class="code-string">"Hello from ThePost"</span>,</span>
+<span class="code-line">    <span class="code-property">"encrypt"</span>: <span class="code-value">true</span></span>
 <span class="code-line">  }'</span>
         </div>
       </div>

@@ -118,7 +118,7 @@
             <option value="" disabled selected id="topicDefaultOption">Choose registration type…</option>
             <option value="individual"  data-en="Individual — personal use"             data-ru="Личный аккаунт — для частных лиц">Individual — personal use</option>
             <option value="business"    data-en="Business — small to mid-size company"  data-ru="Бизнес — малый и средний бизнес">Business — small to mid-size company</option>
-            <option value="enterprise"  data-en="Enterprise — high volume logistics"    data-ru="Корпоративный — высокий объём логистики">Enterprise — high volume logistics</option>
+            <option value="enterprise"  data-en="Enterprise — large organisation"    data-ru="Корпоративный — крупная организация">Enterprise — large organisation</option>
             <option value="partner"     data-en="Partnership / Integration"             data-ru="Партнёрство / Интеграция">Partnership / Integration</option>
             <option value="press"       data-en="Press &amp; Media enquiry"             data-ru="Пресс-запрос">Press &amp; Media enquiry</option>
           </select>
@@ -126,14 +126,14 @@
 
         <!-- Expected volume -->
         <div class="form-field">
-          <label for="cVolume" data-i18n="field_volume">Expected monthly shipments</label>
+          <label for="cVolume" data-i18n="field_volume">Team size</label>
           <select id="cVolume">
-            <option value="" disabled selected id="volumeDefault">Select approximate volume…</option>
-            <option value="1-10"     data-en="1–10 shipments"      data-ru="1–10 отправлений">1–10 shipments</option>
-            <option value="11-50"    data-en="11–50 shipments"     data-ru="11–50 отправлений">11–50 shipments</option>
-            <option value="51-500"   data-en="51–500 shipments"    data-ru="51–500 отправлений">51–500 shipments</option>
-            <option value="500-5000" data-en="500–5 000 shipments" data-ru="500–5 000 отправлений">500–5 000 shipments</option>
-            <option value="5000+"    data-en="5 000+ shipments"    data-ru="5 000+ отправлений">5 000+ shipments</option>
+            <option value="" disabled selected id="volumeDefault">Select team size…</option>
+            <option value="1-10"     data-en="1–10 users"       data-ru="1–10 пользователей">1–10 users</option>
+            <option value="11-50"    data-en="11–50 users"      data-ru="11–50 пользователей">11–50 users</option>
+            <option value="51-500"   data-en="51–500 users"     data-ru="51–500 пользователей">51–500 users</option>
+            <option value="500-5000" data-en="500–5 000 users"  data-ru="500–5 000 пользователей">500–5 000 users</option>
+            <option value="5000+"    data-en="5 000+ users"     data-ru="5 000+ пользователей">5 000+ users</option>
           </select>
         </div>
 
@@ -142,8 +142,8 @@
           <label for="cMessage" data-i18n="field_message">Additional information (optional)</label>
           <textarea
             id="cMessage" rows="5" maxlength="1000"
-            data-placeholder-en="Tell us about your use case, expected shipment routes, or any questions you have…"
-            data-placeholder-ru="Расскажите о вашем использовании, ожидаемых маршрутах или задайте вопросы…"
+            data-placeholder-en="Tell us about your use case, team size, or any questions you have…"
+            data-placeholder-ru="Расскажите о вашем случае использования, размере команды или задайте вопросы…"
           ></textarea>
           <div class="field-footer"><span id="charCount">0</span> / 1000</div>
         </div>
@@ -192,7 +192,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 
-<!-- ==================== JAVASCRIPT ==================== -->
 <script>
 /* ── CHAR COUNTER ── */
 const msgTextarea = document.getElementById('cMessage');
@@ -222,34 +221,38 @@ const formWrap   = document.getElementById('contactFormWrap');
 const successDiv = document.getElementById('contactSuccess');
 const submitBtn  = document.getElementById('submitBtn');
 
+// Определяем язык (из i18n.js или по умолчанию)
+const lang = window.__lang || 'en';
+
 if (regForm) {
   regForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const name    = document.getElementById('cName')?.value.trim()    || '';
     const email   = document.getElementById('cEmail')?.value.trim()   || '';
-    const phone   = document.getElementById('cPhone')?.value.trim()   || '';
-    const country = document.getElementById('cCountry')?.value        || '';
+    // Убираем несуществующие поля phone и country
     const regType = document.getElementById('cTopic')?.value          || '';
     const volume  = document.getElementById('cVolume')?.value         || '';
     const message = document.getElementById('cMessage')?.value.trim() || '';
 
     if (!name || !email || !regType) {
-      showToast(T[lang].err_required, 'error'); return;
+      alert('Please fill in all required fields (name, email, registration type).');
+      return;
     }
     const emailRegex = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
     if (!emailRegex.test(email)) {
-      showToast(T[lang].err_email, 'error'); return;
+      alert('Please enter a valid email address.');
+      return;
     }
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
     try {
-      const docRef = await db.collection('registration_applications').add({
-        name, email, phone, country,
+      await db.collection('registration_applications').add({
+        name, email,
         registrationType: regType,
         expectedVolume:   volume,
         additionalInfo:   message,
         status:    'pending',
-        lang,
+        lang:      lang,   // теперь lang определена
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         source:    window.location.pathname
       });
@@ -258,11 +261,8 @@ if (regForm) {
       regForm.reset();
       if (charCount) charCount.textContent = '0';
     } catch (err) {
-      // Show success anyway — form data captured client-side; backend may process async
-      if (formWrap)   formWrap.style.display = 'none';
-      if (successDiv) successDiv.classList.add('show');
-      regForm.reset();
-      if (charCount) charCount.textContent = '0';
+      console.error('Firestore error:', err);
+      alert('Failed to send. Please try again.\n\n' + err.message);
     } finally {
       submitBtn.disabled = false;
       submitBtn.classList.remove('loading');
